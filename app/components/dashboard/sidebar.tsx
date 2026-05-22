@@ -23,7 +23,7 @@ export function Sidebar({ activeView, onViewChange }: SidebarProps) {
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    router.push("/login");
+    router.push("/");
     router.refresh();
   };
   const navItems = [

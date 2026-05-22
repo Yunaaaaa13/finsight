@@ -29,18 +29,9 @@ export const CATEGORIES = [
 
 export const PAYMENT_METHODS = [
   "Cash",
-  "Transfer Bank",
-  "BCA",
-  "Mandiri",
-  "BNI",
-  "BRI",
-  "GoPay",
-  "OVO",
-  "Dana",
-  "ShopeePay",
-  "LinkAja",
-  "Kartu Kredit",
-  "Kartu Debit",
+  "M-Banking",
+  "Kartu Debit/Kredit",
+  "E-Wallet",
   "Lainnya",
 ] as const;
 
