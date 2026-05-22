@@ -83,7 +83,7 @@ export function TrendChart({ transactions }: { transactions: Transaction[] }) {
         <Tooltip 
           contentStyle={{ backgroundColor: "hsl(var(--card))", borderColor: "hsl(var(--border))", borderRadius: "12px", fontSize: "12px", boxShadow: "0 10px 15px -3px rgb(0 0 0 / 0.1)" }}
           itemStyle={{ fontWeight: "600" }}
-          formatter={(value: number) => [`Rp ${value.toLocaleString("id-ID")}`]}
+          formatter={(value: any) => [`Rp ${Number(value).toLocaleString("id-ID")}`]}
         />
         <Legend wrapperStyle={{ fontSize: "12px", paddingTop: "10px" }} />
         <Area
