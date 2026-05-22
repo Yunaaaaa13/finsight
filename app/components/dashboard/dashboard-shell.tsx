@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import { Activity, Sparkles, CalendarDays, Plus, Upload, Loader2, LayoutDashboard, Wallet } from "lucide-react";
+import { Activity, Sparkles, CalendarDays, Plus, Upload, Loader2, LayoutDashboard, Wallet, BarChart3, User } from "lucide-react";
 import { CashflowChart } from "@/app/components/dashboard/cashflow-chart";
 import { Sidebar } from "@/app/components/dashboard/sidebar";
 import { SummaryCard } from "@/app/components/dashboard/summary-card";
@@ -225,7 +225,7 @@ export function DashboardShell() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <div className="mx-auto grid w-full max-w-7xl gap-8 px-4 py-8 sm:px-6 lg:grid-cols-[260px_1fr] lg:px-10">
+      <div className="mx-auto grid w-full max-w-7xl gap-8 px-4 py-8 pb-24 sm:px-6 lg:grid-cols-[260px_1fr] lg:px-10 lg:pb-8">
         <Sidebar activeView={activeView} onViewChange={setActiveView} />
 
         <main className="space-y-6 min-w-0">
@@ -334,6 +334,39 @@ export function DashboardShell() {
           ) : null}
         </main>
       </div>
+
+      {/* Mobile Bottom Navigation */}
+      <nav className="fixed bottom-0 left-0 right-0 z-40 flex items-center justify-between border-t border-border bg-background/80 px-6 py-4 backdrop-blur-xl lg:hidden pb-safe">
+        {[
+          { id: "dashboard", icon: LayoutDashboard, label: "Home" },
+          { id: "transactions", icon: Wallet, label: "Catatan" },
+          { id: "analytics", icon: BarChart3, label: "Analitik" },
+          { id: "profile", icon: User, label: "Profil" },
+        ].map((item) => {
+          const Icon = item.icon;
+          const isActive = activeView === item.id;
+          return (
+            <button
+              key={item.id}
+              onClick={() => setActiveView(item.id as any)}
+              className={`flex flex-col items-center justify-center gap-1.5 transition-all duration-300 ${
+                isActive ? "text-primary" : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <div
+                className={`flex size-10 items-center justify-center rounded-2xl transition-all duration-300 ${
+                  isActive ? "bg-primary/10 shadow-sm" : ""
+                }`}
+              >
+                <Icon className={`size-5 ${isActive ? "scale-110" : ""}`} />
+              </div>
+              <span className={`text-[10px] font-medium ${isActive ? "opacity-100" : "opacity-80"}`}>
+                {item.label}
+              </span>
+            </button>
+          );
+        })}
+      </nav>
 
       {/* Modals */}
       {showForm && (
