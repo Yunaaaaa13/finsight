@@ -29,11 +29,15 @@ export function TrendChart({ transactions }: { transactions: Transaction[] }) {
       else dailyMap[tx.date].expense += tx.amount;
     });
 
+    const months = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Ags", "Sep", "Okt", "Nov", "Des"];
     let cumulativeBalance = 0;
     const chartData = Object.entries(dailyMap).map(([date, vals]) => {
       cumulativeBalance += (vals.income - vals.expense);
+      const [y, m, d] = date.split('-');
+      const formattedDate = `${parseInt(d, 10)} ${months[parseInt(m, 10) - 1]}`;
+      
       return {
-        date: new Date(date).toLocaleDateString("id-ID", { day: "numeric", month: "short" }),
+        date: formattedDate,
         pemasukan: vals.income,
         pengeluaran: vals.expense,
         saldo: cumulativeBalance,

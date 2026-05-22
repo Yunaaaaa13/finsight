@@ -39,7 +39,7 @@ export function AnalyticsView({ transactions }: AnalyticsViewProps) {
               <TrendingUp className="size-4 text-emerald-500" />
               <h3 className="text-sm font-bold text-foreground">Tren Arus Kas (30 Hari Terakhir)</h3>
             </div>
-            <div className="h-[300px]">
+            <div className="h-[300px] min-w-0 min-h-0 w-full">
               <TrendChart transactions={transactions} />
             </div>
           </section>
@@ -51,7 +51,7 @@ export function AnalyticsView({ transactions }: AnalyticsViewProps) {
                 <PieChartIcon className="size-4 text-violet-500" />
                 <h3 className="text-sm font-bold text-foreground">Distribusi Pengeluaran</h3>
               </div>
-              <div className="h-[300px]">
+              <div className="h-[300px] min-w-0 min-h-0 w-full">
                 <ExpensePieChart transactions={transactions} />
               </div>
             </section>
@@ -62,7 +62,7 @@ export function AnalyticsView({ transactions }: AnalyticsViewProps) {
                 <Calendar className="size-4 text-rose-500" />
                 <h3 className="text-sm font-bold text-foreground">Intensitas Pengeluaran (Bulan Ini)</h3>
               </div>
-              <div className="h-[300px] flex flex-col justify-center">
+              <div className="h-[300px] flex flex-col justify-center min-w-0 min-h-0 w-full">
                 <SpendingHeatmap transactions={transactions} />
               </div>
             </section>

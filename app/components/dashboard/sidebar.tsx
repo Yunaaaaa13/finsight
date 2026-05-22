@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import {
   BarChart3,
   FileText,
@@ -7,7 +8,9 @@ import {
   Wallet,
   TrendingUp,
   ChevronRight,
+  LogOut,
 } from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
 
 interface SidebarProps {
   activeView: "dashboard" | "transactions" | "analytics";
@@ -15,6 +18,14 @@ interface SidebarProps {
 }
 
 export function Sidebar({ activeView, onViewChange }: SidebarProps) {
+  const router = useRouter();
+  const supabase = createClient();
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    router.push("/login");
+    router.refresh();
+  };
   const navItems = [
     { id: "dashboard" as const, label: "Dashboard", icon: LayoutDashboard },
     { id: "transactions" as const, label: "Transaksi", icon: Wallet },
@@ -82,6 +93,16 @@ export function Sidebar({ activeView, onViewChange }: SidebarProps) {
         </p>
         <button className="mt-3 w-full rounded-lg bg-white/20 px-3 py-1.5 text-xs font-semibold backdrop-blur-sm transition-colors hover:bg-white/30">
           Pelajari Selengkapnya
+        </button>
+      </div>
+
+      <div className="mt-4 pt-4 border-t border-border">
+        <button
+          onClick={handleLogout}
+          className="flex w-full items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm text-rose-500 transition-all duration-200 hover:bg-rose-500/10 font-medium"
+        >
+          <LogOut className="size-[18px]" />
+          <span>Keluar Akun</span>
         </button>
       </div>
     </aside>

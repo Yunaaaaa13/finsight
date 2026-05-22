@@ -4,9 +4,12 @@
 -- https://supabase.com/dashboard → Project → SQL Editor
 -- ================================================
 
--- 1. Buat tabel transactions
-CREATE TABLE IF NOT EXISTS transactions (
+-- 1. Buat ulang tabel transactions (Hapus yang lama agar bersih)
+DROP TABLE IF EXISTS transactions CASCADE;
+
+CREATE TABLE transactions (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id UUID NOT NULL DEFAULT auth.uid() REFERENCES auth.users(id) ON DELETE CASCADE,
   title TEXT NOT NULL,
   amount DECIMAL(15,2) NOT NULL CHECK (amount > 0),
   type TEXT NOT NULL CHECK (type IN ('income', 'expense')),
@@ -16,20 +19,33 @@ CREATE TABLE IF NOT EXISTS transactions (
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
+-- (Opsional) Jika tabel sudah ada dan ingin menambahkan user_id tanpa drop:
+-- ALTER TABLE transactions ADD COLUMN IF NOT EXISTS user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE;
+-- Anda mungkin harus menghapus data lama atau set user_id dummy terlebih dahulu agar NOT NULL tidak error.
+
 -- 2. Index untuk query performa
 CREATE INDEX IF NOT EXISTS idx_transactions_date ON transactions(date DESC);
 CREATE INDEX IF NOT EXISTS idx_transactions_type ON transactions(type);
 CREATE INDEX IF NOT EXISTS idx_transactions_category ON transactions(category);
+CREATE INDEX IF NOT EXISTS idx_transactions_user_id ON transactions(user_id);
 
 -- 3. Enable Row Level Security (RLS)
 ALTER TABLE transactions ENABLE ROW LEVEL SECURITY;
 
--- 4. Policy: allow all operations for anonymous users (development)
---    ⚠️ Untuk production, ganti dengan policy berbasis auth.uid()
-CREATE POLICY "Allow all for anon" ON transactions
-  FOR ALL
-  USING (true)
-  WITH CHECK (true);
+-- 4. Policy: allow all operations for authenticated users on THEIR OWN rows
+DROP POLICY IF EXISTS "Allow all for anon" ON transactions;
+
+CREATE POLICY "Users can view their own transactions" ON transactions
+  FOR SELECT USING (auth.uid() = user_id);
+
+CREATE POLICY "Users can insert their own transactions" ON transactions
+  FOR INSERT WITH CHECK (auth.uid() = user_id);
+
+CREATE POLICY "Users can update their own transactions" ON transactions
+  FOR UPDATE USING (auth.uid() = user_id);
+
+CREATE POLICY "Users can delete their own transactions" ON transactions
+  FOR DELETE USING (auth.uid() = user_id);
 
 -- 5. (Opsional) Data contoh untuk testing
 INSERT INTO transactions (title, amount, type, category, date, payment_method) VALUES
