@@ -67,7 +67,7 @@ export function ExpensePieChart({ transactions }: { transactions: Transaction[] 
           ))}
         </Pie>
         <Tooltip
-          formatter={(value: number) => `Rp ${value.toLocaleString("id-ID")}`}
+          formatter={(value: any) => `Rp ${Number(value).toLocaleString("id-ID")}`}
           contentStyle={{ backgroundColor: "hsl(var(--card))", borderColor: "hsl(var(--border))", borderRadius: "12px", fontSize: "12px", boxShadow: "0 10px 15px -3px rgb(0 0 0 / 0.1)" }}
           itemStyle={{ fontWeight: "bold" }}
         />
