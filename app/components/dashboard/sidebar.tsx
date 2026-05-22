@@ -9,12 +9,13 @@ import {
   TrendingUp,
   ChevronRight,
   LogOut,
+  User,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 
 interface SidebarProps {
-  activeView: "dashboard" | "transactions" | "analytics";
-  onViewChange: (view: "dashboard" | "transactions" | "analytics") => void;
+  activeView: "dashboard" | "transactions" | "analytics" | "profile";
+  onViewChange: (view: "dashboard" | "transactions" | "analytics" | "profile") => void;
 }
 
 export function Sidebar({ activeView, onViewChange }: SidebarProps) {
@@ -30,7 +31,7 @@ export function Sidebar({ activeView, onViewChange }: SidebarProps) {
     { id: "dashboard" as const, label: "Dashboard", icon: LayoutDashboard },
     { id: "transactions" as const, label: "Transaksi", icon: Wallet },
     { id: "analytics" as const, label: "Analitik", icon: BarChart3 },
-    { id: "reports" as const, label: "Laporan", icon: FileText },
+    { id: "profile" as const, label: "Profil Saya", icon: User },
   ];
 
   return (
@@ -59,19 +60,11 @@ export function Sidebar({ activeView, onViewChange }: SidebarProps) {
             return (
               <button
                 key={item.label}
-                onClick={() => {
-                  if (item.id === "dashboard" || item.id === "transactions" || item.id === "analytics") {
-                    onViewChange(item.id);
-                  }
-                }}
-                className={`w-full group flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm transition-all duration-200 ${
+                onClick={() => onViewChange(item.id)}
+                className={`w-full group flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm transition-all duration-200 cursor-pointer ${
                   isActive
                     ? "bg-primary/10 text-primary font-semibold shadow-sm"
                     : "text-muted-foreground hover:bg-muted/60 hover:text-foreground"
-                } ${
-                  item.id !== "dashboard" && item.id !== "transactions" && item.id !== "analytics"
-                    ? "opacity-50 cursor-not-allowed" 
-                    : "cursor-pointer"
                 }`}
               >
                 <Icon className={`size-[18px] transition-transform duration-200 group-hover:scale-110 ${isActive ? "text-primary" : ""}`} />

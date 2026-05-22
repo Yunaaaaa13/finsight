@@ -12,6 +12,7 @@ import { DeleteDialog } from "@/app/components/dashboard/delete-dialog";
 import { CSVUpload } from "@/app/components/dashboard/csv-upload";
 import { AnalyticsView } from "@/app/components/dashboard/analytics/analytics-view";
 import { FinancialHealthCard } from "@/app/components/dashboard/financial-health";
+import { ProfileView } from "@/app/components/dashboard/profile/profile-view";
 import {
   getTransactions,
   addTransaction,
@@ -129,7 +130,7 @@ const defaultCashflow = [
 // ─── Component ───────────────────────────────────
 
 export function DashboardShell() {
-  const [activeView, setActiveView] = useState<"dashboard" | "transactions" | "analytics">("dashboard");
+  const [activeView, setActiveView] = useState<"dashboard" | "transactions" | "analytics" | "profile">("dashboard");
 
   const supabase = createClient();
   const [userEmail, setUserEmail] = useState<string | null>(null);
@@ -326,9 +327,11 @@ export function DashboardShell() {
                 )}
               </section>
             </div>
-          ) : (
+          ) : activeView === "analytics" ? (
             <AnalyticsView transactions={transactions} />
-          )}
+          ) : activeView === "profile" ? (
+            <ProfileView transactions={transactions} />
+          ) : null}
         </main>
       </div>
 
