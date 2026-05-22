@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { User, Mail, TrendingUp, Edit3, Image as ImageIcon, CheckCircle2, Loader2, Quote } from "lucide-react";
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import type { Transaction } from "@/lib/types";
 import { computePersonality, type PersonalityResult } from "./personality-logic";
@@ -176,8 +177,8 @@ export function ProfileView({ transactions }: ProfileViewProps) {
         {/* Right Column: Profile Info & Customization */}
         <div className="space-y-6">
           {/* User Info */}
-          <div 
-            onClick={() => setIsEditing(!isEditing)}
+          <Link 
+            href="/profile/edit"
             className="group relative rounded-2xl border border-border bg-card p-6 shadow-sm flex flex-col items-center text-center card-glow cursor-pointer hover:border-primary/50 transition-colors"
           >
             {/* Edit Icon overlay */}
@@ -220,86 +221,7 @@ export function ProfileView({ transactions }: ProfileViewProps) {
               <span className="text-muted-foreground">Total Transaksi</span>
               <span className="font-bold">{transactions.length}</span>
             </div>
-          </div>
-
-          {/* Customization Form */}
-          {isEditing && (
-            <div className="rounded-2xl border border-border bg-card p-6 shadow-sm card-glow animate-float-in">
-              <h4 className="text-base font-bold mb-4 flex items-center gap-2">
-                <Edit3 className="size-4 text-primary" />
-                Edit Profil
-              </h4>
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-xs font-medium text-muted-foreground mb-1.5">Foto Profil</label>
-                  <div className="flex items-center gap-3">
-                    <div className="relative flex-1">
-                      <ImageIcon className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground/50" />
-                      <input
-                        type="url"
-                        value={avatarUrl}
-                        onChange={(e) => setAvatarUrl(e.target.value)}
-                        placeholder="Tempel URL atau unggah file 👉"
-                        className="w-full rounded-xl border border-border bg-background pl-9 pr-4 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
-                      />
-                    </div>
-                    <label className="cursor-pointer shrink-0 rounded-xl bg-muted px-4 py-2 text-sm font-semibold text-foreground hover:bg-muted/80 transition-all flex items-center gap-2">
-                      {isUploading ? <Loader2 className="size-4 animate-spin" /> : "Unggah"}
-                      <input 
-                        type="file" 
-                        accept="image/*" 
-                        className="hidden" 
-                        onChange={handleFileUpload}
-                        disabled={isUploading}
-                      />
-                    </label>
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-xs font-medium text-muted-foreground mb-1.5">Bio Singkat</label>
-                  <input
-                    type="text"
-                    value={bio}
-                    onChange={(e) => setBio(e.target.value)}
-                    placeholder="Investor pemula"
-                    maxLength={50}
-                    className="w-full rounded-xl border border-border bg-background px-4 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-medium text-muted-foreground mb-1.5">Financial Quote</label>
-                  <textarea
-                    value={quote}
-                    onChange={(e) => setQuote(e.target.value)}
-                    placeholder="Sedikit demi sedikit, lama-lama menjadi bukit."
-                    rows={2}
-                    className="w-full rounded-xl border border-border bg-background px-4 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 resize-none"
-                  />
-                </div>
-                <div className="flex items-center gap-2 pt-2">
-                  <button
-                    onClick={() => setIsEditing(false)}
-                    className="flex-1 rounded-xl border border-border bg-transparent px-4 py-2 text-sm font-semibold text-foreground hover:bg-muted transition-all"
-                  >
-                    Batal
-                  </button>
-                  <button
-                    onClick={handleSaveProfile}
-                    disabled={isSaving}
-                    className="flex-1 flex items-center justify-center gap-2 rounded-xl bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-all disabled:opacity-50"
-                  >
-                    {isSaving ? <Loader2 className="size-4 animate-spin" /> : <CheckCircle2 className="size-4" />}
-                    {isSaving ? "Menyimpan..." : "Simpan"}
-                  </button>
-                </div>
-                {saveMessage && (
-                  <p className={`text-xs text-center font-medium mt-2 ${saveMessage.includes("Gagal") ? "text-rose-500" : "text-emerald-500"}`}>
-                    {saveMessage}
-                  </p>
-                )}
-              </div>
-            </div>
-          )}
+          </Link>
         </div>
       </div>
     </div>

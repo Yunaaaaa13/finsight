@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { TrendingUp, ShieldCheck, Activity, BarChart3, PieChart, Target, ChevronRight, BookOpen, Lightbulb, Wallet } from "lucide-react";
+import { TrendingUp, ShieldCheck, Activity, BarChart3, PieChart, Target, ChevronRight, BookOpen, Lightbulb, Wallet, LogOut, User } from "lucide-react";
 import { ARTICLES } from "@/lib/articles";
 
 // Mapping icons back for the landing page
@@ -14,7 +14,18 @@ const iconMap = {
   Activity: <Activity className="size-6 text-indigo-500" />
 };
 
-export function LandingPage({ isLoggedIn = false }: { isLoggedIn?: boolean }) {
+import { createClient } from "@/lib/supabase/client";
+import { useRouter } from "next/navigation";
+
+export function LandingPage({ isLoggedIn = false, avatarUrl = null }: { isLoggedIn?: boolean, avatarUrl?: string | null }) {
+  const router = useRouter();
+  const supabase = createClient();
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    router.refresh();
+  };
+
   return (
     <div className="min-h-screen bg-background text-foreground selection:bg-primary/20">
       {/* Navbar */}
@@ -28,9 +39,21 @@ export function LandingPage({ isLoggedIn = false }: { isLoggedIn?: boolean }) {
           </div>
           <div className="flex items-center gap-4">
             {isLoggedIn ? (
-              <Link href="/dashboard" className="rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow hover:bg-primary/90 transition-all">
-                Ke Dashboard
-              </Link>
+              <>
+                <Link href="/dashboard" className="hidden sm:inline-flex rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow hover:bg-primary/90 transition-all">
+                  Ke Dashboard
+                </Link>
+                <Link href="/dashboard" className="flex size-10 items-center justify-center rounded-full bg-muted border border-border overflow-hidden hover:opacity-80 transition-opacity">
+                  {avatarUrl ? (
+                    <img src={avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
+                  ) : (
+                    <User className="size-5 text-muted-foreground" />
+                  )}
+                </Link>
+                <button onClick={handleLogout} className="p-2 text-muted-foreground hover:text-red-500 transition-colors" title="Keluar">
+                  <LogOut className="size-5" />
+                </button>
+              </>
             ) : (
               <>
                 <Link href="/login" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors hidden sm:block">

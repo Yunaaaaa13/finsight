@@ -11,6 +11,7 @@ import {
   LogOut,
   User,
 } from "lucide-react";
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 
 interface SidebarProps {
@@ -37,14 +38,16 @@ export function Sidebar({ activeView, onViewChange }: SidebarProps) {
   return (
     <aside className="hidden h-fit rounded-3xl border border-border bg-card p-6 shadow-sm card-glow lg:block">
       {/* Brand */}
-      <div className="flex items-center gap-3 pb-6 border-b border-border">
-        <div className="flex size-10 items-center justify-center rounded-xl gradient-emerald shadow-md">
-          <TrendingUp className="size-5 text-white" />
-        </div>
-        <div>
-          <h2 className="text-lg font-bold tracking-tight text-foreground">Finsight</h2>
-          <p className="text-xs text-muted-foreground">Financial Dashboard</p>
-        </div>
+      <div className="flex items-center justify-between pb-6 border-b border-border">
+        <Link href="/" className="flex items-center gap-3 group">
+          <div className="flex size-10 items-center justify-center rounded-xl gradient-emerald shadow-md group-hover:scale-105 transition-transform">
+            <TrendingUp className="size-5 text-white" />
+          </div>
+          <div>
+            <h2 className="text-lg font-bold tracking-tight text-foreground group-hover:text-primary transition-colors">Finsight</h2>
+            <p className="text-xs text-muted-foreground">Ke Beranda</p>
+          </div>
+        </Link>
       </div>
 
       {/* Navigation */}
@@ -59,19 +62,27 @@ export function Sidebar({ activeView, onViewChange }: SidebarProps) {
             
             return (
               <button
-                key={item.label}
+                key={item.id}
                 onClick={() => onViewChange(item.id)}
-                className={`w-full group flex items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm transition-all duration-200 cursor-pointer ${
+                className={`group flex w-full items-center justify-between rounded-2xl px-4 py-3 text-sm font-medium transition-all duration-300 ${
                   isActive
-                    ? "bg-primary/10 text-primary font-semibold shadow-sm"
-                    : "text-muted-foreground hover:bg-muted/60 hover:text-foreground"
+                    ? "bg-primary/10 text-primary shadow-sm"
+                    : "text-muted-foreground hover:bg-muted hover:text-foreground"
                 }`}
               >
-                <Icon className={`size-[18px] transition-transform duration-200 group-hover:scale-110 ${isActive ? "text-primary" : ""}`} />
-                <span className="flex-1 text-left">{item.label}</span>
-                {isActive && (
-                  <ChevronRight className="size-3.5 text-primary/60" />
-                )}
+                <div className="flex items-center gap-3">
+                  <Icon
+                    className={`size-5 transition-transform duration-300 ${isActive ? "scale-110" : "group-hover:scale-110"}`}
+                  />
+                  {item.label}
+                </div>
+                <ChevronRight
+                  className={`size-4 transition-all duration-300 ${
+                    isActive
+                      ? "opacity-100 translate-x-0"
+                      : "opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0"
+                  }`}
+                />
               </button>
             );
           })}

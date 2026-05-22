@@ -7,5 +7,7 @@ export default async function Home() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  return <LandingPage isLoggedIn={!!user} />;
+  const avatarUrl = user?.user_metadata?.avatar_url || null;
+
+  return <LandingPage isLoggedIn={!!user} avatarUrl={avatarUrl} />;
 }
