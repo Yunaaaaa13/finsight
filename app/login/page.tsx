@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { TrendingUp, Mail, Lock, Loader2 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
@@ -12,6 +12,16 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("type") === "register") {
+        setIsLogin(false);
+      }
+    }
+  }, []);
+
   const supabase = createClient();
 
   const handleAuth = async (e: React.FormEvent) => {

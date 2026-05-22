@@ -1,5 +1,16 @@
+import { createClient } from "@/lib/supabase/server";
 import { DashboardShell } from "@/app/components/dashboard/dashboard-shell";
+import { LandingPage } from "@/app/components/landing/landing-page";
 
-export default function Home() {
-  return <DashboardShell />;
+export default async function Home() {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (user) {
+    return <DashboardShell />;
+  }
+
+  return <LandingPage />;
 }

@@ -19,6 +19,7 @@ import {
   importTransactionsFromCSV,
 } from "@/lib/transactions";
 import type { Transaction } from "@/lib/types";
+import { createClient } from "@/lib/supabase/client";
 
 // ─── Helpers ─────────────────────────────────────
 
@@ -128,6 +129,15 @@ const defaultCashflow = [
 
 export function DashboardShell() {
   const [activeView, setActiveView] = useState<"dashboard" | "transactions" | "analytics">("dashboard");
+
+  const supabase = createClient();
+  const [userEmail, setUserEmail] = useState<string | null>(null);
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => {
+      setUserEmail(data?.user?.email ?? null);
+    });
+  }, [supabase.auth]);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [status, setStatus] = useState("Memuat data...");
@@ -229,10 +239,10 @@ export function DashboardShell() {
                   <p className="text-xs font-medium">{dateStr}</p>
                 </div>
                 <h1 className="text-3xl font-bold tracking-tight text-foreground">
-                  Finsight Dashboard
+                  {userEmail ? `Halo, ${userEmail.split("@")[0]}! 👋` : "Finsight Dashboard"}
                 </h1>
                 <p className="mt-2 max-w-lg text-sm leading-relaxed text-muted-foreground">
-                  Data diperbarui secara realtime dari Supabase. Kelola semua transaksi Anda di satu tempat.
+                  Selamat datang kembali! Berikut adalah ringkasan keuangan Anda hari ini.
                 </p>
               </div>
 
