@@ -1,7 +1,8 @@
 "use client";
 
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import { TrendingUp, ShieldCheck, Activity, BarChart3, PieChart, Target, ChevronRight, BookOpen, Lightbulb, Wallet, LogOut, User } from "lucide-react";
+import { TrendingUp, ShieldCheck, Activity, BarChart3, PieChart, Target, ChevronRight, BookOpen, Lightbulb, Wallet, LogOut, User, LayoutDashboard } from "lucide-react";
 import { ARTICLES } from "@/lib/articles";
 
 // Mapping icons back for the landing page
@@ -17,9 +18,33 @@ const iconMap = {
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 
-export function LandingPage({ isLoggedIn = false, avatarUrl = null }: { isLoggedIn?: boolean, avatarUrl?: string | null }) {
+export function LandingPage({
+  isLoggedIn = false,
+  avatarUrl = null,
+  userEmail = null,
+  bio = null,
+  quote = null
+}: {
+  isLoggedIn?: boolean;
+  avatarUrl?: string | null;
+  userEmail?: string | null;
+  bio?: string | null;
+  quote?: string | null;
+}) {
   const router = useRouter();
   const supabase = createClient();
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const profileRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (profileRef.current && !profileRef.current.contains(event.target as Node)) {
+        setIsProfileOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
@@ -39,21 +64,51 @@ export function LandingPage({ isLoggedIn = false, avatarUrl = null }: { isLogged
           </div>
           <div className="flex items-center gap-4">
             {isLoggedIn ? (
-              <>
-                <Link href="/dashboard" className="hidden sm:inline-flex rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow hover:bg-primary/90 transition-all">
-                  Ke Dashboard
-                </Link>
-                <Link href="/dashboard" className="flex size-10 items-center justify-center rounded-full bg-muted border border-border overflow-hidden hover:opacity-80 transition-opacity">
+              <div className="relative" ref={profileRef}>
+                <button
+                  onClick={() => setIsProfileOpen(!isProfileOpen)}
+                  className="flex size-10 items-center justify-center rounded-full bg-muted border border-border overflow-hidden hover:opacity-80 transition-opacity"
+                >
                   {avatarUrl ? (
                     <img src={avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
                   ) : (
                     <User className="size-5 text-muted-foreground" />
                   )}
-                </Link>
-                <button onClick={handleLogout} className="p-2 text-muted-foreground hover:text-red-500 transition-colors" title="Keluar">
-                  <LogOut className="size-5" />
                 </button>
-              </>
+
+                {isProfileOpen && (
+                  <div className="absolute right-0 top-full mt-2 w-72 rounded-2xl border border-border bg-card p-4 shadow-xl card-glow animate-in fade-in slide-in-from-top-4">
+                    <div className="flex flex-col items-center text-center pb-4 border-b border-border">
+                      <div className="size-16 rounded-full bg-muted border border-border overflow-hidden mb-3">
+                        {avatarUrl ? (
+                          <img src={avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
+                        ) : (
+                          <User className="size-8 text-muted-foreground m-auto h-full" />
+                        )}
+                      </div>
+                      <p className="font-semibold text-foreground truncate w-full">{userEmail || "Pengguna Finsight"}</p>
+                      {bio && <p className="text-sm text-muted-foreground mt-1 line-clamp-2">{bio}</p>}
+                      {quote && <p className="text-xs italic text-primary mt-2">&quot;{quote}&quot;</p>}
+                    </div>
+                    <div className="flex flex-col gap-2 pt-4">
+                      <Link
+                        href="/dashboard"
+                        className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow hover:bg-primary/90 transition-all"
+                      >
+                        <LayoutDashboard className="size-4" />
+                        Ke Dashboard
+                      </Link>
+                      <button
+                        onClick={handleLogout}
+                        className="flex w-full items-center justify-center gap-2 rounded-xl bg-destructive/10 px-4 py-2 text-sm font-semibold text-destructive shadow-sm hover:bg-destructive/20 transition-all"
+                      >
+                        <LogOut className="size-4" />
+                        Keluar
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
             ) : (
               <>
                 <Link href="/login" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors hidden sm:block">
@@ -242,7 +297,7 @@ export function LandingPage({ isLoggedIn = false, avatarUrl = null }: { isLogged
             {ARTICLES.map((article, i) => (
               <div key={i} className="group relative bg-card rounded-2xl border border-border/50 p-6 hover:shadow-xl hover:border-primary/30 transition-all duration-300 card-glow overflow-hidden flex flex-col">
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                
+
                 <div className="relative z-10 flex-1 flex flex-col">
                   <span className="text-[0.65rem] font-bold uppercase tracking-wider text-muted-foreground/80 mb-4 block">
                     {article.category}
@@ -254,7 +309,7 @@ export function LandingPage({ isLoggedIn = false, avatarUrl = null }: { isLogged
                   <p className="text-sm text-muted-foreground leading-relaxed mb-6 flex-1">
                     {article.desc}
                   </p>
-                  
+
                   <Link href={`/artikel/${article.slug}`} className="mt-auto inline-flex items-center gap-1 text-sm font-semibold text-primary group-hover:gap-2 transition-all">
                     Baca Selengkapnya <ChevronRight className="size-4" />
                   </Link>
@@ -273,8 +328,8 @@ export function LandingPage({ isLoggedIn = false, avatarUrl = null }: { isLogged
             {isLoggedIn ? "Lanjutkan Perjalanan Finansial Anda" : "Siap Mengubah Cara Anda Mengelola Uang?"}
           </h2>
           <p className="text-lg text-muted-foreground mb-10 max-w-2xl mx-auto">
-            {isLoggedIn 
-              ? "Catat pengeluaran terbaru Anda dan lihat wawasan menarik di dashboard Finsight sekarang juga." 
+            {isLoggedIn
+              ? "Catat pengeluaran terbaru Anda dan lihat wawasan menarik di dashboard Finsight sekarang juga."
               : "Bergabunglah sekarang dan dapatkan wawasan penuh tentang kemana saja uang Anda pergi setiap bulannya."
             }
           </p>

@@ -10,6 +10,7 @@ import {
   ChevronRight,
   LogOut,
   User,
+  Home,
 } from "lucide-react";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
@@ -39,14 +40,21 @@ export function Sidebar({ activeView, onViewChange }: SidebarProps) {
     <aside className="hidden h-fit rounded-3xl border border-border bg-card p-6 shadow-sm card-glow lg:block">
       {/* Brand */}
       <div className="flex items-center justify-between pb-6 border-b border-border">
-        <Link href="/" className="flex items-center gap-3 group">
-          <div className="flex size-10 items-center justify-center rounded-xl gradient-emerald shadow-md group-hover:scale-105 transition-transform">
+        <div className="flex items-center gap-3">
+          <div className="flex size-10 items-center justify-center rounded-xl gradient-emerald shadow-md">
             <TrendingUp className="size-5 text-white" />
           </div>
           <div>
-            <h2 className="text-lg font-bold tracking-tight text-foreground group-hover:text-primary transition-colors">Finsight</h2>
-            <p className="text-xs text-muted-foreground">Ke Beranda</p>
+            <h2 className="text-lg font-bold tracking-tight text-foreground">Finsight</h2>
+            <p className="text-xs text-muted-foreground">Financial Dashboard</p>
           </div>
+        </div>
+        <Link 
+          href="/" 
+          title="Ke Beranda"
+          className="flex size-9 items-center justify-center rounded-xl text-muted-foreground hover:bg-muted hover:text-foreground transition-all duration-300"
+        >
+          <Home className="size-[18px]" />
         </Link>
       </div>
 
