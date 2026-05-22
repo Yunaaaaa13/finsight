@@ -106,12 +106,17 @@ export function LandingPage() {
               <div className="space-y-6">
                 {[
                   {
-                    icon: <BarChart3 className="size-5 text-emerald-500" />,
+                    icon: <Activity className="size-5 text-emerald-500" />,
+                    title: "Financial Health Score",
+                    desc: "Sistem cerdas kami akan memberi skor (0-100) pada keuangan Anda berdasarkan rasio tabungan, utang tagihan, perilaku impulsif, dan kestabilan arus kas."
+                  },
+                  {
+                    icon: <BarChart3 className="size-5 text-sky-500" />,
                     title: "Aturan 50/30/20",
                     desc: "Kami membantu memantau apakah pengeluaran Anda seimbang: 50% Kebutuhan, 30% Keinginan, dan 20% Tabungan/Investasi."
                   },
                   {
-                    icon: <Target className="size-5 text-sky-500" />,
+                    icon: <Target className="size-5 text-violet-500" />,
                     title: "Rasio Tabungan (Savings Ratio)",
                     desc: "Persentase pemasukan yang berhasil Anda simpan. Metrik utama untuk mengukur seberapa cepat Anda mencapai kebebasan finansial."
                   },

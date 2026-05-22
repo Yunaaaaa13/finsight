@@ -11,6 +11,7 @@ import { TransactionForm } from "@/app/components/dashboard/transaction-form";
 import { DeleteDialog } from "@/app/components/dashboard/delete-dialog";
 import { CSVUpload } from "@/app/components/dashboard/csv-upload";
 import { AnalyticsView } from "@/app/components/dashboard/analytics/analytics-view";
+import { FinancialHealthCard } from "@/app/components/dashboard/financial-health";
 import {
   getTransactions,
   addTransaction,
@@ -264,8 +265,13 @@ export function DashboardShell() {
                 ))}
               </section>
 
+              {/* Financial Health Score */}
+              <section className="animate-float-in" style={{ animationDelay: "150ms" }}>
+                <FinancialHealthCard transactions={transactions} />
+              </section>
+
               {/* Charts row */}
-              <section className="grid gap-6 xl:grid-cols-[1.6fr_1fr]">
+              <section className="grid gap-6 xl:grid-cols-[1.6fr_1fr] animate-float-in" style={{ animationDelay: "300ms" }}>
                 <CashflowChart points={cashflowPoints} />
                 <TopCategories categories={topCategories} />
               </section>
