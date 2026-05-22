@@ -1,9 +1,20 @@
 "use client";
 
 import Link from "next/link";
-import { TrendingUp, ShieldCheck, Activity, BarChart3, PieChart, Target, ChevronRight } from "lucide-react";
+import { TrendingUp, ShieldCheck, Activity, BarChart3, PieChart, Target, ChevronRight, BookOpen, Lightbulb, Wallet } from "lucide-react";
+import { ARTICLES } from "@/lib/articles";
 
-export function LandingPage() {
+// Mapping icons back for the landing page
+const iconMap = {
+  ShieldCheck: <ShieldCheck className="size-6 text-emerald-500" />,
+  TrendingUp: <TrendingUp className="size-6 text-violet-500" />,
+  Lightbulb: <Lightbulb className="size-6 text-amber-500" />,
+  Target: <Target className="size-6 text-rose-500" />,
+  Wallet: <Wallet className="size-6 text-sky-500" />,
+  Activity: <Activity className="size-6 text-indigo-500" />
+};
+
+export function LandingPage({ isLoggedIn = false }: { isLoggedIn?: boolean }) {
   return (
     <div className="min-h-screen bg-background text-foreground selection:bg-primary/20">
       {/* Navbar */}
@@ -16,12 +27,20 @@ export function LandingPage() {
             <span className="text-xl font-bold tracking-tight">Finsight</span>
           </div>
           <div className="flex items-center gap-4">
-            <Link href="/login" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors hidden sm:block">
-              Masuk
-            </Link>
-            <Link href="/login?type=register" className="rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow hover:bg-primary/90 transition-all">
-              Daftar Sekarang
-            </Link>
+            {isLoggedIn ? (
+              <Link href="/dashboard" className="rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow hover:bg-primary/90 transition-all">
+                Ke Dashboard
+              </Link>
+            ) : (
+              <>
+                <Link href="/login" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors hidden sm:block">
+                  Masuk
+                </Link>
+                <Link href="/login?type=register" className="rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow hover:bg-primary/90 transition-all">
+                  Daftar Sekarang
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </header>
@@ -40,9 +59,15 @@ export function LandingPage() {
               Finsight adalah asisten keuangan pribadi yang membantu Anda melacak, menganalisis, dan merencanakan masa depan finansial Anda melalui wawasan berbasis data yang intuitif.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link href="/login?type=register" className="w-full sm:w-auto rounded-full bg-primary px-8 py-3.5 text-base font-semibold text-primary-foreground shadow-lg shadow-primary/25 hover:bg-primary/90 hover:scale-105 transition-all flex items-center justify-center gap-2">
-                Buat Akun Gratis <ChevronRight className="size-4" />
-              </Link>
+              {isLoggedIn ? (
+                <Link href="/dashboard" className="w-full sm:w-auto rounded-full bg-primary px-8 py-3.5 text-base font-semibold text-primary-foreground shadow-lg shadow-primary/25 hover:bg-primary/90 hover:scale-105 transition-all flex items-center justify-center gap-2">
+                  Kembali ke Dashboard <ChevronRight className="size-4" />
+                </Link>
+              ) : (
+                <Link href="/login?type=register" className="w-full sm:w-auto rounded-full bg-primary px-8 py-3.5 text-base font-semibold text-primary-foreground shadow-lg shadow-primary/25 hover:bg-primary/90 hover:scale-105 transition-all flex items-center justify-center gap-2">
+                  Buat Akun Gratis <ChevronRight className="size-4" />
+                </Link>
+              )}
               <Link href="#cara-kerja" className="w-full sm:w-auto rounded-full border border-border bg-card/50 backdrop-blur-sm px-8 py-3.5 text-base font-semibold text-foreground hover:bg-muted/80 transition-all">
                 Pelajari Cara Kerja
               </Link>
@@ -176,17 +201,62 @@ export function LandingPage() {
           </div>
         </div>
       </section>
+      {/* Artikel & Pengetahuan Finansial */}
+      <section id="artikel" className="py-24 bg-muted/30 border-t border-border/50">
+        <div className="container mx-auto max-w-6xl px-4 sm:px-6">
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-3 py-1 mb-4">
+              <BookOpen className="size-4 text-primary" />
+              <span className="text-xs font-bold uppercase tracking-wider text-primary">Wawasan</span>
+            </div>
+            <h2 className="text-3xl font-bold tracking-tight mb-4">Perluas Pengetahuan Finansial Anda</h2>
+            <p className="text-lg text-muted-foreground">
+              Jangan hanya mencatat uang Anda. Pahami cara kerjanya dengan panduan eksklusif dari para pakar keuangan.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {ARTICLES.map((article, i) => (
+              <div key={i} className="group relative bg-card rounded-2xl border border-border/50 p-6 hover:shadow-xl hover:border-primary/30 transition-all duration-300 card-glow overflow-hidden flex flex-col">
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                
+                <div className="relative z-10 flex-1 flex flex-col">
+                  <span className="text-[0.65rem] font-bold uppercase tracking-wider text-muted-foreground/80 mb-4 block">
+                    {article.category}
+                  </span>
+                  <div className="size-12 rounded-xl bg-background flex items-center justify-center mb-4 shadow-sm border border-border">
+                    {iconMap[article.iconName as keyof typeof iconMap]}
+                  </div>
+                  <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">{article.title}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed mb-6 flex-1">
+                    {article.desc}
+                  </p>
+                  
+                  <Link href={`/artikel/${article.slug}`} className="mt-auto inline-flex items-center gap-1 text-sm font-semibold text-primary group-hover:gap-2 transition-all">
+                    Baca Selengkapnya <ChevronRight className="size-4" />
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* CTA Bottom */}
       <section className="py-24 border-t border-border relative overflow-hidden">
         <div className="absolute inset-0 bg-primary/5" />
         <div className="container mx-auto max-w-4xl px-4 sm:px-6 relative z-10 text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-6">Siap Mengubah Cara Anda Mengelola Uang?</h2>
+          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight mb-6">
+            {isLoggedIn ? "Lanjutkan Perjalanan Finansial Anda" : "Siap Mengubah Cara Anda Mengelola Uang?"}
+          </h2>
           <p className="text-lg text-muted-foreground mb-10 max-w-2xl mx-auto">
-            Bergabunglah sekarang dan dapatkan wawasan penuh tentang kemana saja uang Anda pergi setiap bulannya.
+            {isLoggedIn 
+              ? "Catat pengeluaran terbaru Anda dan lihat wawasan menarik di dashboard Finsight sekarang juga." 
+              : "Bergabunglah sekarang dan dapatkan wawasan penuh tentang kemana saja uang Anda pergi setiap bulannya."
+            }
           </p>
-          <Link href="/login?type=register" className="inline-flex rounded-full bg-primary px-8 py-4 text-base font-bold text-primary-foreground shadow-xl hover:bg-primary/90 hover:scale-105 transition-all items-center justify-center gap-2">
-            Daftar Gratis Sekarang <ChevronRight className="size-5" />
+          <Link href={isLoggedIn ? "/dashboard" : "/login?type=register"} className="inline-flex rounded-full bg-primary px-8 py-4 text-base font-bold text-primary-foreground shadow-xl hover:bg-primary/90 hover:scale-105 transition-all items-center justify-center gap-2">
+            {isLoggedIn ? "Buka Dashboard" : "Daftar Gratis Sekarang"} <ChevronRight className="size-5" />
           </Link>
         </div>
       </section>

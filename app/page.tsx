@@ -1,5 +1,4 @@
 import { createClient } from "@/lib/supabase/server";
-import { DashboardShell } from "@/app/components/dashboard/dashboard-shell";
 import { LandingPage } from "@/app/components/landing/landing-page";
 
 export default async function Home() {
@@ -8,9 +7,5 @@ export default async function Home() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (user) {
-    return <DashboardShell />;
-  }
-
-  return <LandingPage />;
+  return <LandingPage isLoggedIn={!!user} />;
 }

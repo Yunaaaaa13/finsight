@@ -32,7 +32,7 @@ export async function middleware(request: NextRequest) {
   } = await supabase.auth.getUser()
 
   const isAuthPage = request.nextUrl.pathname.startsWith('/login') || request.nextUrl.pathname.startsWith('/auth/success')
-  const isPublicPage = request.nextUrl.pathname === '/' || isAuthPage || request.nextUrl.pathname.startsWith('/auth/callback')
+  const isPublicPage = request.nextUrl.pathname === '/' || isAuthPage || request.nextUrl.pathname.startsWith('/auth/callback') || request.nextUrl.pathname.startsWith('/artikel')
 
   if (!user && !isPublicPage) {
     const url = request.nextUrl.clone()
@@ -42,7 +42,7 @@ export async function middleware(request: NextRequest) {
 
   if (user && isAuthPage) {
     const url = request.nextUrl.clone()
-    url.pathname = '/'
+    url.pathname = '/dashboard'
     return NextResponse.redirect(url)
   }
 
