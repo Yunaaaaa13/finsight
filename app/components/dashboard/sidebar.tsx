@@ -10,8 +10,8 @@ import {
 } from "lucide-react";
 
 interface SidebarProps {
-  activeView: "dashboard" | "transactions";
-  onViewChange: (view: "dashboard" | "transactions") => void;
+  activeView: "dashboard" | "transactions" | "analytics";
+  onViewChange: (view: "dashboard" | "transactions" | "analytics") => void;
 }
 
 export function Sidebar({ activeView, onViewChange }: SidebarProps) {
@@ -49,7 +49,7 @@ export function Sidebar({ activeView, onViewChange }: SidebarProps) {
               <button
                 key={item.label}
                 onClick={() => {
-                  if (item.id === "dashboard" || item.id === "transactions") {
+                  if (item.id === "dashboard" || item.id === "transactions" || item.id === "analytics") {
                     onViewChange(item.id);
                   }
                 }}
@@ -58,7 +58,7 @@ export function Sidebar({ activeView, onViewChange }: SidebarProps) {
                     ? "bg-primary/10 text-primary font-semibold shadow-sm"
                     : "text-muted-foreground hover:bg-muted/60 hover:text-foreground"
                 } ${
-                  item.id !== "dashboard" && item.id !== "transactions" 
+                  item.id !== "dashboard" && item.id !== "transactions" && item.id !== "analytics"
                     ? "opacity-50 cursor-not-allowed" 
                     : "cursor-pointer"
                 }`}

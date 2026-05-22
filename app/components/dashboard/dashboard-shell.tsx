@@ -10,6 +10,7 @@ import { TransactionTable } from "@/app/components/dashboard/transaction-table";
 import { TransactionForm } from "@/app/components/dashboard/transaction-form";
 import { DeleteDialog } from "@/app/components/dashboard/delete-dialog";
 import { CSVUpload } from "@/app/components/dashboard/csv-upload";
+import { AnalyticsView } from "@/app/components/dashboard/analytics/analytics-view";
 import {
   getTransactions,
   addTransaction,
@@ -126,7 +127,7 @@ const defaultCashflow = [
 // ─── Component ───────────────────────────────────
 
 export function DashboardShell() {
-  const [activeView, setActiveView] = useState<"dashboard" | "transactions">("dashboard");
+  const [activeView, setActiveView] = useState<"dashboard" | "transactions" | "analytics">("dashboard");
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [status, setStatus] = useState("Memuat data...");
@@ -259,7 +260,7 @@ export function DashboardShell() {
                 <TopCategories categories={topCategories} />
               </section>
             </div>
-          ) : (
+          ) : activeView === "transactions" ? (
             <div className="animate-float-in">
               {/* Transactions section */}
               <section
@@ -309,6 +310,8 @@ export function DashboardShell() {
                 )}
               </section>
             </div>
+          ) : (
+            <AnalyticsView transactions={transactions} />
           )}
         </main>
       </div>
