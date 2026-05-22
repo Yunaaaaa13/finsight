@@ -59,3 +59,25 @@ INSERT INTO transactions (title, amount, type, category, date, payment_method) V
   ('Grab ke Kantor', 35000, 'expense', 'Transportasi', '2026-05-19', 'E-Wallet'),
   ('Coffee Shop', 55000, 'expense', 'Makanan & Minuman', '2026-05-20', 'E-Wallet'),
   ('Bonus Project', 3000000, 'income', 'Bisnis', '2026-05-21', 'Transfer Bank');
+
+-- ================================================
+-- 6. Setup Storage untuk Foto Profil (Avatars)
+-- ================================================
+-- Mengizinkan user mengupload foto profil ke storage.
+-- Pastikan Anda juga telah mengaktifkan Storage di dashboard Supabase jika belum.
+
+INSERT INTO storage.buckets (id, name, public) 
+VALUES ('avatars', 'avatars', true)
+ON CONFLICT (id) DO NOTHING;
+
+-- Policy agar semua orang bisa melihat avatar (karena public)
+CREATE POLICY "Avatar images are publicly accessible." ON storage.objects
+  FOR SELECT USING (bucket_id = 'avatars');
+
+-- Policy agar user yang login bisa mengupload avatar
+CREATE POLICY "Users can upload their own avatar." ON storage.objects
+  FOR INSERT WITH CHECK (bucket_id = 'avatars' AND auth.role() = 'authenticated');
+
+-- Policy agar user bisa mengupdate avatar mereka
+CREATE POLICY "Users can update their own avatar." ON storage.objects
+  FOR UPDATE USING (bucket_id = 'avatars' AND auth.role() = 'authenticated');

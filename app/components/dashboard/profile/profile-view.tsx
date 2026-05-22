@@ -16,6 +16,7 @@ export function ProfileView({ transactions }: ProfileViewProps) {
   const [quote, setQuote] = useState("");
   const [avatarUrl, setAvatarUrl] = useState("");
   const [isSaving, setIsSaving] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [saveMessage, setSaveMessage] = useState("");
 
@@ -50,6 +51,43 @@ export function ProfileView({ transactions }: ProfileViewProps) {
       }, 1000);
     } else {
       setSaveMessage("Gagal menyimpan");
+    }
+  };
+
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    try {
+      setIsUploading(true);
+      setSaveMessage("");
+
+      // Buat nama file unik
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Math.random()}.${fileExt}`;
+      const filePath = `avatars/${fileName}`;
+
+      // Upload ke bucket 'avatars'
+      const { error: uploadError } = await supabase.storage
+        .from('avatars')
+        .upload(filePath, file);
+
+      if (uploadError) {
+        throw uploadError;
+      }
+
+      // Ambil URL publik
+      const { data } = supabase.storage.from('avatars').getPublicUrl(filePath);
+      
+      if (data?.publicUrl) {
+        setAvatarUrl(data.publicUrl);
+        setSaveMessage("Foto berhasil diunggah!");
+      }
+    } catch (error: any) {
+      setSaveMessage("Gagal unggah foto. Pastikan bucket 'avatars' sudah ada di Supabase.");
+      console.error(error);
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -193,16 +231,28 @@ export function ProfileView({ transactions }: ProfileViewProps) {
               </h4>
               <div className="space-y-4">
                 <div>
-                  <label className="block text-xs font-medium text-muted-foreground mb-1.5">Avatar URL (Link Gambar)</label>
-                  <div className="relative">
-                    <ImageIcon className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground/50" />
-                    <input
-                      type="url"
-                      value={avatarUrl}
-                      onChange={(e) => setAvatarUrl(e.target.value)}
-                      placeholder="https://example.com/avatar.jpg"
-                      className="w-full rounded-xl border border-border bg-background pl-9 pr-4 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
-                    />
+                  <label className="block text-xs font-medium text-muted-foreground mb-1.5">Foto Profil</label>
+                  <div className="flex items-center gap-3">
+                    <div className="relative flex-1">
+                      <ImageIcon className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground/50" />
+                      <input
+                        type="url"
+                        value={avatarUrl}
+                        onChange={(e) => setAvatarUrl(e.target.value)}
+                        placeholder="Tempel URL atau unggah file 👉"
+                        className="w-full rounded-xl border border-border bg-background pl-9 pr-4 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+                      />
+                    </div>
+                    <label className="cursor-pointer shrink-0 rounded-xl bg-muted px-4 py-2 text-sm font-semibold text-foreground hover:bg-muted/80 transition-all flex items-center gap-2">
+                      {isUploading ? <Loader2 className="size-4 animate-spin" /> : "Unggah"}
+                      <input 
+                        type="file" 
+                        accept="image/*" 
+                        className="hidden" 
+                        onChange={handleFileUpload}
+                        disabled={isUploading}
+                      />
+                    </label>
                   </div>
                 </div>
                 <div>
