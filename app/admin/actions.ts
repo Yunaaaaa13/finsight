@@ -21,7 +21,7 @@ export async function getUsers() {
     return {
       id: user.id,
       name: user.user_metadata?.full_name || user.email?.split("@")[0] || "Unknown",
-      email: user.email,
+      email: user.email || "",
       role: user.app_metadata?.role || "User",
       status: isBanned ? "Suspended" : "Active",
       joined: new Date(user.created_at).toLocaleDateString("id-ID", {
