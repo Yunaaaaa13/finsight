@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { LayoutDashboard, Users, LogOut, ShieldCheck } from "lucide-react";
+import { AdminSidebar } from "@/app/components/admin/sidebar";
 
 export default async function AdminLayout({
   children,
@@ -34,22 +35,7 @@ export default async function AdminLayout({
           <span className="font-bold text-lg">Admin Panel</span>
         </div>
         
-        <nav className="flex md:flex-col gap-2 overflow-x-auto md:overflow-visible">
-          <Link
-            href="/admin/users"
-            className="flex items-center gap-3 rounded-xl bg-primary/10 text-primary px-4 py-3 text-sm font-medium transition-colors whitespace-nowrap"
-          >
-            <Users className="size-4" />
-            User Management
-          </Link>
-          <Link
-            href="/dashboard"
-            className="flex items-center gap-3 rounded-xl hover:bg-muted text-muted-foreground hover:text-foreground px-4 py-3 text-sm font-medium transition-colors whitespace-nowrap"
-          >
-            <LayoutDashboard className="size-4" />
-            Back to Dashboard
-          </Link>
-        </nav>
+        <AdminSidebar />
       </aside>
 
       {/* Main Content */}
