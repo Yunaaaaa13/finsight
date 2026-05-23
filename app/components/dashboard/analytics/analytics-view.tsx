@@ -39,7 +39,7 @@ export function AnalyticsView({ transactions }: AnalyticsViewProps) {
                 <TrendingUp className="size-4 text-emerald-500" />
                 <h3 className="text-sm font-bold text-foreground">Tren Arus Kas (30 Hari Terakhir)</h3>
               </div>
-              <div className="flex-1 min-h-[300px] min-w-0 w-full">
+              <div className="h-[300px] min-w-0 min-h-0 w-full">
                 <TrendChart transactions={transactions} />
               </div>
             </section>

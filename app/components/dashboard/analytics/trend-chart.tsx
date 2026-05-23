@@ -53,15 +53,15 @@ export function TrendChart({ transactions }: { transactions: Transaction[] }) {
       <AreaChart data={data} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
         <defs>
           <linearGradient id="colorIncome" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor="#10b981" stopOpacity={0.3} />
+            <stop offset="5%" stopColor="#10b981" stopOpacity={0.5} />
             <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
           </linearGradient>
           <linearGradient id="colorExpense" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor="#f43f5e" stopOpacity={0.3} />
+            <stop offset="5%" stopColor="#f43f5e" stopOpacity={0.5} />
             <stop offset="95%" stopColor="#f43f5e" stopOpacity={0} />
           </linearGradient>
           <linearGradient id="colorBalance" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.1} />
+            <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.4} />
             <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
           </linearGradient>
         </defs>
