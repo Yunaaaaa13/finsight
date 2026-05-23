@@ -1,5 +1,6 @@
 import { getPlatformAnalytics, getRiskAlerts } from "@/app/admin/actions";
-import { Users, Activity, TrendingUp, AlertTriangle, ArrowUpRight, ArrowDownRight, CreditCard } from "lucide-react";
+import { Users, Activity, TrendingUp, AlertTriangle, ArrowUpRight, ArrowDownRight, CreditCard, Target, PieChart } from "lucide-react";
+import { AdminCharts } from "./admin-charts";
 
 export const metadata = {
   title: "Admin Analytics | FinSight",
@@ -20,20 +21,29 @@ export default async function AdminAnalyticsPage() {
     );
   }
 
-  const { totalUsers, activeUsers, totalTransactionsAmount, monthlyGrowth, categoryBreakdown } = analyticsRes.data;
+  const { 
+    totalUsers, 
+    activeUsers, 
+    totalTransactionsAmount, 
+    monthlyGrowth, 
+    categoryBreakdown,
+    behaviorAnalytics,
+    chartData,
+    insights
+  } = analyticsRes.data;
+  
   const alerts = alertsRes.success ? alertsRes.alerts || [] : [];
 
   return (
-    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-12">
       <div>
-        <h1 className="text-3xl font-bold">Platform Analytics</h1>
-        <p className="text-muted-foreground mt-2">Global metrics and risk monitoring.</p>
+        <h1 className="text-3xl font-bold">Platform Analytics Dashboard</h1>
+        <p className="text-muted-foreground mt-2">Global metrics, growth trends, and user behavior analytics.</p>
       </div>
 
       {/* KPI Cards */}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-        {/* Total Users */}
-        <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+        <div className="rounded-2xl border border-border bg-card p-6 shadow-sm card-glow">
           <div className="flex items-center gap-4 mb-4">
             <div className="flex size-10 items-center justify-center rounded-xl bg-blue-500/10 text-blue-500">
               <Users className="size-5" />
@@ -45,8 +55,7 @@ export default async function AdminAnalyticsPage() {
           </div>
         </div>
 
-        {/* Active Users */}
-        <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+        <div className="rounded-2xl border border-border bg-card p-6 shadow-sm card-glow">
           <div className="flex items-center gap-4 mb-4">
             <div className="flex size-10 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-500">
               <Activity className="size-5" />
@@ -58,8 +67,7 @@ export default async function AdminAnalyticsPage() {
           </div>
         </div>
 
-        {/* Total Volume */}
-        <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+        <div className="rounded-2xl border border-border bg-card p-6 shadow-sm card-glow">
           <div className="flex items-center gap-4 mb-4">
             <div className="flex size-10 items-center justify-center rounded-xl bg-violet-500/10 text-violet-500">
               <CreditCard className="size-5" />
@@ -75,8 +83,7 @@ export default async function AdminAnalyticsPage() {
           </div>
         </div>
 
-        {/* Monthly Growth */}
-        <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+        <div className="rounded-2xl border border-border bg-card p-6 shadow-sm card-glow">
           <div className="flex items-center gap-4 mb-4">
             <div className="flex size-10 items-center justify-center rounded-xl bg-amber-500/10 text-amber-500">
               <TrendingUp className="size-5" />
@@ -97,23 +104,35 @@ export default async function AdminAnalyticsPage() {
         </div>
       </div>
 
+      {/* Admin Charts from Recharts */}
+      {chartData && <AdminCharts data={chartData} />}
+
       <div className="grid gap-6 lg:grid-cols-2">
-        {/* Category Breakdown */}
-        <div className="rounded-2xl border border-border bg-card p-6 shadow-sm">
+        {/* Financial Category Analytics */}
+        <div className="rounded-2xl border border-border bg-card p-6 shadow-sm card-glow">
           <h3 className="font-semibold text-lg mb-6 flex items-center gap-2">
             💸 Financial Category Analytics
           </h3>
+          
+          <div className="mb-6 p-4 rounded-xl bg-primary/5 border border-primary/20 flex gap-3">
+            <div className="mt-0.5"><PieChart className="size-5 text-primary" /></div>
+            <div>
+              <p className="text-sm font-semibold text-primary">Kategori Dominan</p>
+              <p className="text-sm text-muted-foreground">{insights?.categoryInsight}</p>
+            </div>
+          </div>
+
           <div className="space-y-6">
-            {categoryBreakdown.length > 0 ? (
-              categoryBreakdown.map((cat, idx) => (
+            {categoryBreakdown && categoryBreakdown.length > 0 ? (
+              categoryBreakdown.map((cat: any, idx: number) => (
                 <div key={idx}>
                   <div className="flex justify-between text-sm mb-2">
                     <span className="font-medium capitalize">{cat.name}</span>
-                    <span className="text-muted-foreground">{cat.percentage}%</span>
+                    <span className="font-bold">{cat.percentage}%</span>
                   </div>
-                  <div className="h-2 w-full bg-secondary rounded-full overflow-hidden">
+                  <div className="h-2.5 w-full bg-secondary rounded-full overflow-hidden">
                     <div 
-                      className="h-full bg-primary transition-all duration-1000 ease-out" 
+                      className="h-full bg-gradient-to-r from-primary to-sky-500 transition-all duration-1000 ease-out" 
                       style={{ width: `${cat.percentage}%` }}
                     />
                   </div>
@@ -125,47 +144,101 @@ export default async function AdminAnalyticsPage() {
           </div>
         </div>
 
-        {/* Risk Alerts */}
-        <div className="rounded-2xl border border-red-500/20 bg-card p-6 shadow-sm relative overflow-hidden">
-          <div className="absolute top-0 right-0 p-4 opacity-10">
-            <AlertTriangle className="size-32 text-red-500" />
-          </div>
-          <h3 className="font-semibold text-lg mb-6 flex items-center gap-2 relative z-10 text-red-500">
-            <AlertTriangle className="size-5" />
-            Risk Detection Dashboard
+        {/* Financial Behavior Analytics */}
+        <div className="rounded-2xl border border-border bg-card p-6 shadow-sm card-glow flex flex-col">
+          <h3 className="font-semibold text-lg mb-6 flex items-center gap-2">
+            🧠 Financial Behavior Analytics
           </h3>
           
-          <div className="space-y-4 relative z-10">
-            {alerts.length > 0 ? (
-              alerts.slice(0, 10).map((alert: any) => (
-                <div key={alert.id} className="flex flex-col sm:flex-row gap-3 p-4 rounded-xl border border-border bg-background/50 backdrop-blur-sm">
-                  <div className={`mt-1 size-2 rounded-full shrink-0 ${
-                    alert.severity === 'high' ? 'bg-red-500' : 'bg-amber-500'
-                  }`} />
-                  <div>
-                    <h4 className="font-semibold text-sm flex items-center gap-2">
-                      {alert.type}
-                      <span className="text-xs font-normal text-muted-foreground px-2 py-0.5 rounded-full bg-secondary">
-                        {new Date(alert.date).toLocaleDateString("id-ID")}
-                      </span>
-                    </h4>
-                    <p className="text-sm text-muted-foreground mt-1">
-                      User: <span className="font-medium text-foreground">{alert.user}</span>
-                    </p>
-                    <p className="text-sm mt-1">{alert.message}</p>
+          <div className="mb-6 p-4 rounded-xl bg-violet-500/5 border border-violet-500/20 flex gap-3">
+            <div className="mt-0.5"><Target className="size-5 text-violet-500" /></div>
+            <div>
+              <p className="text-sm font-semibold text-violet-500">Agregat Perilaku</p>
+              <p className="text-sm text-muted-foreground">{insights?.behaviorInsight}</p>
+            </div>
+          </div>
+
+          <div className="space-y-6 flex-1">
+            {behaviorAnalytics && (
+              <>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="p-4 rounded-xl border border-border bg-background">
+                    <p className="text-xs text-muted-foreground mb-1 uppercase tracking-wider font-semibold">Avg Saving Ratio</p>
+                    <h4 className="text-2xl font-bold text-emerald-500">{behaviorAnalytics.avgSavingRatio}%</h4>
+                  </div>
+                  <div className="p-4 rounded-xl border border-border bg-background">
+                    <p className="text-xs text-muted-foreground mb-1 uppercase tracking-wider font-semibold">Avg Expense Ratio</p>
+                    <h4 className="text-2xl font-bold text-amber-500">{behaviorAnalytics.avgExpenseRatio}%</h4>
+                  </div>
+                  <div className="col-span-2 p-4 rounded-xl border border-border bg-background">
+                    <p className="text-xs text-muted-foreground mb-1 uppercase tracking-wider font-semibold">Risky Spending Users</p>
+                    <div className="flex items-center gap-3">
+                      <h4 className="text-2xl font-bold text-red-500">{behaviorAnalytics.riskyUsersPercentage}%</h4>
+                      <p className="text-sm text-muted-foreground">dari total pengguna aktif (Pengeluaran &gt; Pemasukan)</p>
+                    </div>
                   </div>
                 </div>
-              ))
-            ) : (
-              <div className="flex flex-col items-center justify-center py-12 text-center text-emerald-500">
-                <div className="size-12 rounded-full bg-emerald-500/10 flex items-center justify-center mb-3">
-                  <Activity className="size-6" />
+
+                <div>
+                  <p className="text-sm font-semibold mb-3">Overspending Categories (&gt;30%)</p>
+                  <div className="flex flex-wrap gap-2">
+                    {behaviorAnalytics.overspendingCategories.length > 0 ? (
+                      behaviorAnalytics.overspendingCategories.map((cat: string) => (
+                        <span key={cat} className="px-3 py-1 rounded-full bg-red-500/10 text-red-500 text-xs font-semibold capitalize border border-red-500/20">
+                          {cat}
+                        </span>
+                      ))
+                    ) : (
+                      <span className="text-sm text-muted-foreground">Tidak ada kategori yang mendominasi pengeluaran.</span>
+                    )}
+                  </div>
                 </div>
-                <p className="font-medium">All clear</p>
-                <p className="text-sm opacity-80 mt-1">No suspicious activities detected.</p>
-              </div>
+              </>
             )}
           </div>
+        </div>
+      </div>
+
+      {/* Risk Alerts Dashboard */}
+      <div className="rounded-2xl border border-red-500/20 bg-card p-6 shadow-sm relative overflow-hidden card-glow">
+        <div className="absolute top-0 right-0 p-4 opacity-10">
+          <AlertTriangle className="size-32 text-red-500" />
+        </div>
+        <h3 className="font-semibold text-lg mb-6 flex items-center gap-2 relative z-10 text-red-500">
+          <AlertTriangle className="size-5" />
+          Risk Detection Dashboard
+        </h3>
+        
+        <div className="space-y-4 relative z-10">
+          {alerts.length > 0 ? (
+            alerts.slice(0, 10).map((alert: any) => (
+              <div key={alert.id} className="flex flex-col sm:flex-row gap-3 p-4 rounded-xl border border-border bg-background/50 backdrop-blur-sm">
+                <div className={`mt-1 size-2 rounded-full shrink-0 ${
+                  alert.severity === 'high' ? 'bg-red-500' : 'bg-amber-500'
+                }`} />
+                <div>
+                  <h4 className="font-semibold text-sm flex items-center gap-2">
+                    {alert.type}
+                    <span className="text-xs font-normal text-muted-foreground px-2 py-0.5 rounded-full bg-secondary">
+                      {new Date(alert.date).toLocaleDateString("id-ID")}
+                    </span>
+                  </h4>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    User: <span className="font-medium text-foreground">{alert.user}</span>
+                  </p>
+                  <p className="text-sm mt-1">{alert.message}</p>
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="flex flex-col items-center justify-center py-12 text-center text-emerald-500">
+              <div className="size-12 rounded-full bg-emerald-500/10 flex items-center justify-center mb-3">
+                <Activity className="size-6" />
+              </div>
+              <p className="font-medium">All clear</p>
+              <p className="text-sm opacity-80 mt-1">No suspicious activities detected.</p>
+            </div>
+          )}
         </div>
       </div>
     </div>

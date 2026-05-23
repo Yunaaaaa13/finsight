@@ -166,6 +166,116 @@ export async function getPlatformAnalytics() {
       }))
       .sort((a, b) => b.percentage - a.percentage);
 
+    // Behavior Analytics
+    const userFinancials: Record<string, { income: number; expense: number }> = {};
+    users.forEach(u => userFinancials[u.id] = { income: 0, expense: 0 });
+    transactions?.forEach(tx => {
+      const amount = Number(tx.amount) || 0;
+      if (userFinancials[tx.user_id]) {
+        if (tx.type === "income") userFinancials[tx.user_id].income += amount;
+        else if (tx.type === "expense") userFinancials[tx.user_id].expense += amount;
+      }
+    });
+
+    let totalSavingRatio = 0;
+    let totalExpenseRatio = 0;
+    let usersWithData = 0;
+    let riskyUsersCount = 0;
+
+    Object.values(userFinancials).forEach(fin => {
+      if (fin.income > 0 || fin.expense > 0) {
+        usersWithData++;
+        if (fin.income > 0) {
+          totalSavingRatio += Math.max(0, (fin.income - fin.expense) / fin.income);
+          totalExpenseRatio += (fin.expense / fin.income);
+        } else {
+          totalExpenseRatio += 1; // 100% expense if income is 0
+        }
+        if (fin.expense > fin.income) {
+          riskyUsersCount++;
+        }
+      }
+    });
+
+    const avgSavingRatio = usersWithData > 0 ? Math.round((totalSavingRatio / usersWithData) * 100) : 0;
+    const avgExpenseRatio = usersWithData > 0 ? Math.round((totalExpenseRatio / usersWithData) * 100) : 0;
+    const riskyUsersPercentage = usersWithData > 0 ? Math.round((riskyUsersCount / usersWithData) * 100) : 0;
+    const overspendingCategories = categoryBreakdown.filter(c => c.percentage > 30).map(c => c.name);
+
+    const behaviorAnalytics = {
+      avgSavingRatio,
+      avgExpenseRatio,
+      overspendingCategories,
+      riskyUsersPercentage
+    };
+
+    // Chart Data (Last 6 months)
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const chartData: { month: string; newUsers: number; volume: number; totalUsers: number }[] = [];
+    
+    // First pass to collect data
+    const tempChartData = [];
+    for (let i = 5; i >= 0; i--) {
+      const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+      const monthStr = months[d.getMonth()];
+      
+      const usersInMonth = users.filter(u => {
+        const ud = new Date(u.created_at);
+        return ud.getMonth() === d.getMonth() && ud.getFullYear() === d.getFullYear();
+      }).length;
+      
+      const volumeInMonth = transactions?.filter(tx => {
+        const td = new Date(tx.date);
+        return td.getMonth() === d.getMonth() && td.getFullYear() === d.getFullYear();
+      }).reduce((sum, tx) => sum + (Number(tx.amount) || 0), 0) || 0;
+
+      tempChartData.push({
+        month: monthStr,
+        newUsers: usersInMonth,
+        volume: volumeInMonth
+      });
+    }
+
+    // Accumulate total users over time for the user growth chart
+    let cumulativeUsers = totalUsers - tempChartData.reduce((acc, curr) => acc + curr.newUsers, 0);
+    if (cumulativeUsers < 0) cumulativeUsers = 0;
+    
+    tempChartData.forEach(data => {
+      cumulativeUsers += data.newUsers;
+      chartData.push({
+        ...data,
+        totalUsers: cumulativeUsers
+      });
+    });
+
+    // Insights
+    let topCategoryInsight = "Belum ada cukup data kategori bulan ini.";
+    if (categoryBreakdown.length > 0) {
+      const topCat = categoryBreakdown[0].name;
+      const topCatCurrent = currentMonthTxs.filter(tx => tx.type === "expense" && tx.category === topCat).reduce((sum, tx) => sum + (Number(tx.amount) || 0), 0);
+      const topCatLast = lastMonthTxs.filter(tx => tx.type === "expense" && tx.category === topCat).reduce((sum, tx) => sum + (Number(tx.amount) || 0), 0);
+      
+      if (topCatLast > 0) {
+        const increase = Math.round(((topCatCurrent - topCatLast) / topCatLast) * 100);
+        if (increase > 0) {
+          topCategoryInsight = `Pengeluaran ${topCat} meningkat ${increase}% bulan ini.`;
+        } else if (increase < 0) {
+          topCategoryInsight = `Pengeluaran ${topCat} turun ${Math.abs(increase)}% bulan ini.`;
+        } else {
+          topCategoryInsight = `Pengeluaran ${topCat} stabil dibandingkan bulan lalu.`;
+        }
+      } else if (topCatCurrent > 0) {
+        topCategoryInsight = `Pengeluaran ${topCat} melonjak bulan ini.`;
+      }
+    }
+
+    const insights = {
+      categoryInsight: topCategoryInsight,
+      behaviorInsight: riskyUsersPercentage > 20 
+        ? `${riskyUsersPercentage}% users overspend their income.`
+        : `Financial health across platform is stable.`
+    };
+
     return {
       success: true,
       data: {
@@ -173,7 +283,10 @@ export async function getPlatformAnalytics() {
         activeUsers,
         totalTransactionsAmount,
         monthlyGrowth,
-        categoryBreakdown
+        categoryBreakdown,
+        behaviorAnalytics,
+        chartData,
+        insights
       }
     };
   } catch (err: any) {
