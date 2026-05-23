@@ -76,9 +76,17 @@ export function TrendChart({ transactions }: { transactions: Transaction[] }) {
         <YAxis 
           axisLine={false} 
           tickLine={false} 
-          tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }}
-          tickFormatter={(value) => value >= 1000000 ? `${(value / 1000000).toFixed(1)}Jt` : `${(value / 1000).toFixed(0)}Rb`}
-          width={50}
+          tick={{ fontSize: 12, fill: "hsl(var(--foreground))", fontWeight: 500 }}
+          tickFormatter={(value) => {
+            if (value >= 1000000) {
+              return value % 1000000 === 0 ? `Rp${value / 1000000} Jt` : `Rp${(value / 1000000).toFixed(1)} Jt`;
+            }
+            if (value >= 1000) {
+              return value % 1000 === 0 ? `Rp${value / 1000} Rb` : `Rp${(value / 1000).toFixed(0)} Rb`;
+            }
+            return `Rp${value}`;
+          }}
+          width={70}
         />
         <Tooltip 
           contentStyle={{ backgroundColor: "hsl(var(--card))", borderColor: "hsl(var(--border))", borderRadius: "12px", fontSize: "12px", boxShadow: "0 10px 15px -3px rgb(0 0 0 / 0.1)" }}

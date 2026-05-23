@@ -34,15 +34,15 @@ export function AnalyticsView({ transactions }: AnalyticsViewProps) {
       ) : (
         <>
           {/* Trend Chart (Full Width) */}
-          <section className="rounded-2xl border border-border bg-card p-6 card-glow">
-            <div className="flex items-center gap-2 mb-6">
-              <TrendingUp className="size-4 text-emerald-500" />
-              <h3 className="text-sm font-bold text-foreground">Tren Arus Kas (30 Hari Terakhir)</h3>
-            </div>
-            <div className="h-[300px] min-w-0 min-h-0 w-full">
-              <TrendChart transactions={transactions} />
-            </div>
-          </section>
+            <section className="rounded-2xl border border-border bg-card p-6 card-glow flex flex-col">
+              <div className="flex items-center gap-2 mb-6">
+                <TrendingUp className="size-4 text-emerald-500" />
+                <h3 className="text-sm font-bold text-foreground">Tren Arus Kas (30 Hari Terakhir)</h3>
+              </div>
+              <div className="flex-1 min-h-[300px] min-w-0 w-full">
+                <TrendChart transactions={transactions} />
+              </div>
+            </section>
 
           <div className="grid gap-6 lg:grid-cols-2">
             {/* Pie Chart */}
@@ -57,12 +57,12 @@ export function AnalyticsView({ transactions }: AnalyticsViewProps) {
             </section>
 
             {/* Heatmap */}
-            <section className="rounded-2xl border border-border bg-card p-6 card-glow">
+            <section className="rounded-2xl border border-border bg-card p-6 card-glow flex flex-col">
               <div className="flex items-center gap-2 mb-6">
                 <Calendar className="size-4 text-rose-500" />
                 <h3 className="text-sm font-bold text-foreground">Intensitas Pengeluaran (Bulan Ini)</h3>
               </div>
-              <div className="h-[300px] flex flex-col justify-center min-w-0 min-h-0 w-full">
+              <div className="flex-1 flex flex-col justify-center min-w-0 min-h-[300px] w-full">
                 <SpendingHeatmap transactions={transactions} />
               </div>
             </section>
