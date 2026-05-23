@@ -114,8 +114,8 @@ export function LandingPage({
                 <Link href="/login" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
                   Masuk
                 </Link>
-                <Link href="/login?type=register" className="rounded-full bg-primary px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-semibold text-primary-foreground shadow hover:bg-primary/90 transition-all">
-                  Daftar Sekarang
+                <Link href="/login?type=register" className="rounded-full bg-primary px-4 py-2 text-sm font-bold text-primary-foreground shadow hover:bg-primary/90 transition-all">
+                  Daftar
                 </Link>
               </>
             )}
@@ -139,15 +139,15 @@ export function LandingPage({
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
                 {isLoggedIn ? (
-                  <Link href="/dashboard" className="w-full sm:w-auto rounded-full bg-primary px-8 py-3.5 text-base font-semibold text-primary-foreground shadow-lg shadow-primary/25 hover:bg-primary/90 hover:scale-105 transition-all flex items-center justify-center gap-2">
+                  <Link href="/dashboard" className="w-full sm:w-auto rounded-full bg-primary px-8 py-4 sm:py-3.5 text-lg sm:text-base font-bold text-primary-foreground shadow-lg shadow-primary/25 hover:bg-primary/90 hover:scale-105 transition-all flex items-center justify-center gap-2">
                     Kembali ke Dashboard <ChevronRight className="size-4" />
                   </Link>
                 ) : (
-                  <Link href="/login?type=register" className="w-full sm:w-auto rounded-full bg-primary px-8 py-3.5 text-base font-semibold text-primary-foreground shadow-lg shadow-primary/25 hover:bg-primary/90 hover:scale-105 transition-all flex items-center justify-center gap-2">
+                  <Link href="/login?type=register" className="w-full sm:w-auto rounded-full bg-primary px-8 py-4 sm:py-3.5 text-lg sm:text-base font-bold text-primary-foreground shadow-lg shadow-primary/25 hover:bg-primary/90 hover:scale-105 transition-all flex items-center justify-center gap-2">
                     Buat Akun Gratis <ChevronRight className="size-4" />
                   </Link>
                 )}
-                <Link href="#cara-kerja" className="w-full sm:w-auto rounded-full border border-border bg-card/50 backdrop-blur-sm px-8 py-3.5 text-base font-semibold text-foreground hover:bg-muted/80 transition-all">
+                <Link href="#cara-kerja" className="w-full sm:w-auto rounded-full border border-border bg-card/50 backdrop-blur-sm px-8 py-4 sm:py-3.5 text-lg sm:text-base font-bold text-foreground hover:bg-muted/80 transition-all flex items-center justify-center">
                   Pelajari Cara Kerja
                 </Link>
               </div>
@@ -471,7 +471,7 @@ export function LandingPage({
               : "Bergabunglah sekarang dan dapatkan wawasan penuh tentang kemana saja uang Anda pergi setiap bulannya."
             }
           </p>
-          <Link href={isLoggedIn ? "/dashboard" : "/login?type=register"} className="inline-flex rounded-full bg-primary px-8 py-4 text-base font-bold text-primary-foreground shadow-xl hover:bg-primary/90 hover:scale-105 transition-all items-center justify-center gap-2">
+          <Link href={isLoggedIn ? "/dashboard" : "/login?type=register"} className="flex sm:inline-flex w-full sm:w-auto rounded-full bg-primary px-8 py-4 text-lg font-bold text-primary-foreground shadow-xl hover:bg-primary/90 hover:scale-105 transition-all items-center justify-center gap-2">
             {isLoggedIn ? "Buka Dashboard" : "Daftar Gratis Sekarang"} <ChevronRight className="size-5" />
           </Link>
         </div>

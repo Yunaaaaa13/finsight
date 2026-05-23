@@ -171,7 +171,7 @@ export function CashflowChart({ points }: CashflowChartProps) {
       </div>
 
       {/* Legend labels */}
-      <div className="mt-4 grid grid-cols-5 gap-2">
+      <div className="mt-4 flex flex-wrap justify-center sm:grid sm:grid-cols-5 gap-2">
         {points.map((point, i) => (
           <button
             key={point.label}
