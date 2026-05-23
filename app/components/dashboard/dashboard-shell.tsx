@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import { Activity, Sparkles, CalendarDays, Plus, Upload, Loader2, LayoutDashboard, Wallet, BarChart3, User } from "lucide-react";
+import Link from "next/link";
+import { Activity, Sparkles, CalendarDays, Plus, Upload, Loader2, LayoutDashboard, Wallet, BarChart3, User, Home } from "lucide-react";
 import { CashflowChart } from "@/app/components/dashboard/cashflow-chart";
 import { Sidebar } from "@/app/components/dashboard/sidebar";
 import { SummaryCard } from "@/app/components/dashboard/summary-card";
@@ -236,9 +237,15 @@ export function DashboardShell() {
 
             <div className="relative flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
               <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 text-muted-foreground mb-3">
-                  <CalendarDays className="size-3.5" />
-                  <p className="text-xs font-medium">{dateStr}</p>
+                <div className="flex flex-wrap items-center gap-2 text-muted-foreground mb-3">
+                  <Link href="/" className="inline-flex items-center gap-1.5 rounded-lg bg-muted/50 px-2.5 py-1 text-xs font-medium hover:bg-muted hover:text-foreground transition-all mr-1 border border-border/50">
+                    <Home className="size-3" />
+                    <span>Beranda</span>
+                  </Link>
+                  <div className="flex items-center gap-1.5">
+                    <CalendarDays className="size-3.5" />
+                    <p className="text-xs font-medium">{dateStr}</p>
+                  </div>
                 </div>
                 <h1 className="text-3xl font-bold tracking-tight text-foreground">
                   {userEmail ? `Halo, ${userEmail.split("@")[0]}! 👋` : "Finsight Dashboard"}

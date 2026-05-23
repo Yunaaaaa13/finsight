@@ -111,10 +111,10 @@ export function LandingPage({
               </div>
             ) : (
               <>
-                <Link href="/login" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors hidden sm:block">
+                <Link href="/login" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
                   Masuk
                 </Link>
-                <Link href="/login?type=register" className="rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow hover:bg-primary/90 transition-all">
+                <Link href="/login?type=register" className="rounded-full bg-primary px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-semibold text-primary-foreground shadow hover:bg-primary/90 transition-all">
                   Daftar Sekarang
                 </Link>
               </>
