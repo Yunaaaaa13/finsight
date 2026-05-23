@@ -8,9 +8,10 @@ export default async function Home() {
   } = await supabase.auth.getUser();
 
   const avatarUrl = user?.user_metadata?.avatar_url || null;
+  const fullName = user?.user_metadata?.full_name || null;
   const userEmail = user?.email || null;
   const bio = user?.user_metadata?.bio || null;
   const quote = user?.user_metadata?.quote || null;
 
-  return <LandingPage isLoggedIn={!!user} avatarUrl={avatarUrl} userEmail={userEmail} bio={bio} quote={quote} />;
+  return <LandingPage isLoggedIn={!!user} avatarUrl={avatarUrl} userEmail={userEmail} fullName={fullName} bio={bio} quote={quote} />;
 }

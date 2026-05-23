@@ -135,10 +135,12 @@ export function DashboardShell() {
 
   const supabase = createClient();
   const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [fullName, setFullName] = useState<string | null>(null);
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
       setUserEmail(data?.user?.email ?? null);
+      setFullName(data?.user?.user_metadata?.full_name ?? null);
     });
   }, [supabase.auth]);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -248,7 +250,7 @@ export function DashboardShell() {
                   </div>
                 </div>
                 <h1 className="text-3xl font-bold tracking-tight text-foreground">
-                  {userEmail ? `Halo, ${userEmail.split("@")[0]}! 👋` : "FinSight Dashboard"}
+                  {fullName ? `Halo, ${fullName}! 👋` : (userEmail ? `Halo, ${userEmail.split("@")[0]}! 👋` : "FinSight Dashboard")}
                 </h1>
                 <p className="mt-2 max-w-lg text-sm leading-relaxed text-muted-foreground">
                   Selamat datang kembali! Berikut adalah ringkasan keuangan Anda hari ini.

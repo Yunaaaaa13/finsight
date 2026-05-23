@@ -22,12 +22,14 @@ export function LandingPage({
   isLoggedIn = false,
   avatarUrl = null,
   userEmail = null,
+  fullName = null,
   bio = null,
   quote = null
 }: {
   isLoggedIn?: boolean;
   avatarUrl?: string | null;
   userEmail?: string | null;
+  fullName?: string | null;
   bio?: string | null;
   quote?: string | null;
 }) {
@@ -86,7 +88,9 @@ export function LandingPage({
                           <User className="size-8 text-muted-foreground m-auto h-full" />
                         )}
                       </div>
-                      <p className="font-semibold text-foreground truncate w-full">{userEmail || "Pengguna FinSight"}</p>
+                      <p className="font-semibold text-foreground truncate w-full">
+                        {fullName ? fullName : (userEmail || "Pengguna FinSight")}
+                      </p>
                       {bio && <p className="text-sm text-muted-foreground mt-1 line-clamp-2">{bio}</p>}
                       {quote && <p className="text-xs italic text-primary mt-2">&quot;{quote}&quot;</p>}
                     </div>

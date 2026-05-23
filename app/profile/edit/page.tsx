@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export default function ProfileEditPage() {
+  const [fullName, setFullName] = useState("");
   const [bio, setBio] = useState("");
   const [quote, setQuote] = useState("");
   const [avatarUrl, setAvatarUrl] = useState("");
@@ -20,6 +21,7 @@ export default function ProfileEditPage() {
     supabase.auth.getUser().then(({ data }) => {
       if (data?.user) {
         const meta = data.user.user_metadata;
+        if (meta?.full_name) setFullName(meta.full_name);
         if (meta?.bio) setBio(meta.bio);
         if (meta?.quote) setQuote(meta.quote);
         if (meta?.avatar_url) setAvatarUrl(meta.avatar_url);
@@ -31,7 +33,7 @@ export default function ProfileEditPage() {
     setIsSaving(true);
     setSaveMessage("");
     const { error } = await supabase.auth.updateUser({
-      data: { bio, quote, avatar_url: avatarUrl }
+      data: { full_name: fullName, bio, quote, avatar_url: avatarUrl }
     });
     setIsSaving(false);
     if (!error) {
@@ -131,6 +133,17 @@ export default function ProfileEditPage() {
             </div>
             
             <div className="w-full h-px bg-border my-6" />
+
+            <div>
+              <label className="block text-sm font-medium text-muted-foreground mb-2">Nama Lengkap (Bebas)</label>
+              <input
+                type="text"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                placeholder="Misal: John Doe"
+                className="w-full rounded-xl border border-border bg-background px-4 py-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+              />
+            </div>
 
             <div>
               <label className="block text-sm font-medium text-muted-foreground mb-2">Bio Singkat</label>

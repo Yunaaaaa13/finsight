@@ -13,6 +13,7 @@ interface ProfileViewProps {
 
 export function ProfileView({ transactions }: ProfileViewProps) {
   const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [fullName, setFullName] = useState<string | null>(null);
   const [bio, setBio] = useState("");
   const [quote, setQuote] = useState("");
   const [avatarUrl, setAvatarUrl] = useState("");
@@ -30,6 +31,7 @@ export function ProfileView({ transactions }: ProfileViewProps) {
       if (data?.user) {
         setUserEmail(data.user.email ?? null);
         const meta = data.user.user_metadata;
+        if (meta?.full_name) setFullName(meta.full_name);
         if (meta?.bio) setBio(meta.bio);
         if (meta?.quote) setQuote(meta.quote);
         if (meta?.avatar_url) setAvatarUrl(meta.avatar_url);
@@ -194,7 +196,7 @@ export function ProfileView({ transactions }: ProfileViewProps) {
               )}
             </div>
             <h4 className="text-xl font-bold text-foreground">
-              {userEmail ? userEmail.split("@")[0] : "User"}
+              {fullName ? fullName : (userEmail ? userEmail.split("@")[0] : "User")}
             </h4>
             <p className="text-sm text-muted-foreground flex items-center gap-1.5 mt-1">
               <Mail className="size-3.5" />
