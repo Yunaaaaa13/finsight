@@ -55,7 +55,7 @@ export function Sidebar({ activeView, onViewChange }: SidebarProps) {
             <TrendingUp className="size-5 text-white" />
           </div>
           <div>
-            <h2 className="text-lg font-bold tracking-tight text-foreground">Finsight</h2>
+            <h2 className="text-lg font-bold tracking-tight text-foreground">FinSight</h2>
             <p className="text-xs text-muted-foreground">Financial Dashboard</p>
           </div>
         </div>

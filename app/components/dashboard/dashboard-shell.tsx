@@ -248,7 +248,7 @@ export function DashboardShell() {
                   </div>
                 </div>
                 <h1 className="text-3xl font-bold tracking-tight text-foreground">
-                  {userEmail ? `Halo, ${userEmail.split("@")[0]}! 👋` : "Finsight Dashboard"}
+                  {userEmail ? `Halo, ${userEmail.split("@")[0]}! 👋` : "FinSight Dashboard"}
                 </h1>
                 <p className="mt-2 max-w-lg text-sm leading-relaxed text-muted-foreground">
                   Selamat datang kembali! Berikut adalah ringkasan keuangan Anda hari ini.

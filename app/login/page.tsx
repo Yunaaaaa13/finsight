@@ -70,7 +70,7 @@ export default function LoginPage() {
               <TrendingUp className="size-7 text-white" />
             </div>
             <h1 className="text-2xl font-bold tracking-tight text-foreground">
-              {isLogin ? "Selamat Datang Kembali" : "Mulai Bersama Finsight"}
+              {isLogin ? "Selamat Datang Kembali" : "Mulai Bersama FinSight"}
             </h1>
             <p className="text-sm text-muted-foreground mt-2">
               {isLogin ? "Masuk untuk melanjutkan ke dashboard keuangan Anda" : "Buat akun baru dan kendalikan keuangan Anda hari ini"}

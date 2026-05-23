@@ -2,7 +2,7 @@ import { getPlatformAnalytics, getRiskAlerts } from "@/app/admin/actions";
 import { Users, Activity, TrendingUp, AlertTriangle, ArrowUpRight, ArrowDownRight, CreditCard } from "lucide-react";
 
 export const metadata = {
-  title: "Admin Analytics | Finsight",
+  title: "Admin Analytics | FinSight",
   description: "Platform analytics dashboard for admins.",
 };
 

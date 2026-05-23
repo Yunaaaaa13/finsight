@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Finsight Dashboard",
-  description: "Dashboard analytics keuangan untuk ringkasan pemasukan, pengeluaran, dan cashflow.",
+  title: "FinSight | Financial Dashboard",
+  description: "Track and manage your personal finances with FinSight.",
 };
 
 export default function RootLayout({

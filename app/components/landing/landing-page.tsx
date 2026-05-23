@@ -60,7 +60,7 @@ export function LandingPage({
             <div className="flex size-8 items-center justify-center rounded-lg gradient-emerald shadow-sm">
               <TrendingUp className="size-5 text-white" />
             </div>
-            <span className="text-xl font-bold tracking-tight">Finsight</span>
+            <span className="text-xl font-bold tracking-tight">FinSight</span>
           </div>
           <div className="flex items-center gap-4">
             {isLoggedIn ? (
@@ -86,7 +86,7 @@ export function LandingPage({
                           <User className="size-8 text-muted-foreground m-auto h-full" />
                         )}
                       </div>
-                      <p className="font-semibold text-foreground truncate w-full">{userEmail || "Pengguna Finsight"}</p>
+                      <p className="font-semibold text-foreground truncate w-full">{userEmail || "Pengguna FinSight"}</p>
                       {bio && <p className="text-sm text-muted-foreground mt-1 line-clamp-2">{bio}</p>}
                       {quote && <p className="text-xs italic text-primary mt-2">&quot;{quote}&quot;</p>}
                     </div>
@@ -124,31 +124,169 @@ export function LandingPage({
       </header>
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden py-24 sm:py-32 lg:pb-40">
+      <section className="relative overflow-hidden pt-24 pb-16 sm:pt-32 sm:pb-24 lg:pb-32">
         <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-emerald-500/10 blur-[120px] pointer-events-none" />
         <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-sky-500/10 blur-[120px] pointer-events-none" />
 
-        <div className="container mx-auto max-w-6xl px-4 sm:px-6 relative z-10 text-center animate-float-in">
-          <div className="mx-auto max-w-3xl">
-            <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-foreground mb-6 leading-tight">
-              Kendalikan Keuangan Anda dengan <span className="bg-gradient-to-r from-emerald-500 to-emerald-400 bg-clip-text text-transparent">Finsight</span>
-            </h1>
-            <p className="text-lg sm:text-xl text-muted-foreground mb-10 leading-relaxed">
-              Finsight adalah asisten keuangan pribadi yang membantu Anda melacak, menganalisis, dan merencanakan masa depan finansial Anda melalui wawasan berbasis data yang intuitif.
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              {isLoggedIn ? (
-                <Link href="/dashboard" className="w-full sm:w-auto rounded-full bg-primary px-8 py-3.5 text-base font-semibold text-primary-foreground shadow-lg shadow-primary/25 hover:bg-primary/90 hover:scale-105 transition-all flex items-center justify-center gap-2">
-                  Kembali ke Dashboard <ChevronRight className="size-4" />
+        <div className="container mx-auto max-w-6xl px-4 sm:px-6 relative z-10 animate-float-in">
+          <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-8">
+            <div className="flex-1 text-center lg:text-left">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-foreground mb-6 leading-tight">
+                Kendalikan Keuangan Anda dengan <span className="bg-gradient-to-r from-emerald-500 to-emerald-400 bg-clip-text text-transparent">FinSight</span>
+              </h1>
+              <p className="text-lg sm:text-xl text-muted-foreground mb-10 leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                Asisten keuangan pribadi bergaya premium yang membantu Anda melacak, menganalisis, dan merencanakan masa depan finansial Anda melalui wawasan berbasis data.
+              </p>
+              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+                {isLoggedIn ? (
+                  <Link href="/dashboard" className="w-full sm:w-auto rounded-full bg-primary px-8 py-3.5 text-base font-semibold text-primary-foreground shadow-lg shadow-primary/25 hover:bg-primary/90 hover:scale-105 transition-all flex items-center justify-center gap-2">
+                    Kembali ke Dashboard <ChevronRight className="size-4" />
+                  </Link>
+                ) : (
+                  <Link href="/login?type=register" className="w-full sm:w-auto rounded-full bg-primary px-8 py-3.5 text-base font-semibold text-primary-foreground shadow-lg shadow-primary/25 hover:bg-primary/90 hover:scale-105 transition-all flex items-center justify-center gap-2">
+                    Buat Akun Gratis <ChevronRight className="size-4" />
+                  </Link>
+                )}
+                <Link href="#cara-kerja" className="w-full sm:w-auto rounded-full border border-border bg-card/50 backdrop-blur-sm px-8 py-3.5 text-base font-semibold text-foreground hover:bg-muted/80 transition-all">
+                  Pelajari Cara Kerja
                 </Link>
-              ) : (
-                <Link href="/login?type=register" className="w-full sm:w-auto rounded-full bg-primary px-8 py-3.5 text-base font-semibold text-primary-foreground shadow-lg shadow-primary/25 hover:bg-primary/90 hover:scale-105 transition-all flex items-center justify-center gap-2">
-                  Buat Akun Gratis <ChevronRight className="size-4" />
-                </Link>
-              )}
-              <Link href="#cara-kerja" className="w-full sm:w-auto rounded-full border border-border bg-card/50 backdrop-blur-sm px-8 py-3.5 text-base font-semibold text-foreground hover:bg-muted/80 transition-all">
-                Pelajari Cara Kerja
-              </Link>
+              </div>
+            </div>
+
+            {/* Dashboard Mockup (Right Side) */}
+            <div className="flex-1 w-full max-w-xl lg:max-w-none relative perspective-1000 hidden md:block">
+              <div className="absolute inset-0 bg-gradient-to-tr from-emerald-500/20 to-sky-500/20 rounded-3xl blur-2xl transform rotate-3" />
+              <div className="relative bg-card border border-border rounded-2xl shadow-2xl overflow-hidden card-glow transform transition-transform hover:scale-[1.02] duration-500">
+                {/* Mockup Header */}
+                <div className="flex items-center px-4 py-3 border-b border-border/50 bg-muted/30">
+                  <div className="flex gap-1.5">
+                    <div className="size-3 rounded-full bg-red-500/80" />
+                    <div className="size-3 rounded-full bg-amber-500/80" />
+                    <div className="size-3 rounded-full bg-emerald-500/80" />
+                  </div>
+                  <div className="mx-auto h-5 w-48 bg-background rounded-md border border-border flex items-center justify-center">
+                    <span className="text-[10px] text-muted-foreground font-medium flex items-center gap-1">
+                      <ShieldCheck className="size-3 text-emerald-500" />
+                      finsight.app/dashboard
+                    </span>
+                  </div>
+                </div>
+                {/* Mockup Body */}
+                <div className="p-5 grid gap-4 bg-background">
+                  <div className="flex justify-between items-center mb-2">
+                    <div>
+                      <div className="h-3 w-24 bg-muted rounded-full mb-2" />
+                      <div className="h-6 w-32 bg-foreground/90 rounded-md" />
+                    </div>
+                    <div className="flex -space-x-2">
+                      <div className="size-8 rounded-full border-2 border-background bg-indigo-500 z-20" />
+                      <div className="size-8 rounded-full border-2 border-background bg-emerald-500 z-10" />
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="rounded-xl border border-border p-3 bg-card">
+                      <Activity className="size-4 text-sky-500 mb-2" />
+                      <div className="h-2 w-16 bg-muted rounded-full mb-1" />
+                      <div className="h-4 w-20 bg-foreground/80 rounded-md" />
+                    </div>
+                    <div className="rounded-xl border border-border p-3 bg-card">
+                      <PieChart className="size-4 text-violet-500 mb-2" />
+                      <div className="h-2 w-16 bg-muted rounded-full mb-1" />
+                      <div className="h-4 w-20 bg-foreground/80 rounded-md" />
+                    </div>
+                  </div>
+                  <div className="rounded-xl border border-border p-4 bg-card h-32 relative overflow-hidden flex flex-col justify-end">
+                    <div className="flex justify-between items-end h-full gap-2 pt-4">
+                      {[40, 70, 45, 90, 65, 85, 60].map((h, i) => (
+                        <div key={i} className="w-full bg-emerald-500/20 rounded-t-sm relative group">
+                          <div className="absolute bottom-0 w-full bg-emerald-500 rounded-t-sm transition-all" style={{ height: `${h}%` }} />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Social Proof */}
+      <section className="py-10 border-b border-border/50 bg-muted/20">
+        <div className="container mx-auto max-w-6xl px-4 sm:px-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center divide-x divide-border/50">
+            <div className="px-4">
+              <h4 className="text-3xl sm:text-4xl font-extrabold text-foreground tracking-tight">10K+</h4>
+              <p className="text-sm text-muted-foreground mt-1 font-medium">Transactions Analyzed</p>
+            </div>
+            <div className="px-4">
+              <h4 className="text-3xl sm:text-4xl font-extrabold text-foreground tracking-tight">100+</h4>
+              <p className="text-sm text-muted-foreground mt-1 font-medium">Insights Generated</p>
+            </div>
+            <div className="px-4">
+              <h4 className="text-3xl sm:text-4xl font-extrabold text-foreground tracking-tight">95%</h4>
+              <p className="text-sm text-muted-foreground mt-1 font-medium">Tracking Accuracy</p>
+            </div>
+            <div className="px-4">
+              <h4 className="text-3xl sm:text-4xl font-extrabold text-foreground tracking-tight">24/7</h4>
+              <p className="text-sm text-muted-foreground mt-1 font-medium">Automated Monitoring</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Comparison Section (Kenapa FinSight?) */}
+      <section className="py-24 bg-background border-b border-border/50">
+        <div className="container mx-auto max-w-5xl px-4 sm:px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">Kenapa Memilih FinSight?</h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Tinggalkan cara lama mencatat keuangan. Kami membawa Anda ke era baru pengelolaan finansial yang cerdas dan otomatis.</p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8 lg:gap-12 items-center">
+            {/* Before (Cara Lama) */}
+            <div className="rounded-3xl border border-red-500/20 bg-red-500/5 p-8 sm:p-10 relative">
+              <div className="absolute top-0 right-0 p-6 opacity-20">
+                <LogOut className="size-24 text-red-500" />
+              </div>
+              <h3 className="text-2xl font-bold text-red-500 mb-8 relative z-10">Cara Lama</h3>
+              <ul className="space-y-6 relative z-10">
+                {[
+                  "Catat pengeluaran secara manual di buku/Excel",
+                  "Sering bingung uang habis kemana di akhir bulan",
+                  "Tidak ada target tabungan yang jelas",
+                  "Data tersebar dan sulit dianalisis"
+                ].map((item, i) => (
+                  <li key={i} className="flex gap-4 items-start">
+                    <div className="size-6 rounded-full bg-red-500/20 text-red-500 flex items-center justify-center shrink-0 mt-0.5 text-sm font-bold">✕</div>
+                    <span className="text-muted-foreground font-medium">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* After (Dengan FinSight) */}
+            <div className="rounded-3xl border border-emerald-500/30 bg-emerald-500/5 p-8 sm:p-10 relative shadow-2xl shadow-emerald-500/10">
+              <div className="absolute top-0 right-0 p-6 opacity-10">
+                <TrendingUp className="size-24 text-emerald-500" />
+              </div>
+              <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/20 px-3 py-1 mb-6 relative z-10">
+                <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Dengan FinSight</span>
+              </div>
+              <h3 className="text-2xl font-bold text-foreground mb-8 relative z-10">Lebih Cerdas & Mudah</h3>
+              <ul className="space-y-6 relative z-10">
+                {[
+                  "Dashboard analitik otomatis dan real-time",
+                  "Insight kategori pengeluaran terperinci",
+                  "Goal tracking dan monitoring tabungan",
+                  "Visualisasi data interaktif & informatif"
+                ].map((item, i) => (
+                  <li key={i} className="flex gap-4 items-start">
+                    <div className="size-6 rounded-full bg-emerald-500 text-white flex items-center justify-center shrink-0 mt-0.5 text-sm font-bold">✓</div>
+                    <span className="text-foreground font-medium">{item}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </div>
@@ -158,7 +296,7 @@ export function LandingPage({
       <section id="cara-kerja" className="py-20 bg-muted/30 border-y border-border/50">
         <div className="container mx-auto max-w-6xl px-4 sm:px-6">
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <h2 className="text-3xl font-bold tracking-tight mb-4">Cara Kerja Finsight</h2>
+            <h2 className="text-3xl font-bold tracking-tight mb-4">Cara Kerja FinSight</h2>
             <p className="text-muted-foreground">Tiga langkah mudah untuk mencapai kebebasan finansial melalui pemantauan dan analisis yang konsisten.</p>
           </div>
 
@@ -202,7 +340,7 @@ export function LandingPage({
               <div>
                 <h2 className="text-3xl font-bold tracking-tight mb-4">Pola Perhitungan & Analisis</h2>
                 <p className="text-lg text-muted-foreground">
-                  Finsight tidak hanya mencatat angka, tetapi membantu Anda mengerti <i>makna</i> di balik angka tersebut menggunakan metrik standar industri.
+                  FinSight tidak hanya mencatat angka, tetapi membantu Anda mengerti <i>makna</i> di balik angka tersebut menggunakan metrik standar industri.
                 </p>
               </div>
 
@@ -329,7 +467,7 @@ export function LandingPage({
           </h2>
           <p className="text-lg text-muted-foreground mb-10 max-w-2xl mx-auto">
             {isLoggedIn
-              ? "Catat pengeluaran terbaru Anda dan lihat wawasan menarik di dashboard Finsight sekarang juga."
+              ? "Catat pengeluaran terbaru Anda dan lihat wawasan menarik di dashboard FinSight sekarang juga."
               : "Bergabunglah sekarang dan dapatkan wawasan penuh tentang kemana saja uang Anda pergi setiap bulannya."
             }
           </p>
@@ -341,7 +479,7 @@ export function LandingPage({
 
       {/* Footer */}
       <footer className="py-8 border-t border-border bg-card/30 text-center text-sm text-muted-foreground">
-        <p>&copy; {new Date().getFullYear()} Finsight. Dibangun untuk kebebasan finansial Anda.</p>
+        <p>&copy; {new Date().getFullYear()} FinSight. Dibangun untuk kebebasan finansial Anda.</p>
       </footer>
     </div>
   );

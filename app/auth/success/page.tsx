@@ -21,7 +21,7 @@ export default function AuthSuccessPage() {
             Email Berhasil Dikonfirmasi!
           </h1>
           <p className="text-sm text-muted-foreground mb-8">
-            Terima kasih telah memverifikasi email Anda. Akun Finsight Anda sekarang sudah aktif dan siap digunakan untuk mengelola keuangan Anda dengan lebih baik.
+            Terima kasih telah memverifikasi email Anda. Akun FinSight Anda sekarang sudah aktif dan siap digunakan untuk mengelola keuangan Anda dengan lebih baik.
           </p>
 
           <Link
@@ -29,7 +29,7 @@ export default function AuthSuccessPage() {
             className="w-full rounded-xl bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground shadow-md transition-all hover:bg-primary/90 flex items-center justify-center gap-2"
           >
             <TrendingUp className="size-4" />
-            Mulai Gunakan Finsight
+            Mulai Gunakan FinSight
           </Link>
         </div>
       </div>

@@ -134,7 +134,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" />
           <h3 className="text-2xl font-bold mb-4">Siap untuk mempraktikkannya?</h3>
           <p className="text-muted-foreground mb-8">
-            Catat keuangan Anda dengan Finsight dan mulailah perjalanan Anda menuju kebebasan finansial hari ini.
+            Catat keuangan Anda dengan FinSight dan mulailah perjalanan Anda menuju kebebasan finansial hari ini.
           </p>
           <Link href="/login?type=register" className="inline-flex rounded-full bg-primary px-8 py-3 text-sm font-bold text-primary-foreground shadow-lg hover:bg-primary/90 transition-all items-center gap-2">
             Mulai Sekarang 
