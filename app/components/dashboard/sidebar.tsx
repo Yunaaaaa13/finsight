@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
+import { useEffect, useState } from "react";
 
 interface SidebarProps {
   activeView: "dashboard" | "transactions" | "analytics" | "profile";
@@ -23,6 +24,15 @@ interface SidebarProps {
 export function Sidebar({ activeView, onViewChange }: SidebarProps) {
   const router = useRouter();
   const supabase = createClient();
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => {
+      if (data?.user?.app_metadata?.role === "Admin") {
+        setIsAdmin(true);
+      }
+    });
+  }, [supabase.auth]);
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
@@ -108,7 +118,16 @@ export function Sidebar({ activeView, onViewChange }: SidebarProps) {
         </button>
       </div>
 
-      <div className="mt-4 pt-4 border-t border-border">
+      <div className="mt-4 pt-4 border-t border-border flex flex-col gap-2">
+        {isAdmin && (
+          <Link
+            href="/admin/users"
+            className="flex w-full items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm text-violet-500 transition-all duration-200 hover:bg-violet-500/10 font-medium"
+          >
+            <User className="size-[18px]" />
+            <span>Admin Panel</span>
+          </Link>
+        )}
         <button
           onClick={handleLogout}
           className="flex w-full items-center gap-3 rounded-xl px-3.5 py-2.5 text-sm text-rose-500 transition-all duration-200 hover:bg-rose-500/10 font-medium"
