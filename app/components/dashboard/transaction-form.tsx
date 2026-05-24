@@ -18,7 +18,16 @@ export function TransactionForm({ transaction, onSave, onClose }: TransactionFor
   const [amount, setAmount] = useState(transaction?.amount?.toString() ?? "");
   const [type, setType] = useState<TransactionType>(transaction?.type ?? "expense");
   const [category, setCategory] = useState(transaction?.category ?? CATEGORIES[0]);
-  const [date, setDate] = useState(transaction?.date ?? new Date().toISOString().split("T")[0]);
+  const [date, setDate] = useState(() => {
+    if (transaction?.date) {
+      return transaction.date.includes("T") 
+        ? transaction.date.slice(0, 16) 
+        : `${transaction.date}T12:00`;
+    }
+    const now = new Date();
+    now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+    return now.toISOString().slice(0, 16);
+  });
   const [paymentMethod, setPaymentMethod] = useState(transaction?.payment_method ?? PAYMENT_METHODS[0]);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -154,9 +163,9 @@ export function TransactionForm({ transaction, onSave, onClose }: TransactionFor
 
           {/* Date */}
           <div>
-            <label className="block text-xs font-medium text-muted-foreground mb-1.5">Tanggal</label>
+            <label className="block text-xs font-medium text-muted-foreground mb-1.5">Tanggal & Jam</label>
             <input
-              type="date"
+              type="datetime-local"
               value={date}
               onChange={(e) => setDate(e.target.value)}
               className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"

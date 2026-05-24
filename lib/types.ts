@@ -6,7 +6,7 @@ export interface Transaction {
   amount: number;
   type: TransactionType;
   category: string;
-  date: string; // ISO date string (YYYY-MM-DD)
+  date: string; // ISO datetime string (YYYY-MM-DDTHH:mm)
   payment_method: string;
   created_at?: string;
 }

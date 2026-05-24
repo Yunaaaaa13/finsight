@@ -129,10 +129,12 @@ export function TransactionTableClient({ initialTransactions }: { initialTransac
                   <tr key={tx.id} className="border-b border-border hover:bg-secondary/20 transition-colors">
                     <td className="px-6 py-4 font-medium">{tx.user_email}</td>
                     <td className="px-6 py-4 text-muted-foreground">
-                      {new Date(tx.date).toLocaleDateString("id-ID", {
+                      {new Date(tx.date).toLocaleString("id-ID", {
                         day: "numeric",
                         month: "short",
-                        year: "numeric"
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit"
                       })}
                     </td>
                     <td className="px-6 py-4 capitalize">{tx.category}</td>
