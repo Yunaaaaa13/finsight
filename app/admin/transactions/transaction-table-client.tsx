@@ -1,12 +1,15 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Search, Filter, ArrowDownRight, ArrowUpRight } from "lucide-react";
+import { Search, Filter, ArrowDownRight, ArrowUpRight, Globe } from "lucide-react";
+import { useCurrency } from "@/app/hooks/use-currency";
 
 export function TransactionTableClient({ initialTransactions }: { initialTransactions: any[] }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [typeFilter, setTypeFilter] = useState("all");
+
+  const { baseCurrency, SUPPORTED_CURRENCIES, changeCurrency, convertFromIDR, formatCurrency, isLoading: currencyLoading } = useCurrency();
 
   const categories = useMemo(() => {
     const cats = new Set<string>();
@@ -34,7 +37,7 @@ export function TransactionTableClient({ initialTransactions }: { initialTransac
     const dateCount: Record<string, boolean> = {};
 
     filteredTransactions.forEach(tx => {
-      const amt = Number(tx.amount) || 0;
+      const amt = Number(tx.amount_base ?? tx.amount) || 0;
       vol += amt;
       catCount[tx.category] = (catCount[tx.category] || 0) + amt;
       dateCount[tx.date] = true;
@@ -67,17 +70,35 @@ export function TransactionTableClient({ initialTransactions }: { initialTransac
         </div>
         <div className="rounded-2xl border border-border bg-card p-5 shadow-sm card-glow">
           <p className="text-sm font-medium text-muted-foreground mb-1">Total Volume</p>
-          <h3 className="text-xl font-bold">Rp {totalVolume.toLocaleString("id-ID")}</h3>
+          <h3 className="text-xl font-bold">{formatCurrency(convertFromIDR(totalVolume), baseCurrency)}</h3>
         </div>
         <div className="rounded-2xl border border-border bg-card p-5 shadow-sm card-glow">
           <p className="text-sm font-medium text-muted-foreground mb-1">Avg Daily Transaction</p>
-          <h3 className="text-xl font-bold">Rp {avgDaily.toLocaleString("id-ID")}</h3>
+          <h3 className="text-xl font-bold">{formatCurrency(convertFromIDR(avgDaily), baseCurrency)}</h3>
         </div>
       </div>
 
       <div className="rounded-2xl border border-border bg-card shadow-sm overflow-hidden card-glow">
         <div className="p-6 border-b border-border flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-secondary/10">
-          <h3 className="font-semibold text-lg whitespace-nowrap">All Transactions</h3>
+          <div className="flex items-center gap-3">
+            <h3 className="font-semibold text-lg whitespace-nowrap">All Transactions</h3>
+            
+            <div className="hidden sm:inline-flex items-center gap-2 rounded-xl bg-background/50 backdrop-blur-sm px-3.5 py-1.5 text-xs font-medium text-muted-foreground border border-border/50">
+              <Globe className="size-3.5 text-primary" />
+              <select
+                value={baseCurrency}
+                onChange={(e) => changeCurrency(e.target.value)}
+                disabled={currencyLoading}
+                className="bg-transparent border-none focus:ring-0 text-xs font-bold text-foreground cursor-pointer appearance-none pr-4 outline-none"
+                style={{ WebkitAppearance: 'none', MozAppearance: 'none' }}
+              >
+                {SUPPORTED_CURRENCIES.map(c => (
+                  <option key={c} value={c} className="bg-background text-foreground">{c}</option>
+                ))}
+              </select>
+              <span className="-ml-3 pointer-events-none opacity-50">▼</span>
+            </div>
+          </div>
           
           <div className="flex flex-wrap md:flex-nowrap gap-3 w-full md:w-auto">
             <div className="relative flex-1 md:w-64 min-w-[200px]">
@@ -151,7 +172,7 @@ export function TransactionTableClient({ initialTransactions }: { initialTransac
                     <td className={`px-6 py-4 text-right font-medium ${
                       tx.type === "income" ? "text-emerald-500" : "text-foreground"
                     }`}>
-                      {tx.type === "income" ? "+" : "-"}Rp {Number(tx.amount).toLocaleString("id-ID")}
+                      {tx.type === "income" ? "+" : "-"}{formatCurrency(convertFromIDR(Number(tx.amount_base ?? tx.amount)), baseCurrency)}
                     </td>
                   </tr>
                 ))

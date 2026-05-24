@@ -1,6 +1,7 @@
 "use client";
 
 import { Area, AreaChart, Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { useCurrency } from "@/app/hooks/use-currency";
 
 interface ChartData {
   month: string;
@@ -10,6 +11,7 @@ interface ChartData {
 }
 
 export function AdminCharts({ data }: { data: ChartData[] }) {
+  const { baseCurrency, convertFromIDR, formatCurrency } = useCurrency();
   // We need to reverse data because we pushed it from most recent to oldest in actions.ts,
   // wait, the loop was `for (let i = 5; i >= 0; i--)` so it is already chronological!
   
@@ -61,20 +63,21 @@ export function AdminCharts({ data }: { data: ChartData[] }) {
                 axisLine={false} 
                 tickLine={false} 
                 tick={{ fontSize: 12, fill: "#888888", fontWeight: 500 }}
-                tickFormatter={(value) => {
+                tickFormatter={(val) => {
+                  const value = convertFromIDR(val);
                   if (value >= 1000000) {
-                    return value % 1000000 === 0 ? `Rp${value / 1000000} Jt` : `Rp${(value / 1000000).toFixed(1)} Jt`;
+                    return value % 1000000 === 0 ? `${baseCurrency === 'IDR' ? 'Rp' : baseCurrency} ${value / 1000000} Jt` : `${baseCurrency === 'IDR' ? 'Rp' : baseCurrency} ${(value / 1000000).toFixed(1)} Jt`;
                   }
                   if (value >= 1000) {
-                    return value % 1000 === 0 ? `Rp${value / 1000} Rb` : `Rp${(value / 1000).toFixed(0)} Rb`;
+                    return value % 1000 === 0 ? `${baseCurrency === 'IDR' ? 'Rp' : baseCurrency} ${value / 1000} Rb` : `${baseCurrency === 'IDR' ? 'Rp' : baseCurrency} ${(value / 1000).toFixed(0)} Rb`;
                   }
-                  return `Rp${value}`;
+                  return formatCurrency(value, baseCurrency);
                 }}
-                width={70}
+                width={80}
               />
               <Tooltip 
                 contentStyle={{ backgroundColor: "hsl(var(--card))", borderColor: "hsl(var(--border))", borderRadius: "12px", color: "hsl(var(--foreground))" }}
-                formatter={(value: any) => [`Rp ${Number(value || 0).toLocaleString("id-ID")}`, "Volume"]}
+                formatter={(value: any) => [formatCurrency(convertFromIDR(Number(value || 0)), baseCurrency), "Volume"]}
               />
               <Bar dataKey="volume" name="Volume" fill="#8b5cf6" radius={[4, 4, 0, 0]} />
             </BarChart>
