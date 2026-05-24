@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
-import { Activity, Sparkles, CalendarDays, Plus, Upload, Loader2, LayoutDashboard, Wallet, BarChart3, User, Home, Download, Target, Settings } from "lucide-react";
+import { Activity, Sparkles, CalendarDays, Plus, Upload, Loader2, LayoutDashboard, Wallet, BarChart3, User, Home, Download, Target, Settings, Globe } from "lucide-react";
 import { CashflowChart } from "@/app/components/dashboard/cashflow-chart";
 import { Sidebar } from "@/app/components/dashboard/sidebar";
 import { SummaryCard } from "@/app/components/dashboard/summary-card";
@@ -27,39 +27,46 @@ import {
 } from "@/lib/transactions";
 import type { Transaction } from "@/lib/types";
 import { createClient } from "@/lib/supabase/client";
+import { useCurrency } from "@/app/hooks/use-currency";
 
 // ─── Helpers ─────────────────────────────────────
 
-function computeSummary(txs: Transaction[]) {
+function computeSummary(
+  txs: Transaction[],
+  convertFromIDR: (amt: number) => number,
+  formatCurrency: (amt: number, cur: string) => string,
+  baseCurrency: string
+) {
   const now = new Date();
   const thisMonth = txs.filter((t) => {
     const d = new Date(t.date);
     return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
   });
 
-  const income = thisMonth.filter((t) => t.type === "income").reduce((s, t) => s + t.amount, 0);
-  const expense = thisMonth.filter((t) => t.type === "expense").reduce((s, t) => s + t.amount, 0);
-  const balance = income - expense;
-  const savingsRatio = income > 0 ? Math.round((balance / income) * 100) : 0;
+  // Calculate sum in IDR (which is stored in amount_base or amount)
+  const incomeIDR = thisMonth.filter((t) => t.type === "income").reduce((s, t) => s + (t.amount_base ?? t.amount), 0);
+  const expenseIDR = thisMonth.filter((t) => t.type === "expense").reduce((s, t) => s + (t.amount_base ?? t.amount), 0);
+  const balanceIDR = incomeIDR - expenseIDR;
+  const savingsRatio = incomeIDR > 0 ? Math.round((balanceIDR / incomeIDR) * 100) : 0;
 
   return [
     {
       label: "Pemasukan",
-      value: `Rp ${income.toLocaleString("id-ID")}`,
+      value: formatCurrency(convertFromIDR(incomeIDR), baseCurrency),
       delta: "+0%",
       accent: "text-emerald-600",
     },
     {
       label: "Pengeluaran",
-      value: `Rp ${expense.toLocaleString("id-ID")}`,
+      value: formatCurrency(convertFromIDR(expenseIDR), baseCurrency),
       delta: "-0%",
       accent: "text-rose-500",
     },
     {
       label: "Sisa Saldo",
-      value: `Rp ${balance.toLocaleString("id-ID")}`,
-      delta: balance >= 0 ? "+aktif" : "-defisit",
-      accent: balance >= 0 ? "text-sky-600" : "text-rose-500",
+      value: formatCurrency(convertFromIDR(balanceIDR), baseCurrency),
+      delta: balanceIDR >= 0 ? "+aktif" : "-defisit",
+      accent: balanceIDR >= 0 ? "text-sky-600" : "text-rose-500",
     },
     {
       label: "Rasio Tabungan",
@@ -106,7 +113,7 @@ function computeCashflow(txs: Transaction[]) {
     const day = new Date(t.date).getDate();
     const week = Math.min(5, Math.ceil(day / 7));
     const sign = t.type === "income" ? 1 : -1;
-    weeks[week] += t.amount * sign;
+    weeks[week] += (t.amount_base ?? t.amount) * sign;
   });
 
   return Object.entries(weeks).map(([w, value]) => ({
@@ -164,6 +171,9 @@ export function DashboardShell() {
   const [isLoading, setIsLoading] = useState(true);
   const [status, setStatus] = useState("Memuat data...");
   const [budgets, setBudgets] = useState<any[]>([]);
+
+  // Currency Hook
+  const { baseCurrency, SUPPORTED_CURRENCIES, rates, changeCurrency, convertFromIDR, formatCurrency, isLoading: currencyLoading } = useCurrency();
 
   useEffect(() => {
     const data = loadBudgets();
@@ -238,7 +248,14 @@ export function DashboardShell() {
   }
 
   // Computed data
-  const summary = transactions.length > 0 ? computeSummary(transactions) : defaultSummary;
+  const summary = transactions.length > 0 
+    ? computeSummary(transactions, convertFromIDR, formatCurrency, baseCurrency) 
+    : [
+        { label: "Pemasukan", value: formatCurrency(0, baseCurrency), delta: "+0%", accent: "text-emerald-600" },
+        { label: "Pengeluaran", value: formatCurrency(0, baseCurrency), delta: "-0%", accent: "text-rose-500" },
+        { label: "Sisa Saldo", value: formatCurrency(0, baseCurrency), delta: "+aktif", accent: "text-sky-600" },
+        { label: "Rasio Tabungan", value: "0%", delta: "perlu hemat", accent: "text-amber-600" },
+      ];
   const topCategories = transactions.length > 0 ? computeTopCategories(transactions) : [];
   const cashflowPoints = transactions.length > 0 ? computeCashflow(transactions) : defaultCashflow;
 
@@ -292,6 +309,22 @@ export function DashboardShell() {
               </div>
 
               <div className="flex items-center gap-2 shrink-0">
+                <div className="hidden sm:inline-flex items-center gap-2 rounded-xl bg-muted/50 backdrop-blur-sm px-3.5 py-2 text-xs font-medium text-muted-foreground border border-border/50">
+                  <Globe className="size-3.5 text-primary" />
+                  <select
+                    value={baseCurrency}
+                    onChange={(e) => changeCurrency(e.target.value)}
+                    disabled={currencyLoading}
+                    className="bg-transparent border-none focus:ring-0 text-xs font-bold text-foreground cursor-pointer appearance-none pr-4 outline-none"
+                    style={{ WebkitAppearance: 'none', MozAppearance: 'none' }}
+                  >
+                    {SUPPORTED_CURRENCIES.map(c => (
+                      <option key={c} value={c}>{c}</option>
+                    ))}
+                  </select>
+                  <span className="-ml-3 pointer-events-none opacity-50">▼</span>
+                </div>
+                
                 <div className="hidden sm:inline-flex items-center gap-2 rounded-xl bg-muted/50 backdrop-blur-sm px-3.5 py-2 text-xs font-medium text-muted-foreground border border-border/50">
                   <Sparkles className="size-3.5 text-primary" />
                   <span>{status}</span>
@@ -455,6 +488,9 @@ export function DashboardShell() {
                     transactions={transactions}
                     onEdit={(tx) => { setEditingTx(tx); setShowForm(true); }}
                     onDelete={(tx) => setDeletingTx(tx)}
+                    baseCurrency={baseCurrency}
+                    formatCurrency={formatCurrency}
+                    convertFromIDR={convertFromIDR}
                   />
                 )}
               </section>

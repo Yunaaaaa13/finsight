@@ -29,6 +29,9 @@ interface TransactionTableProps {
   transactions: Transaction[];
   onEdit: (transaction: Transaction) => void;
   onDelete: (transaction: Transaction) => void;
+  baseCurrency: string;
+  formatCurrency: (amount: number, currencyCode: string) => string;
+  convertFromIDR: (amountIDR: number) => number;
 }
 
 const ITEMS_PER_PAGE = 8;
@@ -48,7 +51,14 @@ const categoryIcons: Record<string, LucideIcon> = {
   Belanja: ShoppingCart,
 };
 
-export function TransactionTable({ transactions, onEdit, onDelete }: TransactionTableProps) {
+export function TransactionTable({ 
+  transactions, 
+  onEdit, 
+  onDelete,
+  baseCurrency,
+  formatCurrency,
+  convertFromIDR
+}: TransactionTableProps) {
   const [search, setSearch] = useState("");
   const [typeFilter, setTypeFilter] = useState<TransactionType | "all">("all");
   const [categoryFilter, setCategoryFilter] = useState("all");
@@ -120,13 +130,13 @@ export function TransactionTable({ transactions, onEdit, onDelete }: Transaction
         <div className="rounded-xl bg-emerald-500/5 p-3 text-center">
           <p className="text-[0.65rem] font-medium text-muted-foreground">Pemasukan</p>
           <p className="text-lg font-bold text-emerald-600 dark:text-emerald-400">
-            Rp {totalIncome.toLocaleString("id-ID")}
+            {formatCurrency(convertFromIDR(totalIncome), baseCurrency)}
           </p>
         </div>
         <div className="rounded-xl bg-rose-500/5 p-3 text-center">
           <p className="text-[0.65rem] font-medium text-muted-foreground">Pengeluaran</p>
           <p className="text-lg font-bold text-rose-600 dark:text-rose-400">
-            Rp {totalExpense.toLocaleString("id-ID")}
+            {formatCurrency(convertFromIDR(totalExpense), baseCurrency)}
           </p>
         </div>
       </div>
@@ -236,14 +246,22 @@ export function TransactionTable({ transactions, onEdit, onDelete }: Transaction
                   {paginated.map((tx) => {
                     const IconComp = categoryIcons[tx.category] ?? Receipt;
                     
-                    // Parse Multi-Currency Title
+                    // Modern Multi-Currency Handling
                     let displayTitle = tx.title;
                     let originalCurrencyText = null;
-
-                    const match = tx.title.match(/^\[([A-Z]{3})\s+([0-9.,]+)\]\s*(.*)$/);
-                    if (match) {
-                      originalCurrencyText = `${match[1]} ${match[2]}`;
-                      displayTitle = match[3] || "Transaksi";
+                    let amountBase = tx.amount_base ?? tx.amount; // Fallback to amount
+                    
+                    if (tx.original_currency && tx.original_currency !== baseCurrency) {
+                      originalCurrencyText = `${tx.original_currency} ${tx.amount_original?.toLocaleString()}`;
+                    } else if (!tx.original_currency) {
+                      // Fallback for old parsing
+                      const match = tx.title.match(/^\[([A-Z]{3})\s+([0-9.,]+)\]\s*(.*)$/);
+                      if (match && match[1] !== baseCurrency) {
+                        originalCurrencyText = `${match[1]} ${match[2]}`;
+                        displayTitle = match[3] || "Transaksi";
+                      } else if (match && match[1] === baseCurrency) {
+                        displayTitle = match[3] || "Transaksi";
+                      }
                     }
 
                     return (
@@ -281,24 +299,18 @@ export function TransactionTable({ transactions, onEdit, onDelete }: Transaction
                           <span className="text-xs text-muted-foreground">{tx.payment_method}</span>
                         </td>
                         <td className="px-4 py-3 text-right whitespace-nowrap">
-                          {originalCurrencyText ? (
-                            <div className="flex flex-col items-end">
-                              <span className={`text-sm font-semibold tabular-nums ${
-                                tx.type === "income" ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"
-                              }`}>
-                                {tx.type === "income" ? "+" : "-"}{originalCurrencyText}
-                              </span>
-                              <span className="text-[10px] font-medium text-muted-foreground/70">
-                                (~Rp {tx.amount.toLocaleString("id-ID")})
-                              </span>
-                            </div>
-                          ) : (
+                          <div className="flex flex-col items-end">
                             <span className={`text-sm font-semibold tabular-nums ${
                               tx.type === "income" ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"
                             }`}>
-                              {tx.type === "income" ? "+" : "-"}Rp {tx.amount.toLocaleString("id-ID")}
+                              {tx.type === "income" ? "+" : "-"}{formatCurrency(convertFromIDR(amountBase), baseCurrency)}
                             </span>
-                          )}
+                            {originalCurrencyText && (
+                              <span className="text-[10px] font-medium text-muted-foreground/70">
+                                (Asli: {originalCurrencyText})
+                              </span>
+                            )}
+                          </div>
                         </td>
                         <td className="px-4 py-3 text-right">
                           <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">

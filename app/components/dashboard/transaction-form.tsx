@@ -33,11 +33,12 @@ export function TransactionForm({ transaction, onSave, onClose }: TransactionFor
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   // Multi-Currency & Format States
-  const [currency, setCurrency] = useState("IDR");
+  const [currency, setCurrency] = useState(transaction?.original_currency ?? "IDR");
   const [isConverting, setIsConverting] = useState(false);
   const [displayAmount, setDisplayAmount] = useState(() => {
-    if (!transaction?.amount) return "";
-    return new Intl.NumberFormat('id-ID').format(transaction.amount);
+    const val = transaction?.amount_original ?? transaction?.amount;
+    if (!val) return "";
+    return new Intl.NumberFormat('id-ID').format(val);
   });
 
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -81,25 +82,28 @@ export function TransactionForm({ transaction, onSave, onClose }: TransactionFor
     
     setIsConverting(true);
     try {
-      let finalAmount = numericAmount;
-      let finalTitle = title.trim();
+      let rate = 1;
+      let finalBaseAmount = numericAmount;
 
       if (currency !== "IDR") {
         const res = await fetch(`https://api.exchangerate-api.com/v4/latest/${currency}`);
         const data = await res.json();
-        const rate = data.rates["IDR"];
+        rate = data.rates["IDR"];
         
         if (rate) {
-          finalAmount = Math.round(numericAmount * rate);
-          finalTitle = `[${currency} ${displayAmount}] ${finalTitle}`;
+          finalBaseAmount = numericAmount * rate; // IDR equivalent
         } else {
           throw new Error("Gagal mengambil kurs mata uang");
         }
       }
 
       onSave({
-        title: finalTitle,
-        amount: finalAmount,
+        title: title.trim(),
+        amount: finalBaseAmount, // Fallback for old codebase if needed
+        amount_base: finalBaseAmount,
+        amount_original: numericAmount,
+        original_currency: currency,
+        exchange_rate: rate,
         type,
         category,
         date,
@@ -202,7 +206,7 @@ export function TransactionForm({ transaction, onSave, onClose }: TransactionFor
             {errors.amount && <p className="mt-1 text-xs text-rose-500">{errors.amount}</p>}
             {currency !== "IDR" && !errors.amount && displayAmount && (
               <p className="mt-1 text-[10px] text-amber-600 flex items-center gap-1">
-                *Akan dikonversi otomatis ke IDR saat disimpan
+                *Nilai tukar akan diambil otomatis untuk kalkulasi dasbor
               </p>
             )}
           </div>
