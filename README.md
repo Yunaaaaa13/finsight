@@ -1,17 +1,25 @@
 <div align="center">
 
-# 💸 FinSight
-### Personal Finance Analytics Dashboard
+<img src="https://readme-typing-svg.herokuapp.com?font=Poppins&weight=700&size=34&duration=3000&pause=1000&color=22C55E&center=true&vCenter=true&width=700&lines=💸+FinSight;Personal+Finance+Analytics+Dashboard;Smart+Financial+Tracking+Platform;Fintech+%2B+Data+Analytics+%2B+AI+Insights" />
+
+<br/>
 
 <img src="https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js"/>
-<img src="https://img.shields.io/badge/Supabase-Backend-green?style=for-the-badge&logo=supabase"/>
+<img src="https://img.shields.io/badge/Supabase-Backend-3ECF8E?style=for-the-badge&logo=supabase"/>
 <img src="https://img.shields.io/badge/TailwindCSS-Styling-38BDF8?style=for-the-badge&logo=tailwindcss"/>
 <img src="https://img.shields.io/badge/PostgreSQL-Database-336791?style=for-the-badge&logo=postgresql"/>
-<img src="https://img.shields.io/badge/Recharts-Analytics-orange?style=for-the-badge"/>
+<img src="https://img.shields.io/badge/Vercel-Deployed-black?style=for-the-badge&logo=vercel"/>
+<img src="https://img.shields.io/github/stars/Yunaaaa13/finsight?style=for-the-badge"/>
+<img src="https://img.shields.io/github/last-commit/Yunaaaa13/finsight?style=for-the-badge"/>
 
-### 🚀 Smart Financial Tracking & Analytics Platform
+---
 
-FinSight helps users monitor, analyze, and improve their financial habits through interactive dashboards, intelligent insights, and modern data visualizations.
+### 🚀 Smart Personal Finance Analytics Platform
+
+**FinSight** is a modern fintech-inspired analytics platform that helps users manage, analyze, and improve their financial habits through interactive dashboards, intelligent insights, and real-time analytics.
+
+🔗 **Live Website**  
+https://finsight-woad-ten.vercel.app/
 
 </div>
 
@@ -19,79 +27,125 @@ FinSight helps users monitor, analyze, and improve their financial habits throug
 
 # 📌 Overview
 
-FinSight is a modern fullstack web application inspired by fintech and business intelligence platforms.  
-This project focuses on combining:
+FinSight is a modern **fullstack fintech dashboard** combining:
 
-- 📊 Financial Analytics
-- 📈 Data Visualization
-- 💡 Smart Insights
-- 🔐 Authentication System
-- ⚡ Realtime Data Management
+```txt
+📊 Financial Analytics
+📈 Data Visualization
+🧠 Smart Financial Insights
+🎯 Goal Tracking
+🛡️ Admin Management
+🔐 Authentication System
+⚡ Realtime Dashboard Experience
+```
 
-into a clean and responsive dashboard experience.
+The platform is designed to transform financial tracking into a smarter, more engaging, and insight-driven experience.
 
 ---
 
-# ✨ Main Features
+# ✨ Features
 
-## 📊 Financial Dashboard
-Track and monitor financial activity in real-time.
+## 👤 User Dashboard
 
-### Features:
-- Total Income Overview
+### 💰 Financial Management
+- Income Tracking
 - Expense Monitoring
-- Savings Analytics
-- Financial Health Score
-- Monthly Cashflow Visualization
-
----
-
-## 💳 Transaction Management
-
-Manage personal transactions efficiently.
-
-### Features:
-- Add Transactions
-- Edit/Delete Transactions
-- Categorized Expenses
-- Payment Method Tracking
+- Saving Analytics
+- Budget Planning
+- Payment Tracking
 - Transaction History
 
 ---
 
-## 📈 Interactive Analytics
-
-Powerful data visualization for better financial understanding.
-
-### Analytics Included:
-- Expense Pie Chart
-- Monthly Trend Analysis
-- Cashflow Chart
-- Spending Comparison
-- Budget Tracking Progress
+### 📊 Financial Analytics
+- Cashflow Visualization
+- Spending Trend Analysis
+- Expense Distribution Chart
+- Monthly Financial Comparison
+- Savings Ratio Analytics
+- Financial Health Score
 
 ---
 
-## 🧠 Smart Financial Insights
+### 🧠 Smart Financial Insights
+Automatically generated insights based on user behavior.
 
-Automatically generated insights based on spending behavior.
+#### Example:
+> “Food expenses increased by 24% this month.”
 
-### Example Insights:
-- “Food expenses increased 24% this month.”
-- “Entertainment spending exceeded budget.”
-- “Most transactions occur during weekends.”
+> “Weekend spending is significantly higher than weekdays.”
+
+> “Entertainment spending exceeded budget limits.”
 
 ---
 
-## 🔐 Authentication System
+### 🎯 Financial Goal Tracking
+Users can:
+- Set savings goals
+- Monitor progress
+- Track financial milestones
 
-Secure user authentication powered by Supabase Auth.
+---
 
-### Authentication:
-- Login
-- Register
-- Session Management
-- Protected Dashboard Routes
+### 👤 Profile Management
+Users can manage:
+
+- Profile Information
+- Avatar
+- Financial Personality
+- User Preferences
+- Security Settings
+
+#### Personality Examples
+```txt
+💎 Smart Saver
+📈 Strategic Planner
+🔥 Budget Master
+💸 Impulsive Buyer
+```
+
+---
+
+## 🛡️ Admin Dashboard
+
+Admin dashboard allows platform monitoring and management.
+
+### Admin Features
+- User Management
+- Platform Analytics
+- Financial Behavior Monitoring
+- Activity Logs
+- Transaction Monitoring
+- Announcement Management
+- Risk Monitoring Dashboard
+
+---
+
+### 📊 Admin Analytics
+Admin can monitor:
+
+```txt
+👥 Total Users
+💰 Total Transactions
+📈 User Growth
+🔥 Active Users
+🧠 Financial Behaviors
+🚨 Risk Detection
+```
+
+---
+
+# 🖼️ Dashboard Preview
+
+> Add screenshots later
+
+```txt
+📸 Landing Page
+📸 User Dashboard
+📸 Admin Dashboard
+📸 Financial Analytics
+📸 Smart Insights
+```
 
 ---
 
@@ -100,85 +154,61 @@ Secure user authentication powered by Supabase Auth.
 | Technology | Description |
 |---|---|
 | Next.js | Frontend Framework |
-| Tailwind CSS | Styling Framework |
-| shadcn/ui | Modern UI Components |
+| Tailwind CSS | Styling |
+| shadcn/ui | Modern Components |
 | Supabase | Backend & Authentication |
-| PostgreSQL | Relational Database |
-| Recharts | Data Visualization |
+| PostgreSQL | Database |
+| Recharts | Analytics Visualization |
 | Lucide React | Icons |
-| Vercel | Deployment Platform |
+| Vercel | Deployment |
 
 ---
 
-# 🗂 Project Structure
+# 🧩 Database Architecture
+
+### Main Tables
+
+| Table | Description |
+|---|---|
+| users | User data |
+| profiles | Profile system |
+| transactions | Financial transactions |
+| categories | Financial categories |
+| budgets | Budget management |
+| goals | Financial goals |
+| insights | Smart insights |
+| financial_scores | Financial scoring |
+| activity_logs | User activities |
+| announcements | Admin announcements |
+
+---
+
+# 📁 Project Structure
 
 ```bash
 finsight/
 │
-├── app/                # App Router
-├── components/         # UI Components
-├── lib/                # Supabase Client
-├── hooks/              # Custom Hooks
-├── services/           # Business Logic
-├── public/             # Static Assets
-├── styles/             # Global Styles
-├── .env.local
-└── README.md
+├── app/
+│   ├── dashboard/
+│   ├── admin/
+│   ├── profile/
+│   ├── analytics/
+│   └── authentication/
+│
+├── components/
+├── hooks/
+├── lib/
+├── services/
+├── public/
+├── styles/
+└── .env.local
 ```
 
 ---
 
-# 🧩 Database Schema
+# 🚀 Installation
 
-## Main Tables
-
-| Table | Description |
-|---|---|
-| users | User information |
-| transactions | Financial transactions |
-| categories | Expense categories |
-| budgets | User budgeting system |
-| insights | Generated financial insights |
-| financial_scores | Financial health analytics |
-
----
-
-# 📊 Dashboard Modules
-
-## 🏠 Main Dashboard
-- KPI Cards
-- Financial Score
-- Cashflow Chart
-- Expense Analytics
-- Recent Transactions
-
----
-
-## 📈 Analytics Page
-- Monthly Comparison
-- Spending Trends
-- Expense Distribution
-- Daily Financial Activity
-
----
-
-## 🎯 Budget System
-- Budget Monitoring
-- Budget Limit Tracking
-- Overspending Detection
-
----
-
-## 🧠 AI Insights
-- Spending Behavior Analysis
-- Smart Recommendations
-- Financial Pattern Detection
-
----
-
-# 🚀 Installation Guide
-
-## 1️⃣ Clone Repository
+## Clone Repository
 
 ```bash
 git clone https://github.com/Yunaaaa13/finsight.git
@@ -186,7 +216,7 @@ git clone https://github.com/Yunaaaa13/finsight.git
 
 ---
 
-## 2️⃣ Open Project
+## Open Project
 
 ```bash
 cd finsight
@@ -194,7 +224,7 @@ cd finsight
 
 ---
 
-## 3️⃣ Install Dependencies
+## Install Dependencies
 
 ```bash
 npm install
@@ -202,25 +232,24 @@ npm install
 
 ---
 
-## 4️⃣ Configure Environment Variables
+## Setup Environment Variables
 
 Create `.env.local`
 
 ```env
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
-
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 ```
 
 ---
 
-## 5️⃣ Run Development Server
+## Run Development Server
 
 ```bash
 npm run dev
 ```
 
-Open browser:
+Open:
 
 ```bash
 http://localhost:3000
@@ -230,58 +259,63 @@ http://localhost:3000
 
 # 🌐 Deployment
 
-This project is deployed using:
+FinSight is deployed using:
 
 - ▲ Vercel
 - ⚡ Supabase
 
 ---
 
-# 🎯 Project Objectives
+# 🎯 Project Goals
 
-This project was developed to:
+This project was built to:
+
 - Practice Fullstack Development
-- Learn Data Analytics Visualization
-- Explore Financial Technology Systems
-- Build a Production-Style Dashboard
-- Improve UI/UX Design Skills
-- Create Portfolio-Ready Projects
+- Learn Financial Analytics Systems
+- Improve Data Visualization Skills
+- Explore Business Intelligence Concepts
+- Create Production-Ready Portfolio Projects
+- Design Modern SaaS Interfaces
 
 ---
 
-# 🔮 Future Improvements
+# 🔮 Future Roadmap
 
-## Planned Features
+### Planned Features
+
 - 🤖 AI Financial Assistant
-- 📷 OCR Receipt Scanner
 - 📄 PDF Financial Reports
+- 📷 OCR Receipt Scanner
 - 🔔 Realtime Notifications
-- 🌍 Multi-Currency Support
-- 📊 Predictive Financial Analytics
+- 🌍 Multi Currency Support
+- 📊 Predictive Analytics
+- 🏆 Achievement System
+- 📱 Mobile Optimization
 
 ---
 
-# 📸 UI Design Inspiration
+# 📈 GitHub Statistics
 
-Inspired by:
-- Modern Fintech Apps
-- SaaS Analytics Platforms
-- Business Intelligence Dashboards
+<div align="center">
+
+<img src="https://github-readme-stats.vercel.app/api?username=Yunaaaa13&show_icons=true&theme=tokyonight"/>
+
+<img src="https://github-readme-streak-stats.herokuapp.com/?user=Yunaaaa13&theme=tokyonight"/>
+
+</div>
 
 ---
 
 # 👨‍💻 Developer
 
-## Muhammad Luthfi Rafif
-
-### Fullstack Developer & Data Analytics Enthusiast
-
-Built with ❤️ using Next.js, Supabase, and Tailwind CSS.
-
----
-
 <div align="center">
 
-### ⭐ Don't forget to star this repository if you like this project!
+## Muhammad Luthfi Rafif
+
+### Fullstack Developer • Data Analytics Enthusiast • Fintech Builder
+
+Built with ❤️ using Next.js, Supabase & TailwindCSS.
+
+### ⭐ Don't forget to star this repository!
 
 </div>
