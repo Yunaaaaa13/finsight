@@ -123,18 +123,18 @@ export function UserTable({ initialUsers }: { initialUsers: AdminUser[] }) {
                     <div className="flex items-center justify-end gap-2">
                       <button
                         onClick={() => handleRoleChange(user.id, user.role)}
-                        disabled={loadingAction === `role-${user.id}`}
-                        title={user.role === "Admin" ? "Demote to User" : "Promote to Admin"}
-                        className="p-2 text-muted-foreground hover:text-violet-500 hover:bg-violet-500/10 rounded-lg transition-colors disabled:opacity-50"
+                        disabled={loadingAction === `role-${user.id}` || user.role === "Admin"}
+                        title={user.role === "Admin" ? "Admin is absolute (Cannot be demoted)" : "Promote to Admin"}
+                        className="p-2 text-muted-foreground hover:text-violet-500 hover:bg-violet-500/10 rounded-lg transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
                       >
                         {user.role === "Admin" ? <UserCog className="size-4" /> : <ShieldCheck className="size-4" />}
                       </button>
                       
                       <button
                         onClick={() => handleSuspend(user.id, user.status)}
-                        disabled={loadingAction === `suspend-${user.id}`}
-                        title={user.status === "Suspended" ? "Activate User" : "Suspend User"}
-                        className={`p-2 text-muted-foreground rounded-lg transition-colors disabled:opacity-50 ${
+                        disabled={loadingAction === `suspend-${user.id}` || user.role === "Admin"}
+                        title={user.role === "Admin" ? "Admin is absolute (Cannot be suspended)" : (user.status === "Suspended" ? "Activate User" : "Suspend User")}
+                        className={`p-2 text-muted-foreground rounded-lg transition-colors disabled:opacity-30 disabled:cursor-not-allowed ${
                           user.status === "Suspended" ? "hover:text-emerald-500 hover:bg-emerald-500/10" : "hover:text-rose-500 hover:bg-rose-500/10"
                         }`}
                       >
