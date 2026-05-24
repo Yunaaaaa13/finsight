@@ -157,61 +157,75 @@ export function LandingPage({
               </div>
             </div>
 
-            {/* Dashboard Mockup (Right Side) */}
-            <div className="flex-1 w-full max-w-xl lg:max-w-none relative perspective-1000 hidden md:block">
-              <div className="absolute inset-0 bg-gradient-to-tr from-emerald-500/20 to-sky-500/20 rounded-3xl blur-2xl transform rotate-3" />
-              <div className="relative bg-card border border-border rounded-2xl shadow-2xl overflow-hidden card-glow transform transition-transform hover:scale-[1.02] duration-500">
-                {/* Mockup Header */}
-                <div className="flex items-center px-4 py-3 border-b border-border/50 bg-muted/30">
-                  <div className="flex gap-1.5">
-                    <div className="size-3 rounded-full bg-red-500/80" />
-                    <div className="size-3 rounded-full bg-amber-500/80" />
-                    <div className="size-3 rounded-full bg-emerald-500/80" />
-                  </div>
-                  <div className="mx-auto h-5 w-48 bg-background rounded-md border border-border flex items-center justify-center">
-                    <span className="text-[10px] text-muted-foreground font-medium flex items-center gap-1">
-                      <ShieldCheck className="size-3 text-emerald-500" />
-                      finsight.app/dashboard
-                    </span>
-                  </div>
+            {/* Abstract Fintech Representation (Right Side) */}
+            <div className="flex-1 w-full relative h-[400px] lg:h-[500px] hidden md:block perspective-1000">
+              <div className="absolute inset-0 bg-gradient-to-tr from-emerald-500/10 to-sky-500/10 rounded-full blur-3xl" />
+              
+              <div className="relative w-full h-full flex items-center justify-center">
+                {/* Central Core */}
+                <div className="absolute z-10 size-32 md:size-40 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 shadow-[0_0_60px_rgba(16,185,129,0.4)] flex items-center justify-center animate-pulse duration-3000">
+                  <Wallet className="size-16 md:size-20 text-white" />
                 </div>
-                {/* Mockup Body */}
-                <div className="p-5 grid gap-4 bg-background">
-                  <div className="flex justify-between items-center mb-2">
+
+                {/* Orbiting / Floating Card 1: Balance / Growth */}
+                <div className="absolute top-[10%] lg:top-[15%] right-[5%] z-20 w-56 lg:w-64 bg-card/80 backdrop-blur-xl border border-border/50 p-4 rounded-2xl shadow-2xl transform hover:scale-105 transition-transform duration-500" style={{ animation: "float 6s ease-in-out infinite" }}>
+                  <div className="flex justify-between items-start mb-3">
+                    <div className="size-10 rounded-full bg-emerald-500/20 flex items-center justify-center">
+                      <TrendingUp className="size-5 text-emerald-500" />
+                    </div>
+                    <span className="text-xs font-bold text-emerald-500 bg-emerald-500/10 px-2 py-1 rounded-full">+12.5%</span>
+                  </div>
+                  <p className="text-sm text-muted-foreground">Total Aset</p>
+                  <p className="text-xl lg:text-2xl font-bold text-foreground mt-1">Rp 124.5M</p>
+                </div>
+
+                {/* Orbiting / Floating Card 2: Security */}
+                <div className="absolute bottom-[20%] left-[0%] z-20 w-48 bg-card/80 backdrop-blur-xl border border-border/50 p-4 rounded-2xl shadow-2xl transform hover:scale-105 transition-transform duration-500" style={{ animation: "float 7s ease-in-out infinite 1s" }}>
+                  <div className="flex items-center gap-3">
+                    <div className="size-10 rounded-full bg-sky-500/20 flex items-center justify-center">
+                      <ShieldCheck className="size-5 text-sky-500" />
+                    </div>
                     <div>
-                      <div className="h-3 w-24 bg-muted rounded-full mb-2" />
-                      <div className="h-6 w-32 bg-foreground/90 rounded-md" />
-                    </div>
-                    <div className="flex -space-x-2">
-                      <div className="size-8 rounded-full border-2 border-background bg-indigo-500 z-20" />
-                      <div className="size-8 rounded-full border-2 border-background bg-emerald-500 z-10" />
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-2 gap-3">
-                    <div className="rounded-xl border border-border p-3 bg-card">
-                      <Activity className="size-4 text-sky-500 mb-2" />
-                      <div className="h-2 w-16 bg-muted rounded-full mb-1" />
-                      <div className="h-4 w-20 bg-foreground/80 rounded-md" />
-                    </div>
-                    <div className="rounded-xl border border-border p-3 bg-card">
-                      <PieChart className="size-4 text-violet-500 mb-2" />
-                      <div className="h-2 w-16 bg-muted rounded-full mb-1" />
-                      <div className="h-4 w-20 bg-foreground/80 rounded-md" />
-                    </div>
-                  </div>
-                  <div className="rounded-xl border border-border p-4 bg-card h-32 relative overflow-hidden flex flex-col justify-end">
-                    <div className="flex justify-between items-end h-full gap-2 pt-4">
-                      {[40, 70, 45, 90, 65, 85, 60].map((h, i) => (
-                        <div key={i} className="w-full bg-emerald-500/20 rounded-t-sm relative group">
-                          <div className="absolute bottom-0 w-full bg-emerald-500 rounded-t-sm transition-all" style={{ height: `${h}%` }} />
-                        </div>
-                      ))}
+                      <p className="text-sm font-bold">Terproteksi</p>
+                      <p className="text-xs text-muted-foreground">Enkripsi 256-bit</p>
                     </div>
                   </div>
                 </div>
+
+                {/* Orbiting / Floating Card 3: Goals */}
+                <div className="absolute -bottom-[5%] right-[15%] z-20 w-60 bg-card/80 backdrop-blur-xl border border-border/50 p-4 rounded-2xl shadow-2xl transform hover:scale-105 transition-transform duration-500" style={{ animation: "float 8s ease-in-out infinite 2s" }}>
+                  <div className="flex justify-between items-center mb-2">
+                    <div className="flex items-center gap-2">
+                      <Target className="size-4 text-rose-500" />
+                      <span className="text-sm font-bold">Dana Darurat</span>
+                    </div>
+                    <span className="text-xs text-muted-foreground">85%</span>
+                  </div>
+                  <div className="h-2 w-full bg-muted rounded-full overflow-hidden">
+                    <div className="h-full bg-gradient-to-r from-rose-500 to-amber-500" style={{ width: '85%' }} />
+                  </div>
+                </div>
+                
+                {/* Decorative Elements */}
+                <div className="absolute top-[30%] left-[10%] size-4 rounded-full bg-sky-500 shadow-[0_0_20px_rgba(14,165,233,0.8)]" style={{ animation: "float 4s ease-in-out infinite 0.5s" }} />
+                <div className="absolute bottom-[40%] right-[5%] size-3 rounded-full bg-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.8)]" style={{ animation: "float 5s ease-in-out infinite 1.5s" }} />
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Trusted By / Press */}
+      <section className="py-8 border-b border-border/50 bg-muted/10 relative overflow-hidden">
+        <div className="container mx-auto max-w-6xl px-4 sm:px-6">
+           <p className="text-center text-sm font-semibold text-muted-foreground uppercase tracking-widest mb-6">Dipercaya oleh pengguna dari institusi terkemuka</p>
+           <div className="flex flex-wrap justify-center gap-8 md:gap-16 items-center opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
+             {/* We can use simple text placeholders or icons here to represent companies */}
+             <div className="flex items-center gap-2 font-bold text-xl"><Wallet className="size-6 text-foreground"/> BankCentral</div>
+             <div className="flex items-center gap-2 font-bold text-xl"><ShieldCheck className="size-6 text-foreground"/> SecurePay</div>
+             <div className="flex items-center gap-2 font-bold text-xl"><TrendingUp className="size-6 text-foreground"/> InvestPro</div>
+             <div className="flex items-center gap-2 font-bold text-xl"><Activity className="size-6 text-foreground"/> FinTech.id</div>
+           </div>
         </div>
       </section>
 
@@ -357,6 +371,102 @@ export function LandingPage({
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Target Finansial (Goals) */}
+      <section className="py-24 bg-background border-b border-border/50 relative overflow-hidden">
+        <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1/3 h-full bg-emerald-500/5 blur-3xl pointer-events-none" />
+        <div className="container mx-auto max-w-6xl px-4 sm:px-6 relative z-10">
+          <div className="flex flex-col lg:flex-row-reverse items-center gap-12 lg:gap-16">
+            <div className="flex-1 space-y-6 text-center lg:text-left">
+              <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1 mb-2">
+                <Target className="size-4 text-emerald-500" />
+                <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Goals & Targets</span>
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold tracking-tight">Wujudkan Impian Anda Lebih Cepat</h2>
+              <p className="text-lg text-muted-foreground leading-relaxed">
+                Menabung tanpa tujuan yang jelas seringkali berakhir dengan kegagalan. Dengan FinSight, Anda dapat membuat target finansial seperti membeli rumah, dana pendidikan, atau liburan impian.
+              </p>
+              <ul className="space-y-4 pt-4">
+                {[
+                  "Visualisasi progress tabungan yang memotivasi",
+                  "Estimasi waktu pencapaian target secara otomatis",
+                  "Alokasi dana spesifik tanpa mengganggu budget harian"
+                ].map((item, i) => (
+                  <li key={i} className="flex gap-3 items-start justify-center lg:justify-start">
+                    <div className="size-5 rounded-full bg-emerald-500/20 text-emerald-500 flex items-center justify-center shrink-0 mt-0.5"><Target className="size-3" /></div>
+                    <span className="text-foreground font-medium">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            
+            <div className="flex-1 w-full max-w-md relative">
+              <div className="relative bg-card border border-border rounded-3xl p-6 shadow-xl card-glow">
+                <h3 className="text-lg font-bold mb-6 flex items-center justify-between">Target Aktif <span className="text-xs font-normal text-muted-foreground">Bulan Ini</span></h3>
+                
+                <div className="space-y-6">
+                  {/* Goal 1 */}
+                  <div>
+                    <div className="flex justify-between items-end mb-2">
+                      <div className="flex items-center gap-3">
+                        <div className="size-10 rounded-xl bg-sky-500/10 flex items-center justify-center border border-sky-500/20 text-lg">
+                          🏠
+                        </div>
+                        <div>
+                          <p className="font-bold text-sm">DP Rumah Pertama</p>
+                          <p className="text-xs text-muted-foreground">Tercapai 65%</p>
+                        </div>
+                      </div>
+                      <p className="text-sm font-bold text-sky-500">Rp 65 Juta</p>
+                    </div>
+                    <div className="h-2.5 w-full bg-muted rounded-full overflow-hidden">
+                      <div className="h-full bg-sky-500 rounded-full" style={{ width: '65%' }} />
+                    </div>
+                  </div>
+
+                  {/* Goal 2 */}
+                  <div>
+                    <div className="flex justify-between items-end mb-2">
+                      <div className="flex items-center gap-3">
+                        <div className="size-10 rounded-xl bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20 text-lg">
+                          ✈️
+                        </div>
+                        <div>
+                          <p className="font-bold text-sm">Liburan ke Jepang</p>
+                          <p className="text-xs text-muted-foreground">Tercapai 40%</p>
+                        </div>
+                      </div>
+                      <p className="text-sm font-bold text-emerald-500">Rp 12 Juta</p>
+                    </div>
+                    <div className="h-2.5 w-full bg-muted rounded-full overflow-hidden">
+                      <div className="h-full bg-emerald-500 rounded-full" style={{ width: '40%' }} />
+                    </div>
+                  </div>
+                  
+                  {/* Goal 3 */}
+                  <div>
+                    <div className="flex justify-between items-end mb-2">
+                      <div className="flex items-center gap-3">
+                        <div className="size-10 rounded-xl bg-rose-500/10 flex items-center justify-center border border-rose-500/20 text-lg">
+                          🛡️
+                        </div>
+                        <div>
+                          <p className="font-bold text-sm">Dana Darurat</p>
+                          <p className="text-xs text-muted-foreground">Tercapai 90%</p>
+                        </div>
+                      </div>
+                      <p className="text-sm font-bold text-rose-500">Rp 45 Juta</p>
+                    </div>
+                    <div className="h-2.5 w-full bg-muted rounded-full overflow-hidden">
+                      <div className="h-full bg-rose-500 rounded-full" style={{ width: '90%' }} />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -521,6 +631,45 @@ export function LandingPage({
                     Baca Selengkapnya <ChevronRight className="size-4" />
                   </Link>
                 </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="py-24 bg-background border-t border-border/50">
+        <div className="container mx-auto max-w-4xl px-4 sm:px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold tracking-tight mb-4">Pertanyaan yang Sering Diajukan</h2>
+            <p className="text-muted-foreground text-lg">Temukan jawaban tentang bagaimana FinSight mengamankan dan mengelola data Anda.</p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            {[
+              {
+                q: "Apakah FinSight gratis digunakan?",
+                a: "Ya! Anda dapat menggunakan fitur pencatatan dan dashboard analitik secara gratis sepenuhnya. Kedepannya kami mungkin akan merilis fitur premium lanjutan, namun inti aplikasi ini akan selalu gratis."
+              },
+              {
+                q: "Apakah data keuangan saya aman?",
+                a: "Keamanan Anda adalah prioritas kami. Data dienkripsi di tingkat database dan kami menggunakan teknologi keamanan otentikasi standar industri untuk memastikan hanya Anda yang memiliki akses."
+              },
+              {
+                q: "Apakah bisa menghubungkan akun bank secara langsung?",
+                a: "Saat ini, FinSight mengandalkan input manual atau impor file CSV dari mutasi bank Anda untuk memastikan Anda memegang kendali penuh atas privasi data tanpa perlu membagikan kredensial bank ke aplikasi pihak ketiga."
+              },
+              {
+                q: "Apakah saya bisa mengubah bahasa aplikasi?",
+                a: "Saat ini aplikasi dioptimalkan dalam Bahasa Indonesia untuk kemudahan dan kenyamanan pengguna lokal, namun istilah inti seperti Login/Register menggunakan bahasa Inggris standar."
+              }
+            ].map((faq, i) => (
+              <div key={i} className="p-6 rounded-2xl border border-border bg-card/50 hover:bg-card transition-colors">
+                <h4 className="text-lg font-bold text-foreground mb-2 flex items-start gap-2">
+                  <div className="mt-1 size-2 rounded-full bg-primary shrink-0" />
+                  {faq.q}
+                </h4>
+                <p className="text-sm text-muted-foreground leading-relaxed pl-4">{faq.a}</p>
               </div>
             ))}
           </div>
