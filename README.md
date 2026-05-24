@@ -147,14 +147,17 @@ Admin can monitor:
 
 > Visual sections of the application:
 
-```txt
-📸 Landing Page
-📸 User Dashboard
-📸 Admin Dashboard
-📸 Financial Analytics
-📸 Smart Insights
-📸 Profile Management
-```
+### 📸 Landing Page
+![Landing Page](./public/readme/landing-page.png)
+
+### 📸 User Dashboard & Insights
+![User Dashboard](./public/readme/dashboard-user.png)
+
+### 📸 Financial Analytics
+![Financial Analytics](./public/readme/analytics.png)
+
+### 📸 Admin Dashboard
+![Admin Dashboard](./public/readme/admin-dashboard.png)
 
 ---
 
