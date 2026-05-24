@@ -319,7 +319,7 @@ export function DashboardShell() {
                     style={{ WebkitAppearance: 'none', MozAppearance: 'none' }}
                   >
                     {SUPPORTED_CURRENCIES.map(c => (
-                      <option key={c} value={c}>{c}</option>
+                      <option key={c} value={c} className="bg-background text-foreground">{c}</option>
                     ))}
                   </select>
                   <span className="-ml-3 pointer-events-none opacity-50">▼</span>
