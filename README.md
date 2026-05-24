@@ -332,7 +332,7 @@ This project was built to:
 | User Dashboard | ✅ Completed |
 | Financial Analytics | ✅ Completed |
 | Profile System | ✅ Completed |
-| Admin Dashboard | 🚧 In Progress |
+| Admin Dashboard | ✅ Completed |
 | AI Financial Insight | 🚧 In Progress |
 | OCR Receipt Scanner | 📌 Planned |
 | Predictive Analytics | 📌 Planned |
