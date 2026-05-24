@@ -222,7 +222,7 @@ export default function LoginPage() {
                   {isLogin ? "Selamat Datang Kembali" : "Mulai Bersama FinSight"}
                 </h1>
                 <p className="text-sm text-muted-foreground mt-2">
-                  {isLogin ? "Masuk untuk melanjutkan ke dashboard keuangan Anda" : "Buat akun baru dan kendalikan keuangan Anda hari ini"}
+                  {isLogin ? "Login untuk melanjutkan ke dashboard keuangan Anda" : "Buat akun baru dan kendalikan keuangan Anda hari ini"}
                 </p>
               </div>
 
@@ -281,7 +281,7 @@ export default function LoginPage() {
                   className="w-full rounded-xl bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground shadow-md transition-all hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 mt-6"
                 >
                   {isLoading && <Loader2 className="size-4 animate-spin" />}
-                  {isLogin ? "Masuk ke Dashboard" : "Daftar Sekarang"}
+                  {isLogin ? "Login ke Dashboard" : "Register Sekarang"}
                 </button>
               </form>
 
@@ -297,7 +297,7 @@ export default function LoginPage() {
                   }}
                   className="font-semibold text-primary hover:underline transition-all"
                 >
-                  {isLogin ? "Daftar di sini" : "Masuk di sini"}
+                  {isLogin ? "Register di sini" : "Login di sini"}
                 </button>
               </div>
             </>

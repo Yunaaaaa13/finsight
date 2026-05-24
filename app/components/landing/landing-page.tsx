@@ -116,10 +116,10 @@ export function LandingPage({
             ) : (
               <>
                 <Link href="/login" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-                  Masuk
+                  Login
                 </Link>
                 <Link href="/login?type=register" className="rounded-full bg-primary px-4 py-2 text-sm font-bold text-primary-foreground shadow hover:bg-primary/90 transition-all">
-                  Daftar
+                  Register
                 </Link>
               </>
             )}
@@ -541,7 +541,7 @@ export function LandingPage({
             }
           </p>
           <Link href={isLoggedIn ? "/dashboard" : "/login?type=register"} className="flex sm:inline-flex w-full sm:w-auto rounded-full bg-primary px-8 py-4 text-lg font-bold text-primary-foreground shadow-xl hover:bg-primary/90 hover:scale-105 transition-all items-center justify-center gap-2">
-            {isLoggedIn ? "Buka Dashboard" : "Daftar Gratis Sekarang"} <ChevronRight className="size-5" />
+            {isLoggedIn ? "Buka Dashboard" : "Register Gratis Sekarang"} <ChevronRight className="size-5" />
           </Link>
         </div>
       </section>
