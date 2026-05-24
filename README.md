@@ -9,9 +9,9 @@
 <img src="https://img.shields.io/badge/TailwindCSS-Styling-38BDF8?style=for-the-badge&logo=tailwindcss"/>
 <img src="https://img.shields.io/badge/PostgreSQL-Database-336791?style=for-the-badge&logo=postgresql"/>
 <img src="https://img.shields.io/badge/Vercel-Deployed-black?style=for-the-badge&logo=vercel"/>
-<img src="https://img.shields.io/github/stars/Yunaaaa13/finsight?style=for-the-badge"/>
-<img src="https://img.shields.io/github/last-commit/Yunaaaa13/finsight?style=for-the-badge"/>
-<img src="https://img.shields.io/github/repo-size/Yunaaaa13/finsight?style=for-the-badge"/>
+<img src="https://img.shields.io/github/stars/Yunaaaaa13/finsight?style=for-the-badge"/>
+<img src="https://img.shields.io/github/last-commit/Yunaaaaa13/finsight?style=for-the-badge"/>
+<img src="https://img.shields.io/github/repo-size/Yunaaaaa13/finsight?style=for-the-badge"/>
 
 ---
 
@@ -312,10 +312,10 @@ This project was built to:
 
 <div align="center">
 
-<img src="https://img.shields.io/github/commit-activity/m/Yunaaaa13/finsight?style=for-the-badge&color=22C55E"/>
-<img src="https://img.shields.io/github/languages/top/Yunaaaa13/finsight?style=for-the-badge"/>
-<img src="https://img.shields.io/github/repo-size/Yunaaaa13/finsight?style=for-the-badge"/>
-<img src="https://komarev.com/ghpvc/?username=Yunaaaa13&style=for-the-badge&color=22C55E"/>
+<img src="https://img.shields.io/github/commit-activity/m/Yunaaaaa13/finsight?style=for-the-badge&color=22C55E"/>
+<img src="https://img.shields.io/github/languages/top/Yunaaaaa13/finsight?style=for-the-badge"/>
+<img src="https://img.shields.io/github/repo-size/Yunaaaaa13/finsight?style=for-the-badge"/>
+<img src="https://komarev.com/ghpvc/?username=Yunaaaaa13&style=for-the-badge&color=22C55E"/>
 
 </div>
 
@@ -345,7 +345,7 @@ This project was built to:
 
 <div align="center">
 
-<img src="https://raw.githubusercontent.com/Yunaaaa13/Yunaaaa13/output/snake.svg" width="100%"/>
+<img src="https://raw.githubusercontent.com/Yunaaaaa13/Yunaaaaa13/output/snake.svg" width="100%"/>
 
 </div>
 
@@ -380,7 +380,7 @@ Built with ❤️ using:
 
 ### 🌍 Connect With Me
 
-<a href="https://github.com/Yunaaaa13">
+<a href="https://github.com/Yunaaaaa13">
 <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github"/>
 </a>
 
@@ -388,6 +388,6 @@ Built with ❤️ using:
 
 ### ⭐ If you like this project, don't forget to star the repository!
 
-<img src="https://img.shields.io/github/stars/Yunaaaa13/finsight?style=social"/>
+<img src="https://img.shields.io/github/stars/Yunaaaaa13/finsight?style=social"/>
 
 </div>
