@@ -402,13 +402,17 @@ Built with ❤️ using:
 ### 🌍 Connect With Me
 
 <a href="https://github.com/Yunaaaa13">
-<img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github"/>
+<img src="https://img.shields.io/github/stars/Yunaaaa13/finsight?style=social"/>
 </a>
 
 ---
 
+<div align="center">
+
 ### ⭐ If you like this project, don't forget to star the repository!
 
-<img src="https://img.shields.io/github/stars/Yunaaaa13/finsight?style=social"/>
+<a href="https://github.com/Yunaaaa13/finsight">
+    <img src="https://img.shields.io/github/stars/Yunaaaa13/finsight?style=for-the-badge&logo=github&color=22C55E"/>
+</a>
 
 </div>
