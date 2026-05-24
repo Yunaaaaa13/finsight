@@ -70,13 +70,13 @@ export function TrendChart({ transactions }: { transactions: Transaction[] }) {
           dataKey="date" 
           axisLine={false} 
           tickLine={false} 
-          tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }} 
+          tick={{ fontSize: 11, fill: "#888888" }} 
           dy={10}
         />
         <YAxis 
           axisLine={false} 
           tickLine={false} 
-          tick={{ fontSize: 12, fill: "hsl(var(--foreground))", fontWeight: 500 }}
+          tick={{ fontSize: 12, fill: "#888888", fontWeight: 500 }}
           tickFormatter={(value) => {
             if (value >= 1000000) {
               return value % 1000000 === 0 ? `Rp${value / 1000000} Jt` : `Rp${(value / 1000000).toFixed(1)} Jt`;

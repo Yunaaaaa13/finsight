@@ -30,11 +30,11 @@ export function AdminCharts({ data }: { data: ChartData[] }) {
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border))" />
-              <XAxis dataKey="month" stroke="hsl(var(--muted-foreground))" fontSize={12} tickLine={false} axisLine={false} />
+              <XAxis dataKey="month" stroke="hsl(var(--muted-foreground))" tick={{ fill: "#888888", fontSize: 12 }} tickLine={false} axisLine={false} />
               <YAxis 
                 axisLine={false} 
                 tickLine={false} 
-                tick={{ fontSize: 12, fill: "hsl(var(--foreground))", fontWeight: 500 }} 
+                tick={{ fontSize: 12, fill: "#888888", fontWeight: 500 }} 
               />
               <Tooltip 
                 contentStyle={{ backgroundColor: "hsl(var(--card))", borderColor: "hsl(var(--border))", borderRadius: "12px", color: "hsl(var(--foreground))" }}
@@ -56,11 +56,11 @@ export function AdminCharts({ data }: { data: ChartData[] }) {
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border))" />
-              <XAxis dataKey="month" stroke="hsl(var(--muted-foreground))" fontSize={12} tickLine={false} axisLine={false} />
+              <XAxis dataKey="month" stroke="hsl(var(--muted-foreground))" tick={{ fill: "#888888", fontSize: 12 }} tickLine={false} axisLine={false} />
               <YAxis 
                 axisLine={false} 
                 tickLine={false} 
-                tick={{ fontSize: 12, fill: "hsl(var(--foreground))", fontWeight: 500 }}
+                tick={{ fontSize: 12, fill: "#888888", fontWeight: 500 }}
                 tickFormatter={(value) => {
                   if (value >= 1000000) {
                     return value % 1000000 === 0 ? `Rp${value / 1000000} Jt` : `Rp${(value / 1000000).toFixed(1)} Jt`;
