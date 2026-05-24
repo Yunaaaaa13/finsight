@@ -341,15 +341,33 @@ This project was built to:
 
 ---
 
-# 🐍 Contribution Activity
+# 📈 FinSight Metrics
 
 <div align="center">
 
-<img src="https://raw.githubusercontent.com/Yunaaaaa13/Yunaaaaa13/output/snake.svg" width="100%"/>
+<img src="https://img.shields.io/badge/Modules-12-success?style=for-the-badge"/>
+
+<img src="https://img.shields.io/badge/Dashboard-Interactive-blue?style=for-the-badge"/>
+
+<img src="https://img.shields.io/badge/Admin-System-orange?style=for-the-badge"/>
+
+<img src="https://img.shields.io/badge/Fintech-Analytics-green?style=for-the-badge"/>
 
 </div>
 
-> If the snake animation does not appear, it usually means the GitHub Action for generating it has not been added yet.
+---
+
+# 🚀 Product Highlights
+
+<div align="center">
+
+| 💰 Finance | 📊 Analytics | 🧠 Intelligence | 🛡️ Admin |
+|---|---|---|---|
+| Expense Tracking | Financial Dashboard | Smart Insights | User Management |
+| Savings Monitoring | Trend Visualization | Personality Analysis | Risk Monitoring |
+| Goal Tracking | Cashflow Analytics | Financial Health Score | Activity Logs |
+
+</div>
 
 ---
 
@@ -380,7 +398,7 @@ Built with ❤️ using:
 
 ### 🌍 Connect With Me
 
-<a href="https://github.com/Yunaaaaa13">
+<a href="https://github.com/Yunaaaa13">
 <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github"/>
 </a>
 
@@ -388,6 +406,6 @@ Built with ❤️ using:
 
 ### ⭐ If you like this project, don't forget to star the repository!
 
-<img src="https://img.shields.io/github/stars/Yunaaaaa13/finsight?style=social"/>
+<img src="https://img.shields.io/github/stars/Yunaaaa13/finsight?style=social"/>
 
 </div>
