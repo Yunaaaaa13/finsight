@@ -11,14 +11,16 @@ import {
   LogOut,
   User,
   Home,
+  Settings,
+  Target,
 } from "lucide-react";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import { useEffect, useState } from "react";
 
 interface SidebarProps {
-  activeView: "dashboard" | "transactions" | "analytics" | "profile";
-  onViewChange: (view: "dashboard" | "transactions" | "analytics" | "profile") => void;
+  activeView: "dashboard" | "transactions" | "analytics" | "profile" | "settings" | "budget";
+  onViewChange: (view: "dashboard" | "transactions" | "analytics" | "profile" | "settings" | "budget") => void;
 }
 
 export function Sidebar({ activeView, onViewChange }: SidebarProps) {
@@ -39,11 +41,14 @@ export function Sidebar({ activeView, onViewChange }: SidebarProps) {
     router.push("/");
     router.refresh();
   };
+
   const navItems = [
     { id: "dashboard" as const, label: "Dashboard", icon: LayoutDashboard },
     { id: "transactions" as const, label: "Transaksi", icon: Wallet },
     { id: "analytics" as const, label: "Analitik", icon: BarChart3 },
+    { id: "budget" as const, label: "Anggaran", icon: Target },
     { id: "profile" as const, label: "Profil Saya", icon: User },
+    { id: "settings" as const, label: "Pengaturan", icon: Settings },
   ];
 
   return (

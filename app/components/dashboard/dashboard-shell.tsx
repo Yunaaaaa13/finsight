@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
-import { Activity, Sparkles, CalendarDays, Plus, Upload, Loader2, LayoutDashboard, Wallet, BarChart3, User, Home } from "lucide-react";
+import { Activity, Sparkles, CalendarDays, Plus, Upload, Loader2, LayoutDashboard, Wallet, BarChart3, User, Home, Download, Target, Settings } from "lucide-react";
 import { CashflowChart } from "@/app/components/dashboard/cashflow-chart";
 import { Sidebar } from "@/app/components/dashboard/sidebar";
 import { SummaryCard } from "@/app/components/dashboard/summary-card";
@@ -15,6 +15,9 @@ import { AnalyticsView } from "@/app/components/dashboard/analytics/analytics-vi
 import { FinancialHealthCard } from "@/app/components/dashboard/financial-health";
 import { ProfileView } from "@/app/components/dashboard/profile/profile-view";
 import { RealTimeClock, RealTimeClockCompact } from "@/app/components/dashboard/real-time-clock";
+import { SettingsView } from "@/app/components/dashboard/settings/settings-view";
+import { BudgetView } from "@/app/components/dashboard/budget/budget-view";
+import { ExportData } from "@/app/components/dashboard/export-data";
 import {
   getTransactions,
   addTransaction,
@@ -132,7 +135,7 @@ const defaultCashflow = [
 // ─── Component ───────────────────────────────────
 
 export function DashboardShell() {
-  const [activeView, setActiveView] = useState<"dashboard" | "transactions" | "analytics" | "profile">("dashboard");
+  const [activeView, setActiveView] = useState<"dashboard" | "transactions" | "analytics" | "profile" | "settings" | "budget">("dashboard");
 
   const supabase = createClient();
   const [userEmail, setUserEmail] = useState<string | null>(null);
@@ -153,6 +156,7 @@ export function DashboardShell() {
   const [editingTx, setEditingTx] = useState<Transaction | null>(null);
   const [deletingTx, setDeletingTx] = useState<Transaction | null>(null);
   const [showCSVUpload, setShowCSVUpload] = useState(false);
+  const [showExport, setShowExport] = useState(false);
 
   // Load transactions
   const loadTransactions = useCallback(async () => {
@@ -308,13 +312,20 @@ export function DashboardShell() {
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-2">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <button
+                      onClick={() => setShowExport(true)}
+                      className="inline-flex items-center gap-2 rounded-xl border border-border bg-muted/40 px-3.5 py-2 text-xs font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-all"
+                    >
+                      <Download className="size-3.5" />
+                      <span className="hidden sm:inline">Export</span>
+                    </button>
                     <button
                       onClick={() => setShowCSVUpload(true)}
                       className="inline-flex items-center gap-2 rounded-xl border border-border bg-muted/40 px-3.5 py-2 text-xs font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-all"
                     >
                       <Upload className="size-3.5" />
-                      Upload CSV
+                      <span className="hidden sm:inline">Import</span>
                     </button>
                     <button
                       onClick={() => { setEditingTx(null); setShowForm(true); }}
@@ -342,19 +353,25 @@ export function DashboardShell() {
             </div>
           ) : activeView === "analytics" ? (
             <AnalyticsView transactions={transactions} />
+          ) : activeView === "budget" ? (
+            <BudgetView transactions={transactions} />
           ) : activeView === "profile" ? (
             <ProfileView transactions={transactions} />
+          ) : activeView === "settings" ? (
+            <SettingsView />
           ) : null}
         </main>
       </div>
 
       {/* Mobile Bottom Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 z-40 flex items-center justify-between border-t border-border bg-background/80 px-6 py-4 backdrop-blur-xl lg:hidden pb-safe">
+      <nav className="fixed bottom-0 left-0 right-0 z-40 flex items-center justify-between border-t border-border bg-background/80 px-4 py-3 backdrop-blur-xl lg:hidden pb-safe overflow-x-auto gap-2">
         {[
           { id: "dashboard", icon: LayoutDashboard, label: "Home" },
           { id: "transactions", icon: Wallet, label: "Catatan" },
+          { id: "budget", icon: Target, label: "Anggaran" },
           { id: "analytics", icon: BarChart3, label: "Analitik" },
           { id: "profile", icon: User, label: "Profil" },
+          { id: "settings", icon: Settings, label: "Pengaturan" },
         ].map((item) => {
           const Icon = item.icon;
           const isActive = activeView === item.id;
@@ -367,13 +384,13 @@ export function DashboardShell() {
               }`}
             >
               <div
-                className={`flex size-10 items-center justify-center rounded-2xl transition-all duration-300 ${
+                className={`flex size-9 items-center justify-center rounded-2xl transition-all duration-300 ${
                   isActive ? "bg-primary/10 shadow-sm" : ""
                 }`}
               >
-                <Icon className={`size-5 ${isActive ? "scale-110" : ""}`} />
+                <Icon className={`size-[18px] ${isActive ? "scale-110" : ""}`} />
               </div>
-              <span className={`text-[10px] font-medium ${isActive ? "opacity-100" : "opacity-80"}`}>
+              <span className={`text-[9px] font-medium ${isActive ? "opacity-100" : "opacity-80"} whitespace-nowrap`}>
                 {item.label}
               </span>
             </button>
@@ -402,6 +419,13 @@ export function DashboardShell() {
         <CSVUpload
           onImport={handleCSVImport}
           onClose={() => setShowCSVUpload(false)}
+        />
+      )}
+
+      {showExport && (
+        <ExportData
+          transactions={transactions}
+          onClose={() => setShowExport(false)}
         />
       )}
     </div>
