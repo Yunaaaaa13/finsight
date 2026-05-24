@@ -20,6 +20,12 @@ export function SettingsView() {
   const [passwordMsg, setPasswordMsg] = useState<{ type: "success" | "error"; text: string } | null>(null);
   const [isChangingPassword, setIsChangingPassword] = useState(false);
 
+  // Security Question
+  const [securityQuestion, setSecurityQuestion] = useState("Apa nama kota tempat Anda lahir?");
+  const [securityAnswer, setSecurityAnswer] = useState("");
+  const [isSavingSecurity, setIsSavingSecurity] = useState(false);
+  const [securityMsg, setSecurityMsg] = useState<{ type: "success" | "error"; text: string } | null>(null);
+
   // Preferences (stored in user_metadata)
   const [emailNotif, setEmailNotif] = useState(true);
   const [profilePublic, setProfilePublic] = useState(false);
@@ -39,6 +45,9 @@ export function SettingsView() {
         setProvider(data.user.app_metadata?.provider ?? "email");
         setEmailNotif(data.user.user_metadata?.email_notif !== false);
         setProfilePublic(data.user.user_metadata?.profile_public === true);
+        if (data.user.user_metadata?.security_question) {
+          setSecurityQuestion(data.user.user_metadata.security_question);
+        }
       }
     });
   }, [supabase]);
@@ -65,6 +74,29 @@ export function SettingsView() {
       setPasswordMsg({ type: "success", text: "Password berhasil diubah!" });
       setNewPassword("");
       setConfirmPassword("");
+    }
+  }
+
+  // ─── Save Security Question ─────────────────────────
+  async function handleSaveSecurityQuestion() {
+    if (!securityAnswer) {
+      setSecurityMsg({ type: "error", text: "Jawaban tidak boleh kosong." });
+      return;
+    }
+    setIsSavingSecurity(true);
+    setSecurityMsg(null);
+    const { error } = await supabase.auth.updateUser({
+      data: {
+        security_question: securityQuestion,
+        security_answer: securityAnswer
+      }
+    });
+    setIsSavingSecurity(false);
+    if (error) {
+      setSecurityMsg({ type: "error", text: error.message });
+    } else {
+      setSecurityMsg({ type: "success", text: "Pertanyaan keamanan berhasil disimpan!" });
+      setSecurityAnswer(""); // clear answer field
     }
   }
 
@@ -152,6 +184,60 @@ export function SettingsView() {
           >
             {isChangingPassword ? <Loader2 className="size-4 animate-spin" /> : <Lock className="size-4" />}
             Ubah Password
+          </button>
+        </div>
+      </div>
+
+      {/* ═══ Security Question ═══ */}
+      <div className="rounded-2xl border border-border bg-card p-6 shadow-sm card-glow">
+        <h3 className="text-lg font-bold flex items-center gap-2 mb-2">
+          <Shield className="size-5 text-indigo-500" />
+          Pertanyaan Keamanan
+        </h3>
+        <p className="text-sm text-muted-foreground mb-5">
+          Atur pertanyaan keamanan agar Anda dapat mereset password jika lupa, tanpa perlu verifikasi email.
+        </p>
+        <div className="space-y-4 max-w-sm">
+          <div>
+            <label className="text-xs font-medium text-muted-foreground mb-1.5 block">Pilih Pertanyaan</label>
+            <select
+              value={securityQuestion}
+              onChange={(e) => setSecurityQuestion(e.target.value)}
+              className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-foreground outline-none transition-all focus:border-primary focus:ring-1 focus:ring-primary"
+            >
+              <option value="Apa nama kota tempat Anda lahir?">Apa nama kota tempat Anda lahir?</option>
+              <option value="Apa nama hewan peliharaan pertama Anda?">Apa nama hewan peliharaan pertama Anda?</option>
+              <option value="Siapa nama pahlawan masa kecil Anda?">Siapa nama pahlawan masa kecil Anda?</option>
+              <option value="Apa nama sekolah dasar Anda?">Apa nama sekolah dasar Anda?</option>
+            </select>
+          </div>
+          <div>
+            <label className="text-xs font-medium text-muted-foreground mb-1.5 block">Jawaban Baru (Opsional jika hanya ganti pertanyaan)</label>
+            <input
+              type="text"
+              value={securityAnswer}
+              onChange={(e) => setSecurityAnswer(e.target.value)}
+              placeholder="Ketik jawaban baru Anda"
+              className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary/30"
+            />
+          </div>
+
+          {securityMsg && (
+            <div className={`flex items-center gap-2 rounded-xl p-3 text-sm font-medium ${
+              securityMsg.type === "success" ? "bg-emerald-500/10 text-emerald-500" : "bg-rose-500/10 text-rose-500"
+            }`}>
+              {securityMsg.type === "success" ? <CheckCircle2 className="size-4 shrink-0" /> : <AlertTriangle className="size-4 shrink-0" />}
+              <span>{securityMsg.text}</span>
+            </div>
+          )}
+
+          <button
+            onClick={handleSaveSecurityQuestion}
+            disabled={isSavingSecurity || !securityAnswer}
+            className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-all disabled:opacity-50"
+          >
+            {isSavingSecurity ? <Loader2 className="size-4 animate-spin" /> : <Shield className="size-4" />}
+            Simpan Pertanyaan
           </button>
         </div>
       </div>

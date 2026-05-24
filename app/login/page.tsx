@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { TrendingUp, Mail, Lock, Loader2, ArrowLeft, ShieldQuestion, Key, ChevronDown, ChevronUp } from "lucide-react";
+import { TrendingUp, Mail, Lock, Loader2, ArrowLeft, ShieldQuestion, Key } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { resetPasswordWithSecurityAnswer } from "@/app/actions/auth-actions";
 
@@ -20,8 +20,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   
-  // Security Question States
-  const [showSecurityFields, setShowSecurityFields] = useState(false);
+  // Security Question States for Forgot Password
   const [securityQuestion, setSecurityQuestion] = useState(SECURITY_QUESTIONS[0]);
   const [securityAnswer, setSecurityAnswer] = useState("");
 
@@ -79,22 +78,10 @@ export default function LoginPage() {
         router.push("/dashboard");
         router.refresh();
       } else {
-        // Handle Register with (Optional) Security Question
-        if (showSecurityFields && !securityAnswer) {
-          throw new Error("Mohon isi jawaban pertanyaan keamanan jika opsi ini diaktifkan.");
-        }
-
-        const options = showSecurityFields && securityAnswer ? {
-          data: {
-            security_question: securityQuestion,
-            security_answer: securityAnswer,
-          }
-        } : undefined;
-
+        // Handle Register without security question
         const { error } = await supabase.auth.signUp({
           email,
-          password,
-          options
+          password
         });
         if (error) throw error;
         
@@ -288,56 +275,6 @@ export default function LoginPage() {
                   </div>
                 </div>
 
-                {!isLogin && (
-                  <div className="mt-4 pt-4 border-t border-border">
-                    <button
-                      type="button"
-                      onClick={() => setShowSecurityFields(!showSecurityFields)}
-                      className="flex items-center justify-between w-full text-left"
-                    >
-                      <div>
-                        <p className="text-xs font-semibold text-foreground uppercase tracking-wider text-amber-500">
-                          Pertanyaan Keamanan (Opsional)
-                        </p>
-                        <p className="text-[10px] text-muted-foreground mt-0.5">
-                          Aktifkan ini agar bisa reset password tanpa email.
-                        </p>
-                      </div>
-                      {showSecurityFields ? (
-                        <ChevronUp className="size-4 text-muted-foreground" />
-                      ) : (
-                        <ChevronDown className="size-4 text-muted-foreground" />
-                      )}
-                    </button>
-                    
-                    {showSecurityFields && (
-                      <div className="space-y-4 mt-4 animate-float-in">
-                        <div className="space-y-1">
-                          <label className="text-xs font-semibold text-foreground uppercase tracking-wider">Pilih Pertanyaan</label>
-                          <select
-                            value={securityQuestion}
-                            onChange={(e) => setSecurityQuestion(e.target.value)}
-                            className="w-full rounded-xl border border-border bg-background/50 px-4 py-2.5 text-sm outline-none transition-all focus:border-primary focus:ring-1 focus:ring-primary"
-                          >
-                            {SECURITY_QUESTIONS.map(q => <option key={q} value={q}>{q}</option>)}
-                          </select>
-                        </div>
-                        <div className="space-y-1">
-                          <label className="text-xs font-semibold text-foreground uppercase tracking-wider">Jawaban Anda</label>
-                          <input
-                            type="text"
-                            value={securityAnswer}
-                            onChange={(e) => setSecurityAnswer(e.target.value)}
-                            required={showSecurityFields}
-                            placeholder="Contoh: Jakarta"
-                            className="w-full rounded-xl border border-border bg-background/50 px-4 py-2.5 text-sm outline-none transition-all focus:border-primary focus:ring-1 focus:ring-primary placeholder:text-muted-foreground/50"
-                          />
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                )}
-
                 <button
                   type="submit"
                   disabled={isLoading}
@@ -357,7 +294,6 @@ export default function LoginPage() {
                   onClick={() => {
                     setIsLogin(!isLogin);
                     setError(null);
-                    setShowSecurityFields(false);
                   }}
                   className="font-semibold text-primary hover:underline transition-all"
                 >
