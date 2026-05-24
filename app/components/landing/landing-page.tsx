@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import { TrendingUp, ShieldCheck, Activity, BarChart3, PieChart, Target, ChevronRight, BookOpen, Lightbulb, Wallet, LogOut, User, LayoutDashboard } from "lucide-react";
+import { TrendingUp, ShieldCheck, Activity, BarChart3, PieChart, Target, ChevronRight, BookOpen, Lightbulb, Wallet, LogOut, User, LayoutDashboard, Sparkles, Download } from "lucide-react";
 import { ARTICLES } from "@/lib/articles";
 
 // Mapping icons back for the landing page
@@ -292,6 +292,71 @@ export function LandingPage({
                 ))}
               </ul>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Fitur Unggulan Baru */}
+      <section className="py-24 bg-card/50 border-b border-border/50 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-1/3 h-full bg-primary/5 blur-3xl pointer-events-none" />
+        <div className="container mx-auto max-w-6xl px-4 sm:px-6 relative z-10">
+          <div className="text-center max-w-2xl mx-auto mb-16">
+            <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-3 py-1 mb-4">
+              <Sparkles className="size-4 text-primary" />
+              <span className="text-xs font-bold uppercase tracking-wider text-primary">Fitur Premium</span>
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">Dirancang Untuk Kebutuhan Profesional</h2>
+            <p className="text-lg text-muted-foreground">
+              Nikmati deretan fitur kelas enterprise yang membuat manajemen keuangan Anda tidak hanya mudah, tapi juga sangat kuat dan aman.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
+            {[
+              {
+                icon: <User className="size-6 text-violet-500" />,
+                title: "Profil Analitik Pintar",
+                desc: "AI kami akan menganalisis kepribadian finansial (Financial Personality), kebiasaan menabung, dan pola pengeluaran mingguan Anda.",
+                badge: "AI-Powered",
+                color: "violet"
+              },
+              {
+                icon: <Target className="size-6 text-amber-500" />,
+                title: "Sistem Anggaran Cerdas",
+                desc: "Tetapkan batas budget per kategori. Dapatkan progres bar visual dan peringatan otomatis sesaat sebelum Anda mengalami overspending.",
+                badge: "Real-time",
+                color: "amber"
+              },
+              {
+                icon: <Download className="size-6 text-sky-500" />,
+                title: "Export Enterprise-Grade",
+                desc: "Unduh seluruh riwayat catatan keuangan Anda ke dalam format CSV maupun PDF dalam satu klik untuk pelaporan pajak atau audit.",
+                badge: "CSV / PDF",
+                color: "sky"
+              },
+              {
+                icon: <ShieldCheck className="size-6 text-emerald-500" />,
+                title: "Keamanan Kelas Atas",
+                desc: "Lupa password? Pulihkan akun Anda dengan aman menggunakan Pertanyaan Keamanan kustom. Pantau juga riwayat aktivitas login Anda.",
+                badge: "Secure",
+                color: "emerald"
+              }
+            ].map((feature, i) => (
+              <div key={i} className="flex gap-6 rounded-3xl border border-border bg-background p-8 shadow-sm card-glow group hover:-translate-y-1 transition-transform">
+                <div className={`flex size-14 shrink-0 items-center justify-center rounded-2xl bg-${feature.color}-500/10 border border-${feature.color}-500/20 group-hover:scale-110 transition-transform`}>
+                  {feature.icon}
+                </div>
+                <div>
+                  <div className="flex items-center gap-3 mb-2">
+                    <h3 className="text-xl font-bold text-foreground">{feature.title}</h3>
+                    <span className={`rounded-full bg-${feature.color}-500/10 px-2.5 py-0.5 text-[10px] font-bold text-${feature.color}-500 uppercase tracking-wider`}>
+                      {feature.badge}
+                    </span>
+                  </div>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{feature.desc}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
