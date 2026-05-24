@@ -11,6 +11,7 @@
 <img src="https://img.shields.io/badge/Vercel-Deployed-black?style=for-the-badge&logo=vercel"/>
 <img src="https://img.shields.io/github/stars/Yunaaaa13/finsight?style=for-the-badge"/>
 <img src="https://img.shields.io/github/last-commit/Yunaaaa13/finsight?style=for-the-badge"/>
+<img src="https://img.shields.io/github/repo-size/Yunaaaa13/finsight?style=for-the-badge"/>
 
 ---
 
@@ -34,6 +35,7 @@ FinSight is a modern **fullstack fintech dashboard** combining:
 📈 Data Visualization
 🧠 Smart Financial Insights
 🎯 Goal Tracking
+👤 Profile Management
 🛡️ Admin Management
 🔐 Authentication System
 ⚡ Realtime Dashboard Experience
@@ -54,6 +56,7 @@ The platform is designed to transform financial tracking into a smarter, more en
 - Budget Planning
 - Payment Tracking
 - Transaction History
+- Monthly Financial Summary
 
 ---
 
@@ -64,6 +67,7 @@ The platform is designed to transform financial tracking into a smarter, more en
 - Monthly Financial Comparison
 - Savings Ratio Analytics
 - Financial Health Score
+- Behavior-Based Analytics
 
 ---
 
@@ -77,6 +81,8 @@ Automatically generated insights based on user behavior.
 
 > “Entertainment spending exceeded budget limits.”
 
+> “Your saving ratio improved compared to last month.”
+
 ---
 
 ### 🎯 Financial Goal Tracking
@@ -84,17 +90,18 @@ Users can:
 - Set savings goals
 - Monitor progress
 - Track financial milestones
+- Visualize goal completion
 
 ---
 
 ### 👤 Profile Management
 Users can manage:
-
 - Profile Information
 - Avatar
 - Financial Personality
 - User Preferences
 - Security Settings
+- Personalized Dashboard View
 
 #### Personality Examples
 ```txt
@@ -102,6 +109,7 @@ Users can manage:
 📈 Strategic Planner
 🔥 Budget Master
 💸 Impulsive Buyer
+🧠 Financial Explorer
 ```
 
 ---
@@ -118,8 +126,7 @@ Admin dashboard allows platform monitoring and management.
 - Transaction Monitoring
 - Announcement Management
 - Risk Monitoring Dashboard
-
----
+- Role-Based Access Control
 
 ### 📊 Admin Analytics
 Admin can monitor:
@@ -131,13 +138,14 @@ Admin can monitor:
 🔥 Active Users
 🧠 Financial Behaviors
 🚨 Risk Detection
+📢 System Announcements
 ```
 
 ---
 
 # 🖼️ Dashboard Preview
 
-> Add screenshots later
+> Visual sections of the application:
 
 ```txt
 📸 Landing Page
@@ -145,6 +153,7 @@ Admin can monitor:
 📸 Admin Dashboard
 📸 Financial Analytics
 📸 Smart Insights
+📸 Profile Management
 ```
 
 ---
@@ -180,6 +189,8 @@ Admin can monitor:
 | financial_scores | Financial scoring |
 | activity_logs | User activities |
 | announcements | Admin announcements |
+| achievements | Progress badges |
+| user_achievements | User badge mapping |
 
 ---
 
@@ -276,6 +287,7 @@ This project was built to:
 - Explore Business Intelligence Concepts
 - Create Production-Ready Portfolio Projects
 - Design Modern SaaS Interfaces
+- Build a Fintech-Inspired Product Experience
 
 ---
 
@@ -291,18 +303,53 @@ This project was built to:
 - 📊 Predictive Analytics
 - 🏆 Achievement System
 - 📱 Mobile Optimization
+- 📎 User Export/Import Data
+- 🧠 Advanced Financial Personality Analysis
 
 ---
 
-# 📈 GitHub Statistics
+# 📈 Repository Activity
 
 <div align="center">
 
-<img src="https://github-readme-stats.vercel.app/api?username=Yunaaaa13&show_icons=true&theme=tokyonight"/>
-
-<img src="https://github-readme-streak-stats.herokuapp.com/?user=Yunaaaa13&theme=tokyonight"/>
+<img src="https://img.shields.io/github/commit-activity/m/Yunaaaa13/finsight?style=for-the-badge&color=22C55E"/>
+<img src="https://img.shields.io/github/languages/top/Yunaaaa13/finsight?style=for-the-badge"/>
+<img src="https://img.shields.io/github/repo-size/Yunaaaa13/finsight?style=for-the-badge"/>
+<img src="https://komarev.com/ghpvc/?username=Yunaaaa13&style=for-the-badge&color=22C55E"/>
 
 </div>
+
+---
+
+# 🚀 Project Status
+
+<div align="center">
+
+| Module | Status |
+|---|---:|
+| Landing Page | ✅ Completed |
+| Authentication | ✅ Completed |
+| User Dashboard | ✅ Completed |
+| Financial Analytics | ✅ Completed |
+| Profile System | ✅ Completed |
+| Admin Dashboard | 🚧 In Progress |
+| AI Financial Insight | 🚧 In Progress |
+| OCR Receipt Scanner | 📌 Planned |
+| Predictive Analytics | 📌 Planned |
+
+</div>
+
+---
+
+# 🐍 Contribution Activity
+
+<div align="center">
+
+<img src="https://raw.githubusercontent.com/Yunaaaa13/Yunaaaa13/output/snake.svg" width="100%"/>
+
+</div>
+
+> If the snake animation does not appear, it usually means the GitHub Action for generating it has not been added yet.
 
 ---
 
@@ -310,12 +357,37 @@ This project was built to:
 
 <div align="center">
 
-## Muhammad Luthfi Rafif
+<img src="https://readme-typing-svg.herokuapp.com?font=Poppins&weight=700&size=24&duration=3000&pause=1000&color=22C55E&center=true&vCenter=true&width=700&lines=Muhammad+Luthfi+Rafif;Fullstack+Developer;Data+Analytics+Enthusiast;Fintech+Builder" />
 
 ### Fullstack Developer • Data Analytics Enthusiast • Fintech Builder
 
-Built with ❤️ using Next.js, Supabase & TailwindCSS.
+Built with ❤️ using:
 
-### ⭐ Don't forget to star this repository!
+<img src="https://skillicons.dev/icons?i=nextjs,tailwind,supabase,postgres,vercel,git,github,vscode"/>
+
+---
+
+### 💡 Current Focus
+
+```txt
+📊 Financial Analytics
+🧠 Data Visualization
+⚡ SaaS Dashboard Development
+💸 Fintech Product Engineering
+```
+
+---
+
+### 🌍 Connect With Me
+
+<a href="https://github.com/Yunaaaa13">
+<img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github"/>
+</a>
+
+---
+
+### ⭐ If you like this project, don't forget to star the repository!
+
+<img src="https://img.shields.io/github/stars/Yunaaaa13/finsight?style=social"/>
 
 </div>
