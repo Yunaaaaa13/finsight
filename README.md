@@ -401,8 +401,8 @@ Built with ❤️ using:
 
 ### 🌍 Connect With Me
 
-<a href="https://github.com/Yunaaaa13">
-<img src="https://img.shields.io/github/stars/Yunaaaa13/finsight?style=social"/>
+<a href="https://github.com/Yunaaaaa13">
+<img src="https://img.shields.io/github/stars/Yunaaaaa13/finsight?style=social"/>
 </a>
 
 ---
@@ -411,8 +411,8 @@ Built with ❤️ using:
 
 ### ⭐ If you like this project, don't forget to star the repository!
 
-<a href="https://github.com/Yunaaaa13/finsight">
-    <img src="https://img.shields.io/github/stars/Yunaaaa13/finsight?style=for-the-badge&logo=github&color=22C55E"/>
+<a href="https://github.com/Yunaaaaa13/finsight">
+    <img src="https://img.shields.io/github/stars/Yunaaaaa13/finsight?style=for-the-badge&logo=github&color=22C55E"/>
 </a>
 
 </div>
