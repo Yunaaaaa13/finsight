@@ -276,20 +276,64 @@ export function DashboardShell() {
             <div className="space-y-6 animate-float-in">
               {/* Real-Time Clock & Financial Reminder Widget */}
               <RealTimeClock />
+
+              {/* Quick Actions (Baru) */}
+              <section className="grid grid-cols-2 gap-4 sm:grid-cols-4 animate-float-in" style={{ animationDelay: "100ms" }}>
+                <button 
+                  onClick={() => { setEditingTx(null); setShowForm(true); }} 
+                  className="flex flex-col items-center justify-center gap-3 rounded-2xl border border-border bg-card p-5 hover:bg-muted/50 hover:border-primary/50 transition-all card-glow group"
+                >
+                  <div className="flex size-12 items-center justify-center rounded-xl bg-emerald-500/10 group-hover:scale-110 group-hover:bg-emerald-500/20 transition-all">
+                    <Plus className="size-6 text-emerald-500" />
+                  </div>
+                  <span className="text-sm font-semibold text-foreground">Catat Transaksi</span>
+                </button>
+                
+                <button 
+                  onClick={() => setActiveView("budget")} 
+                  className="flex flex-col items-center justify-center gap-3 rounded-2xl border border-border bg-card p-5 hover:bg-muted/50 hover:border-amber-500/50 transition-all card-glow group"
+                >
+                  <div className="flex size-12 items-center justify-center rounded-xl bg-amber-500/10 group-hover:scale-110 group-hover:bg-amber-500/20 transition-all">
+                    <Target className="size-6 text-amber-500" />
+                  </div>
+                  <span className="text-sm font-semibold text-foreground">Kelola Anggaran</span>
+                </button>
+
+                <button 
+                  onClick={() => setShowExport(true)} 
+                  className="flex flex-col items-center justify-center gap-3 rounded-2xl border border-border bg-card p-5 hover:bg-muted/50 hover:border-sky-500/50 transition-all card-glow group"
+                >
+                  <div className="flex size-12 items-center justify-center rounded-xl bg-sky-500/10 group-hover:scale-110 group-hover:bg-sky-500/20 transition-all">
+                    <Download className="size-6 text-sky-500" />
+                  </div>
+                  <span className="text-sm font-semibold text-foreground">Export Laporan</span>
+                </button>
+
+                <button 
+                  onClick={() => setActiveView("profile")} 
+                  className="flex flex-col items-center justify-center gap-3 rounded-2xl border border-border bg-card p-5 hover:bg-muted/50 hover:border-violet-500/50 transition-all card-glow group"
+                >
+                  <div className="flex size-12 items-center justify-center rounded-xl bg-violet-500/10 group-hover:scale-110 group-hover:bg-violet-500/20 transition-all">
+                    <User className="size-6 text-violet-500" />
+                  </div>
+                  <span className="text-sm font-semibold text-foreground">Profil Pintar</span>
+                </button>
+              </section>
+
               {/* Summary cards */}
-              <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+              <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4 animate-float-in" style={{ animationDelay: "200ms" }}>
                 {summary.map((item, index) => (
                   <SummaryCard key={item.label} {...item} index={index} />
                 ))}
               </section>
 
               {/* Financial Health Score */}
-              <section className="animate-float-in" style={{ animationDelay: "150ms" }}>
+              <section className="animate-float-in" style={{ animationDelay: "300ms" }}>
                 <FinancialHealthCard transactions={transactions} />
               </section>
 
               {/* Charts row */}
-              <section className="grid gap-6 xl:grid-cols-[1.6fr_1fr] animate-float-in" style={{ animationDelay: "300ms" }}>
+              <section className="grid gap-6 xl:grid-cols-[1.6fr_1fr] animate-float-in" style={{ animationDelay: "400ms" }}>
                 <CashflowChart points={cashflowPoints} />
                 <TopCategories categories={topCategories} />
               </section>
