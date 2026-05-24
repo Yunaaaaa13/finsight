@@ -44,13 +44,13 @@ function computeSummary(txs: Transaction[]) {
 
   return [
     {
-      label: "Total Pemasukan Bulan Ini",
+      label: "Pemasukan",
       value: `Rp ${income.toLocaleString("id-ID")}`,
       delta: "+0%",
       accent: "text-emerald-600",
     },
     {
-      label: "Total Pengeluaran",
+      label: "Pengeluaran",
       value: `Rp ${expense.toLocaleString("id-ID")}`,
       delta: "-0%",
       accent: "text-rose-500",
@@ -118,8 +118,8 @@ function computeCashflow(txs: Transaction[]) {
 // ─── Default data for empty state ────────────────
 
 const defaultSummary = [
-  { label: "Total Pemasukan Bulan Ini", value: "Rp 0", delta: "+0%", accent: "text-emerald-600" },
-  { label: "Total Pengeluaran", value: "Rp 0", delta: "-0%", accent: "text-rose-500" },
+  { label: "Pemasukan", value: "Rp 0", delta: "+0%", accent: "text-emerald-600" },
+  { label: "Pengeluaran", value: "Rp 0", delta: "-0%", accent: "text-rose-500" },
   { label: "Sisa Saldo", value: "Rp 0", delta: "+aktif", accent: "text-sky-600" },
   { label: "Rasio Tabungan", value: "0%", delta: "perlu hemat", accent: "text-amber-600" },
 ];

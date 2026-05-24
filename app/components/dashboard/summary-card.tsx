@@ -54,7 +54,7 @@ export function SummaryCard({ label, value, delta, accent, index = 0 }: SummaryC
       <div className="flex items-start justify-between gap-3">
         <div className="flex-1 min-w-0">
           <p className="text-xs font-medium text-muted-foreground truncate">{label}</p>
-          <p className="mt-2 text-2xl font-bold tracking-tight text-foreground">{value}</p>
+          <p className="mt-2 text-xl sm:text-2xl font-bold tracking-tight text-foreground truncate whitespace-nowrap">{value}</p>
         </div>
         <div className={cn("flex size-10 shrink-0 items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-110", config.iconBg)}>
           <Icon className={cn("size-5", config.iconColor)} />
