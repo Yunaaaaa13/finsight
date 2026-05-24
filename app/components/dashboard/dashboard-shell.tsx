@@ -14,7 +14,7 @@ import { CSVUpload } from "@/app/components/dashboard/csv-upload";
 import { AnalyticsView } from "@/app/components/dashboard/analytics/analytics-view";
 import { FinancialHealthCard } from "@/app/components/dashboard/financial-health";
 import { ProfileView } from "@/app/components/dashboard/profile/profile-view";
-import { RealTimeClock } from "@/app/components/dashboard/real-time-clock";
+import { RealTimeClock, RealTimeClockCompact } from "@/app/components/dashboard/real-time-clock";
 import {
   getTransactions,
   addTransaction,
@@ -249,7 +249,7 @@ export function DashboardShell() {
                     <CalendarDays className="size-3.5" />
                     <p className="text-xs font-medium">{dateStr}</p>
                   </div>
-                  <RealTimeClock />
+                  <RealTimeClockCompact />
                 </div>
                 <h1 className="text-3xl font-bold tracking-tight text-foreground">
                   {fullName ? `Halo, ${fullName}! 👋` : (userEmail ? `Halo, ${userEmail.split("@")[0]}! 👋` : "FinSight Dashboard")}
@@ -270,6 +270,8 @@ export function DashboardShell() {
 
           {activeView === "dashboard" ? (
             <div className="space-y-6 animate-float-in">
+              {/* Real-Time Clock & Financial Reminder Widget */}
+              <RealTimeClock />
               {/* Summary cards */}
               <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
                 {summary.map((item, index) => (

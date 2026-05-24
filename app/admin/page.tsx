@@ -1,6 +1,7 @@
 import { getPlatformAnalytics, getRiskAlerts } from "@/app/admin/actions";
 import { Users, Activity, TrendingUp, AlertTriangle, ArrowUpRight, ArrowDownRight, CreditCard, Target, PieChart } from "lucide-react";
 import { AdminCharts } from "./admin-charts";
+import { AdminClock } from "@/app/components/admin/admin-clock";
 
 export const metadata = {
   title: "Admin Analytics | FinSight",
@@ -40,6 +41,9 @@ export default async function AdminAnalyticsPage() {
         <h1 className="text-3xl font-bold">Platform Analytics Dashboard</h1>
         <p className="text-muted-foreground mt-2">Global metrics, growth trends, and user behavior analytics.</p>
       </div>
+
+      {/* Real-Time Clock & Reminder */}
+      <AdminClock />
 
       {/* KPI Cards */}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
