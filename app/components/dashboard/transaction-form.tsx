@@ -1,9 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { X, Plus, Save } from "lucide-react";
+import { X, Plus, Save, Loader2, Globe } from "lucide-react";
 import type { Transaction, TransactionType } from "@/lib/types";
 import { CATEGORIES, PAYMENT_METHODS } from "@/lib/types";
+
+const CURRENCIES = ["IDR", "USD", "EUR", "SGD", "JPY", "MYR", "AUD", "GBP"];
 
 interface TransactionFormProps {
   transaction?: Transaction | null;
@@ -31,26 +33,86 @@ export function TransactionForm({ transaction, onSave, onClose }: TransactionFor
   const [paymentMethod, setPaymentMethod] = useState(transaction?.payment_method ?? PAYMENT_METHODS[0]);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
+  // Multi-Currency & Format States
+  const [currency, setCurrency] = useState("IDR");
+  const [isConverting, setIsConverting] = useState(false);
+  const [displayAmount, setDisplayAmount] = useState(() => {
+    if (!transaction?.amount) return "";
+    return new Intl.NumberFormat('en-US').format(transaction.amount);
+  });
+
+  const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let val = e.target.value;
+    // Remove characters that aren't digits or dots
+    const cleanVal = val.replace(/,/g, "").replace(/[^0-9.]/g, "");
+    
+    if (cleanVal === "") {
+      setDisplayAmount("");
+      return;
+    }
+    
+    // Prevent multiple dots
+    const dotCount = (cleanVal.match(/\./g) || []).length;
+    if (dotCount > 1) return;
+
+    const parts = cleanVal.split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    setDisplayAmount(parts.join("."));
+  };
+
   function validate(): boolean {
     const newErrors: Record<string, string> = {};
     if (!title.trim()) newErrors.title = "Judul wajib diisi";
-    if (!amount || parseFloat(amount) <= 0) newErrors.amount = "Jumlah harus lebih dari 0";
+    
+    const numericAmount = parseFloat(displayAmount.replace(/,/g, ""));
+    if (isNaN(numericAmount) || numericAmount <= 0) {
+      newErrors.amount = "Jumlah harus valid dan lebih dari 0";
+    }
+    
     if (!date) newErrors.date = "Tanggal wajib diisi";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!validate()) return;
-    onSave({
-      title: title.trim(),
-      amount: parseFloat(amount),
-      type,
-      category,
-      date,
-      payment_method: paymentMethod,
-    });
+    
+    const numericAmount = parseFloat(displayAmount.replace(/,/g, ""));
+    
+    setIsConverting(true);
+    try {
+      let finalAmount = numericAmount;
+      let finalTitle = title.trim();
+
+      if (currency !== "IDR") {
+        // Fetch exchange rate
+        const res = await fetch(`https://api.exchangerate-api.com/v4/latest/${currency}`);
+        const data = await res.json();
+        const rate = data.rates["IDR"];
+        
+        if (rate) {
+          finalAmount = Math.round(numericAmount * rate);
+          finalTitle = `[${currency} ${displayAmount}] ${finalTitle}`;
+        } else {
+          throw new Error("Gagal mengambil kurs mata uang");
+        }
+      }
+
+      onSave({
+        title: finalTitle,
+        amount: finalAmount,
+        type,
+        category,
+        date,
+        payment_method: paymentMethod,
+      });
+    } catch (err) {
+      setErrors({ ...errors, amount: "Gagal mengambil kurs dari server. Pastikan koneksi internet Anda aktif." });
+      console.error(err);
+    } finally {
+      setIsConverting(false);
+    }
   }
 
   return (
@@ -118,20 +180,39 @@ export function TransactionForm({ transaction, onSave, onClose }: TransactionFor
             {errors.title && <p className="mt-1 text-xs text-rose-500">{errors.title}</p>}
           </div>
 
-          {/* Amount */}
-          <div>
-            <label className="block text-xs font-medium text-muted-foreground mb-1.5">Jumlah (Rp)</label>
-            <input
-              type="number"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-              placeholder="0"
-              min="0"
-              step="100"
-              className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
-            />
-            {errors.amount && <p className="mt-1 text-xs text-rose-500">{errors.amount}</p>}
+          {/* Currency & Amount */}
+          <div className="grid grid-cols-[100px_1fr] gap-3">
+            <div>
+              <label className="block text-xs font-medium text-muted-foreground mb-1.5 flex items-center gap-1">
+                <Globe className="size-3" /> Mata Uang
+              </label>
+              <select
+                value={currency}
+                onChange={(e) => setCurrency(e.target.value)}
+                className="w-full rounded-xl border border-border bg-background px-3 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all appearance-none cursor-pointer text-center"
+              >
+                {CURRENCIES.map((cur) => (
+                  <option key={cur} value={cur}>{cur}</option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="block text-xs font-medium text-muted-foreground mb-1.5">Jumlah</label>
+              <input
+                type="text"
+                value={displayAmount}
+                onChange={handleAmountChange}
+                placeholder="1,000.00"
+                className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
+              />
+            </div>
           </div>
+          {errors.amount && <p className="mt-1 text-xs text-rose-500">{errors.amount}</p>}
+          {currency !== "IDR" && !errors.amount && displayAmount && (
+            <p className="mt-1 text-[10px] text-amber-600 flex items-center gap-1">
+              *Akan dikonversi otomatis ke IDR saat disimpan
+            </p>
+          )}
 
           {/* Category & Payment Method */}
           <div className="grid grid-cols-2 gap-3">
@@ -178,16 +259,26 @@ export function TransactionForm({ transaction, onSave, onClose }: TransactionFor
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 rounded-xl border border-border bg-muted/40 px-4 py-2.5 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-all"
+              disabled={isConverting}
+              className="flex-1 rounded-xl border border-border bg-muted/40 px-4 py-2.5 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-all disabled:opacity-50"
             >
               Batal
             </button>
             <button
               type="submit"
-              className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-all shadow-sm"
+              disabled={isConverting}
+              className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-all shadow-sm disabled:opacity-50"
             >
-              {isEditing ? <Save className="size-4" /> : <Plus className="size-4" />}
-              {isEditing ? "Simpan" : "Tambah"}
+              {isConverting ? (
+                <>
+                  <Loader2 className="size-4 animate-spin" /> Mengonversi...
+                </>
+              ) : (
+                <>
+                  {isEditing ? <Save className="size-4" /> : <Plus className="size-4" />}
+                  {isEditing ? "Simpan" : "Tambah"}
+                </>
+              )}
             </button>
           </div>
         </form>
