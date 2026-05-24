@@ -157,7 +157,7 @@ Admin can monitor:
 ![Financial Analytics](./public/readme/analytics.png)
 
 ### 📸 Admin Dashboard
-![Admin Dashboard](./public/readme/admin-dashboard.png)
+![Admin Dashboard](./public/readme/dashboard-admin.png)
 
 ---
 
