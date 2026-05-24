@@ -113,13 +113,19 @@ export function Sidebar({ activeView, onViewChange }: SidebarProps) {
       </div>
 
       {/* Bottom card */}
-      <div className="mt-8 rounded-2xl gradient-emerald p-4 text-white">
-        <p className="text-xs font-semibold opacity-80">Pro Insight</p>
-        <p className="mt-1 text-[0.7rem] leading-relaxed opacity-70">
-          Upgrade ke Pro untuk analitik prediktif dan laporan otomatis.
+      <div className="mt-8 rounded-2xl bg-blue-500/10 border border-blue-500/20 p-4 text-blue-700 dark:text-blue-400">
+        <div className="flex items-center gap-2 mb-2">
+          <span className="text-lg">💡</span>
+          <p className="text-xs font-bold uppercase tracking-wider">Financial Tip</p>
+        </div>
+        <p className="text-[0.75rem] leading-relaxed opacity-90 font-medium">
+          Evaluasi pengeluaran Anda minggu ini untuk memastikan tetap sejalan dengan target anggaran.
         </p>
-        <button className="mt-3 w-full rounded-lg bg-white/20 px-3 py-1.5 text-xs font-semibold backdrop-blur-sm transition-colors hover:bg-white/30">
-          Pelajari Selengkapnya
+        <button 
+          onClick={() => onViewChange("analytics")}
+          className="mt-3 w-full rounded-lg bg-blue-500/10 px-3 py-2 text-xs font-semibold transition-colors hover:bg-blue-500/20"
+        >
+          Lihat Analitik
         </button>
       </div>
 

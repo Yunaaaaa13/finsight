@@ -132,6 +132,19 @@ const defaultCashflow = [
   { label: "Minggu 5", value: 0 },
 ];
 
+function loadBudgets() {
+  if (typeof window === "undefined") return { budgets: [] };
+  const now = new Date();
+  const key = `finsight_budget_${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+  const raw = localStorage.getItem(key);
+  if (raw) {
+    try {
+      return JSON.parse(raw);
+    } catch { /* ignore */ }
+  }
+  return { budgets: [] };
+}
+
 // ─── Component ───────────────────────────────────
 
 export function DashboardShell() {
@@ -150,6 +163,12 @@ export function DashboardShell() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [status, setStatus] = useState("Memuat data...");
+  const [budgets, setBudgets] = useState<any[]>([]);
+
+  useEffect(() => {
+    const data = loadBudgets();
+    setBudgets(data.budgets || []);
+  }, [activeView]);
 
   // Modals
   const [showForm, setShowForm] = useState(false);
@@ -258,9 +277,18 @@ export function DashboardShell() {
                 <h1 className="text-3xl font-bold tracking-tight text-foreground">
                   {fullName ? `Halo, ${fullName}! 👋` : (userEmail ? `Halo, ${userEmail.split("@")[0]}! 👋` : "FinSight Dashboard")}
                 </h1>
-                <p className="mt-2 max-w-lg text-sm leading-relaxed text-muted-foreground">
-                  Selamat datang kembali! Berikut adalah ringkasan keuangan Anda hari ini.
-                </p>
+                
+                <div className="mt-3 flex flex-wrap gap-3 text-sm">
+                  <div className="bg-emerald-500/10 border border-emerald-500/20 px-3 py-1.5 rounded-lg text-emerald-600 dark:text-emerald-400 font-medium">
+                    Masuk: {summary[0].value}
+                  </div>
+                  <div className="bg-rose-500/10 border border-rose-500/20 px-3 py-1.5 rounded-lg text-rose-600 dark:text-rose-400 font-medium">
+                    Keluar: {summary[1].value}
+                  </div>
+                  <div className="bg-sky-500/10 border border-sky-500/20 px-3 py-1.5 rounded-lg text-sky-600 dark:text-sky-400 font-medium">
+                    Sisa: {summary[2].value}
+                  </div>
+                </div>
               </div>
 
               <div className="flex items-center gap-2 shrink-0">
@@ -380,6 +408,42 @@ export function DashboardShell() {
                     </button>
                   </div>
                 </div>
+
+                {/* Budget Awareness */}
+                {budgets.length > 0 && (
+                  <div className="mb-6 grid gap-3 sm:grid-cols-2 md:grid-cols-3">
+                    {budgets.slice(0, 3).map((b, i) => {
+                      const spent = transactions
+                        .filter(t => {
+                          const d = new Date(t.date);
+                          const now = new Date();
+                          return t.category === b.category && t.type === "expense" && d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+                        })
+                        .reduce((sum, t) => sum + t.amount, 0);
+                      const percent = b.limit > 0 ? Math.round((spent / b.limit) * 100) : 0;
+                      const isOver = percent >= 100;
+                      const isWarning = percent >= 80 && percent < 100;
+                      
+                      return (
+                        <div key={i} className={`rounded-xl border p-3 ${isOver ? 'bg-rose-500/5 border-rose-500/20' : isWarning ? 'bg-amber-500/5 border-amber-500/20' : 'bg-muted/30 border-border'}`}>
+                          <div className="flex justify-between items-center mb-2">
+                            <span className="text-xs font-semibold text-foreground">{b.category}</span>
+                            <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md ${isOver ? 'bg-rose-500/10 text-rose-500' : isWarning ? 'bg-amber-500/10 text-amber-500' : 'bg-emerald-500/10 text-emerald-500'}`}>
+                              {isOver ? 'Melebihi' : isWarning ? 'Hampir Limit' : 'Aman'}
+                            </span>
+                          </div>
+                          <div className="h-1.5 w-full bg-muted rounded-full overflow-hidden mb-1.5">
+                            <div className={`h-full ${isOver ? 'bg-rose-500' : isWarning ? 'bg-amber-500' : 'bg-emerald-500'}`} style={{ width: `${Math.min(100, percent)}%` }} />
+                          </div>
+                          <div className="flex justify-between items-center text-[10px] text-muted-foreground">
+                            <span>{percent}%</span>
+                            <span>Rp {b.limit.toLocaleString("id-ID")}</span>
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </div>
+                )}
 
                 {isLoading ? (
                   <div className="flex items-center justify-center py-16 gap-2">
