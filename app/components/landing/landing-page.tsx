@@ -57,7 +57,7 @@ export function LandingPage({
     <div className="min-h-screen bg-background text-foreground selection:bg-primary/20">
       {/* Navbar */}
       <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/60 backdrop-blur-xl">
-        <div className="container mx-auto max-w-6xl flex h-16 items-center justify-between px-4 sm:px-6">
+        <div className="flex h-16 w-full items-center justify-between px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2">
             <div className="flex size-8 items-center justify-center rounded-lg gradient-emerald shadow-sm">
               <TrendingUp className="size-5 text-white" />
