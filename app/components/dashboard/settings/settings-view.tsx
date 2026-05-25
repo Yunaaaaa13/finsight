@@ -264,7 +264,7 @@ export function SettingsView() {
               onClick={() => setEmailNotif(!emailNotif)}
               className={`relative w-11 h-6 rounded-full transition-colors ${emailNotif ? "bg-primary" : "bg-muted"}`}
             >
-              <div className={`absolute top-0.5 size-5 rounded-full bg-white shadow-sm transition-transform ${emailNotif ? "translate-x-5.5 left-0.5" : "left-0.5"}`}
+              <div className="absolute top-0.5 left-0.5 size-5 rounded-full bg-white shadow-sm transition-transform"
                 style={{ transform: emailNotif ? "translateX(20px)" : "translateX(0)" }}
               />
             </button>
