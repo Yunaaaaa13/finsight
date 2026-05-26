@@ -114,30 +114,35 @@ Users can manage:
 
 ---
 
-## 🛡️ Admin Dashboard
+## 🛡 Admin Dashboard
 
-Admin dashboard allows platform monitoring and management.
+Admin dashboard enables platform monitoring, user management, and financial analytics for FinSight.
 
 ### Admin Features
+
 - User Management
 - Platform Analytics
-- Financial Behavior Monitoring
-- Activity Logs
 - Transaction Monitoring
+- Financial Insights Monitoring
+- User Activity Logs
 - Announcement Management
-- Risk Monitoring Dashboard
+- Financial Health Monitoring
 - Role-Based Access Control
 
-### 📊 Admin Analytics
+---
+
+## 📊 Admin Analytics
+
 Admin can monitor:
 
 ```txt
 👥 Total Users
-💰 Total Transactions
+💸 Total Transactions
 📈 User Growth
-🔥 Active Users
-🧠 Financial Behaviors
-🚨 Risk Detection
+🟢 Active Users
+💰 Financial Health Insights
+🌍 Currency Usage Analytics
+📊 Spending Category Trends
 📢 System Announcements
 ```
 
