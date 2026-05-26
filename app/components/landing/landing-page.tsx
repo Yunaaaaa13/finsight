@@ -158,7 +158,7 @@ export function LandingPage({
             </div>
 
             {/* Abstract Fintech Representation (Right Side) */}
-            <div className="flex-1 w-full relative h-[400px] lg:h-[500px] hidden md:block perspective-1000">
+            <div className="flex-1 w-full relative h-[300px] sm:h-[400px] lg:h-[500px] perspective-1000 mt-8 lg:mt-0">
               <div className="absolute inset-0 bg-gradient-to-tr from-emerald-500/10 to-sky-500/10 rounded-full blur-3xl" />
               
               <div className="relative w-full h-full flex items-center justify-center">

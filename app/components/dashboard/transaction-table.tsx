@@ -123,19 +123,19 @@ export function TransactionTable({
     <div className="space-y-4">
       {/* Quick stats */}
       <div className="grid grid-cols-3 gap-2 sm:gap-3">
-        <div className="rounded-xl bg-muted/30 p-2 sm:p-3 text-center min-w-0">
-          <p className="text-[0.65rem] font-medium text-muted-foreground truncate">Total Transaksi</p>
-          <p className="text-sm sm:text-lg font-bold text-foreground truncate">{transactions.length}</p>
+        <div className="rounded-xl bg-muted/30 p-2 sm:p-3 text-center flex flex-col justify-center min-w-0 overflow-hidden">
+          <p className="text-[0.6rem] sm:text-[0.65rem] font-medium text-muted-foreground truncate">Total Transaksi</p>
+          <p className="text-xs sm:text-lg font-bold text-foreground truncate">{transactions.length}</p>
         </div>
-        <div className="rounded-xl bg-emerald-500/5 p-2 sm:p-3 text-center min-w-0">
-          <p className="text-[0.65rem] font-medium text-muted-foreground truncate">Pemasukan</p>
-          <p className="text-sm sm:text-lg font-bold text-emerald-600 dark:text-emerald-400 truncate" title={formatCurrency(convertFromIDR(totalIncome), baseCurrency)}>
+        <div className="rounded-xl bg-emerald-500/5 p-2 sm:p-3 text-center flex flex-col justify-center min-w-0 overflow-hidden">
+          <p className="text-[0.6rem] sm:text-[0.65rem] font-medium text-muted-foreground truncate">Pemasukan</p>
+          <p className="text-xs sm:text-lg font-bold text-emerald-600 dark:text-emerald-400 truncate" title={formatCurrency(convertFromIDR(totalIncome), baseCurrency)}>
             {formatCurrency(convertFromIDR(totalIncome), baseCurrency)}
           </p>
         </div>
-        <div className="rounded-xl bg-rose-500/5 p-2 sm:p-3 text-center min-w-0">
-          <p className="text-[0.65rem] font-medium text-muted-foreground truncate">Pengeluaran</p>
-          <p className="text-sm sm:text-lg font-bold text-rose-600 dark:text-rose-400 truncate" title={formatCurrency(convertFromIDR(totalExpense), baseCurrency)}>
+        <div className="rounded-xl bg-rose-500/5 p-2 sm:p-3 text-center flex flex-col justify-center min-w-0 overflow-hidden">
+          <p className="text-[0.6rem] sm:text-[0.65rem] font-medium text-muted-foreground truncate">Pengeluaran</p>
+          <p className="text-xs sm:text-lg font-bold text-rose-600 dark:text-rose-400 truncate" title={formatCurrency(convertFromIDR(totalExpense), baseCurrency)}>
             {formatCurrency(convertFromIDR(totalExpense), baseCurrency)}
           </p>
         </div>
