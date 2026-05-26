@@ -309,20 +309,20 @@ export function DashboardShell() {
               </div>
 
               <div className="flex items-center gap-2 shrink-0">
-                <div className="hidden sm:inline-flex items-center gap-2 rounded-xl bg-muted/50 backdrop-blur-sm px-3.5 py-2 text-xs font-medium text-muted-foreground border border-border/50">
-                  <Globe className="size-3.5 text-primary" />
+                <div className="inline-flex items-center gap-2 rounded-xl bg-muted/50 backdrop-blur-sm px-3.5 py-2 text-xs font-medium text-muted-foreground border border-border/50">
+                  <Globe className="size-3.5 text-primary shrink-0" />
                   <select
                     value={baseCurrency}
                     onChange={(e) => changeCurrency(e.target.value)}
                     disabled={currencyLoading}
-                    className="bg-transparent border-none focus:ring-0 text-xs font-bold text-foreground cursor-pointer appearance-none pr-4 outline-none"
+                    className="bg-transparent border-none focus:ring-0 text-xs font-bold text-foreground cursor-pointer appearance-none pr-4 outline-none min-w-0"
                     style={{ WebkitAppearance: 'none', MozAppearance: 'none' }}
                   >
                     {SUPPORTED_CURRENCIES.map(c => (
                       <option key={c} value={c} className="bg-background text-foreground">{c}</option>
                     ))}
                   </select>
-                  <span className="-ml-3 pointer-events-none opacity-50">▼</span>
+                  <span className="-ml-3 pointer-events-none opacity-50 shrink-0">▼</span>
                 </div>
                 
                 <div className="hidden sm:inline-flex items-center gap-2 rounded-xl bg-muted/50 backdrop-blur-sm px-3.5 py-2 text-xs font-medium text-muted-foreground border border-border/50">
