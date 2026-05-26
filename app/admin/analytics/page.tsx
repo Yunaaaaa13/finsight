@@ -1,5 +1,5 @@
 import { getDeepAnalytics } from "@/app/admin/actions";
-import { AnalyticsClient } from "@/app/components/admin/analytics-client";
+import { AnalyticsClient } from "@/app/components/admin/analytics-client"; // Force VS Code update
 import { AlertCircle } from "lucide-react";
 
 export const dynamic = "force-dynamic";
