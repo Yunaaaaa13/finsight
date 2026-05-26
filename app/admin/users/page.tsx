@@ -12,7 +12,7 @@ export default async function AdminUsersPage() {
       <div>
         <h1 className="text-3xl font-bold tracking-tight text-foreground">User Management</h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          View and manage all registered users, their roles, and account status.
+          Lihat dan kelola semua pengguna terdaftar, peran mereka, dan status akun.
         </p>
       </div>
 

@@ -20,7 +20,7 @@ export default async function AdminTransactionsPage() {
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-12">
       <div>
         <h1 className="text-3xl font-bold">Transaction Monitoring</h1>
-        <p className="text-muted-foreground mt-2">Aggregate view of all platform transactions with advanced filtering.</p>
+        <p className="text-muted-foreground mt-2">Tampilan ringkasan seluruh transaksi platform dengan penyaringan tingkat lanjut.</p>
       </div>
 
       <TransactionTableClient initialTransactions={transactions || []} />

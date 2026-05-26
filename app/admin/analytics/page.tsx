@@ -12,7 +12,7 @@ export default async function AdminAnalyticsPage() {
       <div>
         <h1 className="text-3xl font-bold tracking-tight text-foreground">Platform Analytics</h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          Deep insights into user growth, spending behavior, currency adoption, and financial health across the platform.
+          Wawasan mendalam tentang pertumbuhan pengguna, perilaku pengeluaran, adopsi mata uang, dan kesehatan finansial di seluruh platform.
         </p>
       </div>
 
