@@ -52,7 +52,7 @@ export function AdminDashboardClient({ data, alerts }: { data: any, alerts: any[
 
       {/* KPI Cards */}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-        <div className="rounded-2xl border border-border bg-card p-6 shadow-sm card-glow">
+        <div className="rounded-2xl border border-border/50 bg-card/40 backdrop-blur-xl p-6 shadow-sm card-glow">
           <div className="flex items-center gap-4 mb-4">
             <div className="flex size-10 items-center justify-center rounded-xl bg-blue-500/10 text-blue-500">
               <Users className="size-5" />
@@ -65,7 +65,7 @@ export function AdminDashboardClient({ data, alerts }: { data: any, alerts: any[
           <p className="text-xs text-muted-foreground">Active (30d): {activeUsers}</p>
         </div>
 
-        <div className="rounded-2xl border border-border bg-card p-6 shadow-sm card-glow">
+        <div className="rounded-2xl border border-border/50 bg-card/40 backdrop-blur-xl p-6 shadow-sm card-glow">
           <div className="flex items-center gap-4 mb-4">
             <div className="flex size-10 items-center justify-center rounded-xl bg-violet-500/10 text-violet-500">
               <CreditCard className="size-5" />
@@ -82,7 +82,7 @@ export function AdminDashboardClient({ data, alerts }: { data: any, alerts: any[
           </p>
         </div>
 
-        <div className="rounded-2xl border border-border bg-card p-6 shadow-sm card-glow">
+        <div className="rounded-2xl border border-border/50 bg-card/40 backdrop-blur-xl p-6 shadow-sm card-glow">
           <div className="flex items-center gap-4 mb-4">
             <div className="flex size-10 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-500">
               <TrendingUp className="size-5" />
@@ -97,7 +97,7 @@ export function AdminDashboardClient({ data, alerts }: { data: any, alerts: any[
           <p className="text-xs text-muted-foreground">Avg Expense Ratio: {behaviorAnalytics?.avgExpenseRatio || 0}%</p>
         </div>
 
-        <div className="rounded-2xl border border-border bg-card p-6 shadow-sm card-glow">
+        <div className="rounded-2xl border border-border/50 bg-card/40 backdrop-blur-xl p-6 shadow-sm card-glow">
           <div className="flex items-center gap-4 mb-4">
             <div className="flex size-10 items-center justify-center rounded-xl bg-amber-500/10 text-amber-500">
               <Globe className="size-5" />
@@ -116,7 +116,7 @@ export function AdminDashboardClient({ data, alerts }: { data: any, alerts: any[
 
       <div className="grid gap-6 lg:grid-cols-2">
         {/* Financial Category Analytics */}
-        <div className="rounded-2xl border border-border bg-card p-6 shadow-sm card-glow">
+        <div className="rounded-2xl border border-border/50 bg-card/40 backdrop-blur-xl p-6 shadow-sm card-glow">
           <h3 className="font-semibold text-lg mb-6 flex items-center gap-2">
             💸 Financial Category Analytics
           </h3>
@@ -137,7 +137,7 @@ export function AdminDashboardClient({ data, alerts }: { data: any, alerts: any[
                     <span className="font-medium capitalize">{cat.name}</span>
                     <span className="font-bold">{cat.percentage}%</span>
                   </div>
-                  <div className="h-2.5 w-full bg-secondary rounded-full overflow-hidden">
+                  <div className="h-2.5 w-full bg-secondary/50 rounded-full overflow-hidden">
                     <div 
                       className="h-full bg-gradient-to-r from-primary to-sky-500 transition-all duration-1000 ease-out" 
                       style={{ width: `${cat.percentage}%` }}
@@ -152,7 +152,7 @@ export function AdminDashboardClient({ data, alerts }: { data: any, alerts: any[
         </div>
 
         {/* Financial Behavior Analytics */}
-        <div className="rounded-2xl border border-border bg-card p-6 shadow-sm card-glow flex flex-col">
+        <div className="rounded-2xl border border-border/50 bg-card/40 backdrop-blur-xl p-6 shadow-sm card-glow flex flex-col">
           <h3 className="font-semibold text-lg mb-6 flex items-center gap-2">
             🧠 Financial Behavior Analytics
           </h3>
@@ -169,15 +169,15 @@ export function AdminDashboardClient({ data, alerts }: { data: any, alerts: any[
             {behaviorAnalytics && (
               <>
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="p-4 rounded-xl border border-border bg-background">
+                  <div className="p-4 rounded-xl border border-border/50 bg-background/40 backdrop-blur-md">
                     <p className="text-xs text-muted-foreground mb-1 uppercase tracking-wider font-semibold">Avg Saving Ratio</p>
                     <h4 className="text-2xl font-bold text-emerald-500">{behaviorAnalytics.avgSavingRatio}%</h4>
                   </div>
-                  <div className="p-4 rounded-xl border border-border bg-background">
+                  <div className="p-4 rounded-xl border border-border/50 bg-background/40 backdrop-blur-md">
                     <p className="text-xs text-muted-foreground mb-1 uppercase tracking-wider font-semibold">Avg Expense Ratio</p>
                     <h4 className="text-2xl font-bold text-amber-500">{behaviorAnalytics.avgExpenseRatio}%</h4>
                   </div>
-                  <div className="col-span-2 p-4 rounded-xl border border-border bg-background">
+                  <div className="col-span-2 p-4 rounded-xl border border-border/50 bg-background/40 backdrop-blur-md">
                     <p className="text-xs text-muted-foreground mb-1 uppercase tracking-wider font-semibold">Risky Spending Users</p>
                     <div className="flex items-center gap-3">
                       <h4 className="text-2xl font-bold text-red-500">{behaviorAnalytics.riskyUsersPercentage}%</h4>
@@ -207,7 +207,7 @@ export function AdminDashboardClient({ data, alerts }: { data: any, alerts: any[
       </div>
 
       {/* Risk Alerts Dashboard */}
-      <div className="rounded-2xl border border-red-500/20 bg-card p-6 shadow-sm relative overflow-hidden card-glow">
+      <div className="rounded-2xl border border-red-500/20 bg-card/40 backdrop-blur-xl p-6 shadow-sm relative overflow-hidden card-glow">
         <div className="absolute top-0 right-0 p-4 opacity-10">
           <AlertTriangle className="size-32 text-red-500" />
         </div>
@@ -219,7 +219,7 @@ export function AdminDashboardClient({ data, alerts }: { data: any, alerts: any[
         <div className="space-y-4 relative z-10">
           {alerts.length > 0 ? (
             alerts.slice(0, 10).map((alert: any) => (
-              <div key={alert.id} className="flex flex-col sm:flex-row gap-3 p-4 rounded-xl border border-border bg-background/50 backdrop-blur-sm">
+              <div key={alert.id} className="flex flex-col sm:flex-row gap-3 p-4 rounded-xl border border-border/50 bg-background/30 backdrop-blur-md">
                 <div className={`mt-1 size-2 rounded-full shrink-0 ${
                   alert.severity === 'high' ? 'bg-red-500' : 'bg-amber-500'
                 }`} />

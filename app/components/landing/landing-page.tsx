@@ -54,7 +54,30 @@ export function LandingPage({
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground selection:bg-primary/20">
+    <div className="min-h-screen bg-background text-foreground selection:bg-primary/20 relative overflow-hidden">
+      {/* ─── Animated Background Decorations ─── */}
+      {/* Drifting gradient orbs */}
+      <div className="bg-orb bg-orb-1" />
+      <div className="bg-orb bg-orb-2" />
+      <div className="bg-orb bg-orb-3" />
+      <div className="bg-orb bg-orb-4" />
+
+      {/* Morphing mesh gradient blob */}
+      <div className="bg-mesh-blob" />
+
+      {/* Subtle grid pattern overlay */}
+      <div className="bg-grid-pattern" />
+
+      {/* Floating particles */}
+      <div className="bg-particle bg-particle-1" />
+      <div className="bg-particle bg-particle-2" />
+      <div className="bg-particle bg-particle-3" />
+      <div className="bg-particle bg-particle-4" />
+      <div className="bg-particle bg-particle-5" />
+      <div className="bg-particle bg-particle-6" />
+      <div className="bg-particle bg-particle-7" />
+      <div className="bg-particle bg-particle-8" />
+
       {/* Navbar - Floating Glass Pill */}
       <header className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-6xl rounded-2xl border border-border/50 bg-background/60 backdrop-blur-xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] supports-[backdrop-filter]:bg-background/40 transition-all duration-300">
         <div className="flex h-16 w-full items-center justify-between px-4 sm:px-6">
@@ -346,38 +369,46 @@ export function LandingPage({
                 title: "Profil Analitik Pintar",
                 desc: "AI kami akan menganalisis kepribadian finansial (Financial Personality), kebiasaan menabung, dan pola pengeluaran mingguan Anda.",
                 badge: "AI-Powered",
-                color: "violet"
+                bgClass: "bg-violet-500/10",
+                borderClass: "border-violet-500/20",
+                textClass: "text-violet-500"
               },
               {
                 icon: <Target className="size-6 text-amber-500" />,
                 title: "Sistem Anggaran Cerdas",
                 desc: "Tetapkan batas budget per kategori. Dapatkan progres bar visual dan peringatan otomatis sesaat sebelum Anda mengalami overspending.",
                 badge: "Real-time",
-                color: "amber"
+                bgClass: "bg-amber-500/10",
+                borderClass: "border-amber-500/20",
+                textClass: "text-amber-500"
               },
               {
                 icon: <Download className="size-6 text-sky-500" />,
                 title: "Export Enterprise-Grade",
                 desc: "Unduh seluruh riwayat catatan keuangan Anda ke dalam format CSV maupun PDF dalam satu klik untuk pelaporan pajak atau audit.",
                 badge: "CSV / PDF",
-                color: "sky"
+                bgClass: "bg-sky-500/10",
+                borderClass: "border-sky-500/20",
+                textClass: "text-sky-500"
               },
               {
                 icon: <ShieldCheck className="size-6 text-emerald-500" />,
                 title: "Keamanan Kelas Atas",
                 desc: "Lupa password? Pulihkan akun Anda dengan aman menggunakan Pertanyaan Keamanan kustom. Pantau juga riwayat aktivitas login Anda.",
                 badge: "Secure",
-                color: "emerald"
+                bgClass: "bg-emerald-500/10",
+                borderClass: "border-emerald-500/20",
+                textClass: "text-emerald-500"
               }
             ].map((feature, i) => (
-              <div key={i} className="flex gap-6 rounded-3xl border border-border bg-background p-8 shadow-sm card-glow group hover:-translate-y-1 transition-transform">
-                <div className={`flex size-14 shrink-0 items-center justify-center rounded-2xl bg-${feature.color}-500/10 border border-${feature.color}-500/20 group-hover:scale-110 transition-transform`}>
+              <div key={i} className="flex gap-6 rounded-3xl border border-border/50 bg-card/40 backdrop-blur-xl p-8 shadow-sm card-glow group hover:-translate-y-1 hover:border-primary/30 transition-all duration-300">
+                <div className={`flex size-14 shrink-0 items-center justify-center rounded-2xl ${feature.bgClass} border ${feature.borderClass} group-hover:scale-110 transition-transform duration-300`}>
                   {feature.icon}
                 </div>
                 <div>
                   <div className="flex items-center gap-3 mb-2">
                     <h3 className="text-xl font-bold text-foreground">{feature.title}</h3>
-                    <span className={`rounded-full bg-${feature.color}-500/10 px-2.5 py-0.5 text-[10px] font-bold text-${feature.color}-500 uppercase tracking-wider`}>
+                    <span className={`rounded-full ${feature.bgClass} px-2.5 py-0.5 text-[10px] font-bold ${feature.textClass} uppercase tracking-wider`}>
                       {feature.badge}
                     </span>
                   </div>
