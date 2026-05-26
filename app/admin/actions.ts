@@ -6,18 +6,64 @@ import { revalidatePath } from "next/cache";
 export async function getUsers() {
   const adminClient = createAdminClient();
   
-  const { data: { users }, error } = await adminClient.auth.admin.listUsers();
+  const [usersRes, txRes] = await Promise.all([
+    adminClient.auth.admin.listUsers(),
+    adminClient.from("transactions").select("*")
+  ]);
+  
+  const { data: { users }, error } = usersRes;
+  const transactions = txRes.data || [];
   
   if (error) {
     console.error("Error fetching users:", error);
     return { success: false, error: error.message };
   }
 
-  // Format the users
+  // Calculate time ago helper
+  const getTimeAgo = (dateStr: string | null) => {
+    if (!dateStr) return "Never";
+    const date = new Date(dateStr);
+    const now = new Date();
+    const diffTime = Math.abs(now.getTime() - date.getTime());
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+    if (diffDays === 0 || diffDays === 1) return "today";
+    if (diffDays === 2) return "yesterday";
+    return `${diffDays} days ago`;
+  };
+
+  // Format the users with their financial data
   const formattedUsers = users.map(user => {
-    // Determine status (if banned_until is set to a future date or exists, they are suspended)
     const isBanned = user.banned_until ? new Date(user.banned_until) > new Date() : false;
     
+    // Calculate user's specific transactions
+    const userTxs = transactions.filter(tx => tx.user_id === user.id).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    const txCount = userTxs.length;
+    let income = 0;
+    let expense = 0;
+    const currencyCounts: Record<string, number> = {};
+    
+    userTxs.forEach(tx => {
+      const amt = Number(tx.amount) || 0;
+      if (tx.type === "income") income += amt;
+      else if (tx.type === "expense") expense += amt;
+      
+      const curr = tx.currency || "IDR";
+      currencyCounts[curr] = (currencyCounts[curr] || 0) + 1;
+    });
+    
+    const savings = income - expense;
+    let preferredCurrency = "IDR";
+    let maxCount = 0;
+    Object.entries(currencyCounts).forEach(([curr, count]) => {
+      if (count > maxCount) {
+        maxCount = count;
+        preferredCurrency = curr;
+      }
+    });
+
+    const expenseRatio = income > 0 ? (expense / income) * 100 : (expense > 0 ? 100 : 0);
+    const healthScore = Math.max(0, Math.min(100, 100 - (expenseRatio - 50)));
+
     return {
       id: user.id,
       name: user.user_metadata?.full_name || user.email?.split("@")[0] || "Unknown",
@@ -25,17 +71,26 @@ export async function getUsers() {
       role: user.app_metadata?.role || "User",
       status: isBanned ? "Suspended" : "Active",
       joined: new Date(user.created_at).toLocaleDateString("id-ID", {
-        day: "numeric",
-        month: "short",
-        year: "numeric"
+        day: "numeric", month: "short", year: "numeric"
       }),
-      lastSignIn: user.last_sign_in_at ? new Date(user.last_sign_in_at).toLocaleDateString("id-ID", {
-        day: "numeric",
-        month: "short",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit"
-      }) : "Never",
+      lastSignInFull: user.last_sign_in_at ? new Date(user.last_sign_in_at).toLocaleString("id-ID") : "Never",
+      lastSignIn: getTimeAgo(user.last_sign_in_at),
+      txCount,
+      financials: {
+        income,
+        expense,
+        savings,
+        healthScore: Math.round(healthScore)
+      },
+      preferredCurrency,
+      recentTransactions: userTxs.slice(0, 5).map(tx => ({
+        id: tx.id,
+        title: tx.title,
+        amount: Number(tx.amount),
+        type: tx.type,
+        date: tx.date,
+        currency: tx.currency || "IDR"
+      }))
     };
   });
 
@@ -148,14 +203,41 @@ export async function getPlatformAnalytics() {
       monthlyGrowth = 100; // infinite growth from 0
     }
 
+    // Analytics Extra Metrics
+    let totalIncome = 0;
+    let totalExpenseAmount = 0;
+    const currencyUsage: Record<string, number> = {};
+    const transactionsByDate: Record<string, number> = {};
+
+    transactions?.forEach(tx => {
+      const amount = Number(tx.amount) || 0;
+      if (tx.type === "income") totalIncome += amount;
+      if (tx.type === "expense") totalExpenseAmount += amount;
+      
+      const curr = tx.currency || "IDR";
+      currencyUsage[curr] = (currencyUsage[curr] || 0) + 1;
+
+      // Group by day for the last 14 days
+      const d = new Date(tx.date).toISOString().split('T')[0];
+      transactionsByDate[d] = (transactionsByDate[d] || 0) + 1;
+    });
+    
+    
+    let mostUsedCurrency = "IDR";
+    let maxCurrCount = 0;
+    Object.entries(currencyUsage).forEach(([curr, count]) => {
+      if (count > maxCurrCount) {
+        maxCurrCount = count;
+        mostUsedCurrency = curr;
+      }
+    });
+
     // Category breakdown (expenses only)
     const expenses = transactions?.filter(tx => tx.type === "expense") || [];
     const categoryTotals: Record<string, number> = {};
-    let totalExpenseAmount = 0;
     expenses.forEach(tx => {
       const amount = Number(tx.amount) || 0;
       categoryTotals[tx.category] = (categoryTotals[tx.category] || 0) + amount;
-      totalExpenseAmount += amount;
     });
 
     const categoryBreakdown = Object.entries(categoryTotals)
@@ -189,7 +271,7 @@ export async function getPlatformAnalytics() {
           totalSavingRatio += Math.max(0, (fin.income - fin.expense) / fin.income);
           totalExpenseRatio += (fin.expense / fin.income);
         } else {
-          totalExpenseRatio += 1; // 100% expense if income is 0
+          totalExpenseRatio += 1;
         }
         if (fin.expense > fin.income) {
           riskyUsersCount++;
@@ -209,11 +291,15 @@ export async function getPlatformAnalytics() {
       riskyUsersPercentage
     };
 
-    // Chart Data (Last 6 months)
-    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    const chartData: { month: string; newUsers: number; volume: number; totalUsers: number }[] = [];
+    // Chart Data Generation
+    const chartData: any = {
+      userGrowth: [],
+      transactionsPerDay: [],
+      currencyDistribution: []
+    };
     
-    // First pass to collect data
+    // 1. User Growth (Last 6 months)
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     const tempChartData = [];
     for (let i = 5; i >= 0; i--) {
       const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
@@ -236,17 +322,34 @@ export async function getPlatformAnalytics() {
       });
     }
 
-    // Accumulate total users over time for the user growth chart
     let cumulativeUsers = totalUsers - tempChartData.reduce((acc, curr) => acc + curr.newUsers, 0);
     if (cumulativeUsers < 0) cumulativeUsers = 0;
     
     tempChartData.forEach(data => {
       cumulativeUsers += data.newUsers;
-      chartData.push({
+      chartData.userGrowth.push({
         ...data,
         totalUsers: cumulativeUsers
       });
     });
+
+    // 2. Transactions Per Day (Last 14 days)
+    for (let i = 13; i >= 0; i--) {
+      const d = new Date();
+      d.setDate(d.getDate() - i);
+      const dateStr = d.toISOString().split('T')[0];
+      chartData.transactionsPerDay.push({
+        date: d.toLocaleDateString("en-US", { month: "short", day: "numeric" }),
+        count: transactionsByDate[dateStr] || 0
+      });
+    }
+
+    // 3. Currency Distribution
+    const totalTxCount = transactions?.length || 1;
+    chartData.currencyDistribution = Object.entries(currencyUsage).map(([name, value]) => ({
+      name,
+      value: Math.round((value / totalTxCount) * 100)
+    })).sort((a, b) => b.value - a.value);
 
     // Insights
     let topCategoryInsight = "Belum ada cukup data kategori bulan ini.";
@@ -281,7 +384,11 @@ export async function getPlatformAnalytics() {
       data: {
         totalUsers,
         activeUsers,
+        totalTransactions: transactions?.length || 0,
         totalTransactionsAmount,
+        totalIncome,
+        totalExpense: totalExpenseAmount,
+        mostUsedCurrency,
         monthlyGrowth,
         categoryBreakdown,
         behaviorAnalytics,

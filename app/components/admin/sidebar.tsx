@@ -10,7 +10,7 @@ export function AdminSidebar({ isMobile = false }: { isMobile?: boolean }) {
   const links = [
     {
       href: "/admin",
-      label: "Analytics",
+      label: "Dashboard / Overview",
       icon: Activity,
       exact: true
     },

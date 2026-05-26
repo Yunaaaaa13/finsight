@@ -9,7 +9,11 @@ export function AdminDashboardClient({ data, alerts }: { data: any, alerts: any[
   const { 
     totalUsers, 
     activeUsers, 
+    totalTransactions,
     totalTransactionsAmount, 
+    totalIncome,
+    totalExpense,
+    mostUsedCurrency,
     monthlyGrowth, 
     categoryBreakdown,
     behaviorAnalytics,
@@ -54,22 +58,11 @@ export function AdminDashboardClient({ data, alerts }: { data: any, alerts: any[
               <Users className="size-5" />
             </div>
             <div>
-              <p className="text-sm font-medium text-muted-foreground">Total Users</p>
+              <p className="text-sm font-medium text-muted-foreground">Users</p>
               <h3 className="text-2xl font-bold">{totalUsers}</h3>
             </div>
           </div>
-        </div>
-
-        <div className="rounded-2xl border border-border bg-card p-6 shadow-sm card-glow">
-          <div className="flex items-center gap-4 mb-4">
-            <div className="flex size-10 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-500">
-              <Activity className="size-5" />
-            </div>
-            <div>
-              <p className="text-sm font-medium text-muted-foreground">Active Users (30d)</p>
-              <h3 className="text-2xl font-bold">{activeUsers}</h3>
-            </div>
-          </div>
+          <p className="text-xs text-muted-foreground">Active (30d): {activeUsers}</p>
         </div>
 
         <div className="rounded-2xl border border-border bg-card p-6 shadow-sm card-glow">
@@ -78,32 +71,43 @@ export function AdminDashboardClient({ data, alerts }: { data: any, alerts: any[
               <CreditCard className="size-5" />
             </div>
             <div>
-              <p className="text-sm font-medium text-muted-foreground">Total Transactions</p>
-              <h3 className="text-2xl font-bold truncate" title={formatCurrency(convertFromIDR(totalTransactionsAmount), baseCurrency)}>
-                {formatCurrency(convertFromIDR(totalTransactionsAmount), baseCurrency)}
+              <p className="text-sm font-medium text-muted-foreground">Transactions</p>
+              <h3 className="text-2xl font-bold">
+                {totalTransactions.toLocaleString('id-ID')}
               </h3>
             </div>
           </div>
+          <p className="text-xs text-muted-foreground truncate" title={formatCurrency(convertFromIDR(totalTransactionsAmount), baseCurrency)}>
+            Volume: {formatCurrency(convertFromIDR(totalTransactionsAmount), baseCurrency)}
+          </p>
+        </div>
+
+        <div className="rounded-2xl border border-border bg-card p-6 shadow-sm card-glow">
+          <div className="flex items-center gap-4 mb-4">
+            <div className="flex size-10 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-500">
+              <TrendingUp className="size-5" />
+            </div>
+            <div>
+              <p className="text-sm font-medium text-muted-foreground">Avg Savings Ratio</p>
+              <h3 className="text-2xl font-bold flex items-center gap-2">
+                {behaviorAnalytics?.avgSavingRatio || 0}%
+              </h3>
+            </div>
+          </div>
+          <p className="text-xs text-muted-foreground">Avg Expense Ratio: {behaviorAnalytics?.avgExpenseRatio || 0}%</p>
         </div>
 
         <div className="rounded-2xl border border-border bg-card p-6 shadow-sm card-glow">
           <div className="flex items-center gap-4 mb-4">
             <div className="flex size-10 items-center justify-center rounded-xl bg-amber-500/10 text-amber-500">
-              <TrendingUp className="size-5" />
+              <Globe className="size-5" />
             </div>
             <div>
-              <p className="text-sm font-medium text-muted-foreground">Monthly Growth</p>
-              <h3 className="text-2xl font-bold flex items-center gap-2">
-                {monthlyGrowth}%
-                {monthlyGrowth > 0 ? (
-                  <ArrowUpRight className="size-4 text-emerald-500" />
-                ) : monthlyGrowth < 0 ? (
-                  <ArrowDownRight className="size-4 text-red-500" />
-                ) : null}
-              </h3>
+              <p className="text-sm font-medium text-muted-foreground">Currency Used</p>
+              <h3 className="text-2xl font-bold">{mostUsedCurrency}</h3>
             </div>
           </div>
-          <p className="text-xs text-muted-foreground">Volume growth compared to last month.</p>
+          <p className="text-xs text-muted-foreground">Most popular currency based on transactions</p>
         </div>
       </div>
 
