@@ -268,8 +268,31 @@ export function DashboardShell() {
   });
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <div className="mx-auto grid w-full max-w-7xl gap-8 px-4 py-8 pb-24 sm:px-6 lg:grid-cols-[260px_1fr] lg:px-10 lg:pb-8">
+    <div className="min-h-screen bg-background text-foreground relative overflow-hidden">
+      {/* ─── Animated Background Decorations ─── */}
+      {/* Drifting gradient orbs */}
+      <div className="bg-orb bg-orb-1" />
+      <div className="bg-orb bg-orb-2" />
+      <div className="bg-orb bg-orb-3" />
+      <div className="bg-orb bg-orb-4" />
+
+      {/* Morphing mesh gradient blob */}
+      <div className="bg-mesh-blob" />
+
+      {/* Subtle grid pattern overlay */}
+      <div className="bg-grid-pattern" />
+
+      {/* Floating particles */}
+      <div className="bg-particle bg-particle-1" />
+      <div className="bg-particle bg-particle-2" />
+      <div className="bg-particle bg-particle-3" />
+      <div className="bg-particle bg-particle-4" />
+      <div className="bg-particle bg-particle-5" />
+      <div className="bg-particle bg-particle-6" />
+      <div className="bg-particle bg-particle-7" />
+      <div className="bg-particle bg-particle-8" />
+
+      <div className="mx-auto grid w-full max-w-7xl gap-8 px-4 py-8 pb-24 sm:px-6 lg:grid-cols-[260px_1fr] lg:px-10 lg:pb-8 relative z-10">
         <Sidebar activeView={activeView} onViewChange={setActiveView} />
 
         <main className="space-y-6 min-w-0">
