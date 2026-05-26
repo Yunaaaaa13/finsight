@@ -20,7 +20,7 @@ export async function getUsers() {
   }
 
   // Calculate time ago helper
-  const getTimeAgo = (dateStr: string | null) => {
+  const getTimeAgo = (dateStr: string | null | undefined) => {
     if (!dateStr) return "Never";
     const date = new Date(dateStr);
     const now = new Date();
