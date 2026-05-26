@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Users, Activity, FileText } from "lucide-react";
+import { LayoutDashboard, Users, Activity, FileText, BarChart2 } from "lucide-react";
 
 export function AdminSidebar({ isMobile = false }: { isMobile?: boolean }) {
   const pathname = usePathname();
@@ -13,6 +13,12 @@ export function AdminSidebar({ isMobile = false }: { isMobile?: boolean }) {
       label: "Dashboard / Overview",
       icon: Activity,
       exact: true
+    },
+    {
+      href: "/admin/analytics",
+      label: "Analytics",
+      icon: BarChart2,
+      exact: false
     },
     {
       href: "/admin/transactions",

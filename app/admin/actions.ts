@@ -483,3 +483,143 @@ export async function getRiskAlerts() {
     return { success: false, error: err.message || "Failed to fetch risk alerts" };
   }
 }
+
+export async function getDeepAnalytics() {
+  try {
+    const adminClient = createAdminClient();
+
+    const [usersRes, txRes] = await Promise.all([
+      adminClient.auth.admin.listUsers(),
+      adminClient.from("transactions").select("*")
+    ]);
+
+    const { data: { users }, error: usersError } = usersRes;
+    if (usersError) throw usersError;
+    const transactions = txRes.data || [];
+
+    const now = new Date();
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+    // ─── 1. User Growth (last 12 months) ────────────────────────────────────
+    const userGrowth12m = [];
+    let cumulativeUsers = 0;
+    // base = users created before 12 months ago
+    const twelveMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 11, 1);
+    cumulativeUsers = users.filter(u => new Date(u.created_at) < twelveMonthsAgo).length;
+
+    for (let i = 11; i >= 0; i--) {
+      const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+      const newInMonth = users.filter(u => {
+        const ud = new Date(u.created_at);
+        return ud.getMonth() === d.getMonth() && ud.getFullYear() === d.getFullYear();
+      }).length;
+      cumulativeUsers += newInMonth;
+      userGrowth12m.push({ month: `${months[d.getMonth()]} '${String(d.getFullYear()).slice(2)}`, newUsers: newInMonth, totalUsers: cumulativeUsers });
+    }
+
+    // ─── 2. Spending Behavior — Top Categories ───────────────────────────────
+    const expenseTxs = transactions.filter(tx => tx.type === "expense");
+    const categoryTotals: Record<string, { amount: number; count: number }> = {};
+    let totalExpense = 0;
+    expenseTxs.forEach(tx => {
+      const amt = Number(tx.amount) || 0;
+      const cat = tx.category || "Other";
+      if (!categoryTotals[cat]) categoryTotals[cat] = { amount: 0, count: 0 };
+      categoryTotals[cat].amount += amt;
+      categoryTotals[cat].count += 1;
+      totalExpense += amt;
+    });
+    const topCategories = Object.entries(categoryTotals)
+      .map(([name, val]) => ({
+        name,
+        amount: val.amount,
+        count: val.count,
+        percentage: totalExpense > 0 ? Math.round((val.amount / totalExpense) * 100) : 0
+      }))
+      .sort((a, b) => b.amount - a.amount)
+      .slice(0, 8);
+
+    // ─── 3. Spending by Month (income vs expense) ────────────────────────────
+    const spendingByMonth = [];
+    for (let i = 5; i >= 0; i--) {
+      const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+      const monthTxs = transactions.filter(tx => {
+        const td = new Date(tx.date);
+        return td.getMonth() === d.getMonth() && td.getFullYear() === d.getFullYear();
+      });
+      const income = monthTxs.filter(tx => tx.type === "income").reduce((s, tx) => s + (Number(tx.amount) || 0), 0);
+      const expense = monthTxs.filter(tx => tx.type === "expense").reduce((s, tx) => s + (Number(tx.amount) || 0), 0);
+      spendingByMonth.push({ month: months[d.getMonth()], income, expense, savings: income - expense });
+    }
+
+    // ─── 4. Currency Analytics ───────────────────────────────────────────────
+    const currencyCount: Record<string, number> = {};
+    const currencyVolume: Record<string, number> = {};
+    transactions.forEach(tx => {
+      const curr = tx.currency || "IDR";
+      currencyCount[curr] = (currencyCount[curr] || 0) + 1;
+      currencyVolume[curr] = (currencyVolume[curr] || 0) + (Number(tx.amount) || 0);
+    });
+    const totalTxCount = transactions.length || 1;
+    const currencyAnalytics = Object.entries(currencyCount)
+      .map(([name, count]) => ({
+        name,
+        count,
+        volume: currencyVolume[name] || 0,
+        percentage: Math.round((count / totalTxCount) * 100)
+      }))
+      .sort((a, b) => b.count - a.count);
+
+    // ─── 5. Financial Health Distribution ────────────────────────────────────
+    const userHealth: Record<string, { income: number; expense: number }> = {};
+    users.forEach(u => { userHealth[u.id] = { income: 0, expense: 0 }; });
+    transactions.forEach(tx => {
+      if (!userHealth[tx.user_id]) userHealth[tx.user_id] = { income: 0, expense: 0 };
+      const amt = Number(tx.amount) || 0;
+      if (tx.type === "income") userHealth[tx.user_id].income += amt;
+      else if (tx.type === "expense") userHealth[tx.user_id].expense += amt;
+    });
+
+    let excellent = 0, good = 0, fair = 0, poor = 0, noData = 0;
+    Object.values(userHealth).forEach(fin => {
+      if (fin.income === 0 && fin.expense === 0) { noData++; return; }
+      const expRatio = fin.income > 0 ? (fin.expense / fin.income) * 100 : 100;
+      if (expRatio <= 50) excellent++;
+      else if (expRatio <= 75) good++;
+      else if (expRatio <= 100) fair++;
+      else poor++;
+    });
+    const healthTotal = excellent + good + fair + poor || 1;
+    const financialHealthDist = [
+      { name: "Excellent", value: Math.round((excellent / healthTotal) * 100), count: excellent, color: "#10b981" },
+      { name: "Good", value: Math.round((good / healthTotal) * 100), count: good, color: "#3b82f6" },
+      { name: "Fair", value: Math.round((fair / healthTotal) * 100), count: fair, color: "#f59e0b" },
+      { name: "Poor", value: Math.round((poor / healthTotal) * 100), count: poor, color: "#ef4444" },
+    ];
+
+    // ─── 6. Summary KPIs ────────────────────────────────────────────────────
+    const totalIncome = transactions.filter(tx => tx.type === "income").reduce((s, tx) => s + (Number(tx.amount) || 0), 0);
+    const mostUsedCurrency = currencyAnalytics[0]?.name || "IDR";
+    const avgTransactionsPerUser = users.length > 0 ? Math.round(transactions.length / users.length) : 0;
+
+    return {
+      success: true,
+      data: {
+        userGrowth12m,
+        topCategories,
+        spendingByMonth,
+        currencyAnalytics,
+        financialHealthDist,
+        totalExpense,
+        totalIncome,
+        mostUsedCurrency,
+        avgTransactionsPerUser,
+        totalTransactions: transactions.length,
+        totalUsers: users.length
+      }
+    };
+  } catch (err: any) {
+    console.error("Deep Analytics Error:", err);
+    return { success: false, error: err.message || "Failed to fetch deep analytics" };
+  }
+}
