@@ -55,71 +55,85 @@ export function LandingPage({
 
   return (
     <div className="min-h-screen bg-background text-foreground selection:bg-primary/20">
-      {/* Navbar */}
-      <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/60 backdrop-blur-xl">
-        <div className="flex h-16 w-full items-center justify-between px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-2">
-            <div className="flex size-8 items-center justify-center rounded-lg gradient-emerald shadow-sm">
+      {/* Navbar - Floating Glass Pill */}
+      <header className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-6xl rounded-2xl border border-border/50 bg-background/60 backdrop-blur-xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] supports-[backdrop-filter]:bg-background/40 transition-all duration-300">
+        <div className="flex h-16 w-full items-center justify-between px-4 sm:px-6">
+          <div className="flex items-center gap-3">
+            <div className="flex size-9 items-center justify-center rounded-xl gradient-emerald shadow-lg shadow-emerald-500/20">
               <TrendingUp className="size-5 text-white" />
             </div>
-            <span className="text-xl font-bold tracking-tight">FinSight</span>
+            <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">FinSight</span>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             {isLoggedIn ? (
-              <div className="relative" ref={profileRef}>
-                <button
-                  onClick={() => setIsProfileOpen(!isProfileOpen)}
-                  className="flex size-10 items-center justify-center rounded-full bg-muted border border-border overflow-hidden hover:opacity-80 transition-opacity"
+              <div className="flex items-center gap-2 sm:gap-4">
+                <Link
+                  href="/dashboard"
+                  className="hidden sm:flex items-center gap-2 rounded-xl bg-primary/10 px-4 py-2 text-sm font-semibold text-primary hover:bg-primary/20 transition-all"
                 >
-                  {avatarUrl ? (
-                    <img src={avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
-                  ) : (
-                    <User className="size-5 text-muted-foreground" />
-                  )}
-                </button>
+                  <LayoutDashboard className="size-4" />
+                  Dashboard
+                </Link>
+                <div className="relative" ref={profileRef}>
+                  <button
+                    onClick={() => setIsProfileOpen(!isProfileOpen)}
+                    className="flex items-center gap-2 rounded-full border border-border/50 bg-card/50 p-1 pr-3 hover:bg-accent hover:text-accent-foreground transition-all duration-300 shadow-sm"
+                  >
+                    <div className="size-8 rounded-full bg-muted overflow-hidden flex items-center justify-center">
+                      {avatarUrl ? (
+                        <img src={avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
+                      ) : (
+                        <User className="size-4 text-muted-foreground" />
+                      )}
+                    </div>
+                    <span className="text-sm font-medium hidden sm:block max-w-[100px] truncate">
+                      {fullName ? fullName.split(' ')[0] : (userEmail?.split('@')[0] || "User")}
+                    </span>
+                  </button>
 
-                {isProfileOpen && (
-                  <div className="absolute right-0 top-full mt-2 w-72 rounded-2xl border border-border bg-card p-4 shadow-xl card-glow animate-in fade-in slide-in-from-top-4">
-                    <div className="flex flex-col items-center text-center pb-4 border-b border-border">
-                      <div className="size-16 rounded-full bg-muted border border-border overflow-hidden mb-3">
-                        {avatarUrl ? (
-                          <img src={avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
-                        ) : (
-                          <User className="size-8 text-muted-foreground m-auto h-full" />
-                        )}
+                  {isProfileOpen && (
+                    <div className="absolute right-0 top-full mt-3 w-72 rounded-2xl border border-border/50 bg-background/95 backdrop-blur-xl p-4 shadow-2xl card-glow animate-in fade-in slide-in-from-top-4">
+                      <div className="flex flex-col items-center text-center pb-4 border-b border-border/50">
+                        <div className="size-16 rounded-full bg-muted border border-border overflow-hidden mb-3 shadow-inner">
+                          {avatarUrl ? (
+                            <img src={avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
+                          ) : (
+                            <User className="size-8 text-muted-foreground m-auto h-full" />
+                          )}
+                        </div>
+                        <p className="font-bold text-foreground truncate w-full text-lg">
+                          {fullName ? fullName : (userEmail || "Pengguna FinSight")}
+                        </p>
+                        {bio && <p className="text-sm text-muted-foreground mt-1 line-clamp-2">{bio}</p>}
+                        {quote && <p className="text-xs italic text-primary mt-3 bg-primary/10 px-3 py-1.5 rounded-lg">&quot;{quote}&quot;</p>}
                       </div>
-                      <p className="font-semibold text-foreground truncate w-full">
-                        {fullName ? fullName : (userEmail || "Pengguna FinSight")}
-                      </p>
-                      {bio && <p className="text-sm text-muted-foreground mt-1 line-clamp-2">{bio}</p>}
-                      {quote && <p className="text-xs italic text-primary mt-2">&quot;{quote}&quot;</p>}
+                      <div className="flex flex-col gap-2 pt-4">
+                        <Link
+                          href="/dashboard"
+                          className="flex sm:hidden w-full items-center justify-center gap-2 rounded-xl bg-primary/10 px-4 py-2 text-sm font-semibold text-primary shadow-sm hover:bg-primary/20 transition-all"
+                        >
+                          <LayoutDashboard className="size-4" />
+                          Ke Dashboard
+                        </Link>
+                        <button
+                          onClick={handleLogout}
+                          className="flex w-full items-center justify-center gap-2 rounded-xl bg-destructive/10 px-4 py-2.5 text-sm font-semibold text-destructive shadow-sm hover:bg-destructive hover:text-destructive-foreground transition-all duration-300"
+                        >
+                          <LogOut className="size-4" />
+                          Keluar
+                        </button>
+                      </div>
                     </div>
-                    <div className="flex flex-col gap-2 pt-4">
-                      <Link
-                        href="/dashboard"
-                        className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow hover:bg-primary/90 transition-all"
-                      >
-                        <LayoutDashboard className="size-4" />
-                        Ke Dashboard
-                      </Link>
-                      <button
-                        onClick={handleLogout}
-                        className="flex w-full items-center justify-center gap-2 rounded-xl bg-destructive/10 px-4 py-2 text-sm font-semibold text-destructive shadow-sm hover:bg-destructive/20 transition-all"
-                      >
-                        <LogOut className="size-4" />
-                        Keluar
-                      </button>
-                    </div>
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
             ) : (
               <>
-                <Link href="/login" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-                  Login
+                <Link href="/login" className="hidden sm:inline-flex text-sm font-semibold text-muted-foreground hover:text-foreground transition-colors px-2">
+                  Masuk
                 </Link>
-                <Link href="/login?type=register" className="rounded-full bg-primary px-4 py-2 text-sm font-bold text-primary-foreground shadow hover:bg-primary/90 transition-all">
-                  Register
+                <Link href="/login?type=register" className="inline-flex items-center justify-center rounded-xl bg-primary px-5 py-2.5 text-sm font-bold text-primary-foreground shadow-lg shadow-primary/25 hover:bg-primary/90 hover:-translate-y-0.5 transition-all duration-300">
+                  Mulai Sekarang
                 </Link>
               </>
             )}
