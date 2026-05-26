@@ -64,26 +64,26 @@ export function TransactionTableClient({ initialTransactions }: { initialTransac
     <div className="space-y-6">
       {/* Quick Insights based on filters */}
       <div className="grid gap-4 md:grid-cols-3">
-        <div className="rounded-2xl border border-border bg-card p-5 shadow-sm card-glow">
+        <div className="rounded-2xl border border-border/50 bg-card/40 backdrop-blur-xl p-5 shadow-sm card-glow">
           <p className="text-sm font-medium text-muted-foreground mb-1">Top Category (Volume)</p>
           <h3 className="text-xl font-bold capitalize text-primary">{topCategory}</h3>
         </div>
-        <div className="rounded-2xl border border-border bg-card p-5 shadow-sm card-glow">
+        <div className="rounded-2xl border border-border/50 bg-card/40 backdrop-blur-xl p-5 shadow-sm card-glow">
           <p className="text-sm font-medium text-muted-foreground mb-1">Total Volume</p>
           <h3 className="text-xl font-bold">{formatCurrency(convertFromIDR(totalVolume), baseCurrency)}</h3>
         </div>
-        <div className="rounded-2xl border border-border bg-card p-5 shadow-sm card-glow">
+        <div className="rounded-2xl border border-border/50 bg-card/40 backdrop-blur-xl p-5 shadow-sm card-glow">
           <p className="text-sm font-medium text-muted-foreground mb-1">Avg Daily Transaction</p>
           <h3 className="text-xl font-bold">{formatCurrency(convertFromIDR(avgDaily), baseCurrency)}</h3>
         </div>
       </div>
 
-      <div className="rounded-2xl border border-border bg-card shadow-sm overflow-hidden card-glow">
-        <div className="p-6 border-b border-border flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-secondary/10">
+      <div className="rounded-2xl border border-border/50 bg-card/40 backdrop-blur-xl shadow-sm overflow-hidden card-glow">
+        <div className="p-6 border-b border-border/50 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-secondary/5 backdrop-blur-md">
           <div className="flex items-center gap-3">
             <h3 className="font-semibold text-lg whitespace-nowrap">All Transactions</h3>
             
-            <div className="hidden sm:inline-flex items-center gap-2 rounded-xl bg-background/50 backdrop-blur-sm px-3.5 py-1.5 text-xs font-medium text-muted-foreground border border-border/50">
+            <div className="hidden sm:inline-flex items-center gap-2 rounded-xl bg-background/30 backdrop-blur-sm px-3.5 py-1.5 text-xs font-medium text-muted-foreground border border-border/50">
               <Globe className="size-3.5 text-primary" />
               <select
                 value={baseCurrency}
@@ -108,14 +108,14 @@ export function TransactionTableClient({ initialTransactions }: { initialTransac
                 placeholder="Search user or category..." 
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full bg-background border border-border rounded-xl pl-9 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                className="w-full bg-background/30 border border-border/50 rounded-xl pl-9 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
               />
             </div>
             
             <select 
               value={categoryFilter}
               onChange={(e) => setCategoryFilter(e.target.value)}
-              className="bg-background border border-border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 capitalize"
+              className="bg-background/30 border border-border/50 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 capitalize"
             >
               <option value="all">All Categories</option>
               {categories.map(c => <option key={c} value={c}>{c}</option>)}
@@ -124,7 +124,7 @@ export function TransactionTableClient({ initialTransactions }: { initialTransac
             <select 
               value={typeFilter}
               onChange={(e) => setTypeFilter(e.target.value)}
-              className="bg-background border border-border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
+              className="bg-background/30 border border-border/50 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
             >
               <option value="all">All Types</option>
               <option value="expense">Expense</option>
@@ -135,7 +135,7 @@ export function TransactionTableClient({ initialTransactions }: { initialTransac
 
         <div className="overflow-x-auto">
           <table className="w-full text-sm text-left">
-            <thead className="text-xs text-muted-foreground uppercase bg-secondary/30">
+            <thead className="text-xs text-muted-foreground uppercase bg-secondary/20 border-b border-border/50">
               <tr>
                 <th className="px-6 py-4 font-medium">User Email</th>
                 <th className="px-6 py-4 font-medium">Date</th>
@@ -147,7 +147,7 @@ export function TransactionTableClient({ initialTransactions }: { initialTransac
             <tbody>
               {filteredTransactions.length > 0 ? (
                 filteredTransactions.map((tx: any) => (
-                  <tr key={tx.id} className="border-b border-border hover:bg-secondary/20 transition-colors">
+                  <tr key={tx.id} className="border-b border-border/50 hover:bg-secondary/15 transition-colors">
                     <td className="px-6 py-4 font-medium">{tx.user_email}</td>
                     <td className="px-6 py-4 text-muted-foreground">
                       {new Date(tx.date).toLocaleString("id-ID", {

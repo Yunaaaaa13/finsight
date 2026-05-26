@@ -163,7 +163,7 @@ export function UserTable({ initialUsers }: { initialUsers: AdminUser[] }) {
     <div className="space-y-4">
 
       {/* ── Audit Log Toggle ──────────────────────────────────────────────── */}
-      <div className="rounded-2xl border border-border bg-card overflow-hidden">
+      <div className="rounded-2xl border border-border/50 bg-card/40 backdrop-blur-xl overflow-hidden">
         <button
           onClick={() => setShowAuditLog(v => !v)}
           className="w-full flex items-center justify-between px-5 py-3.5 text-sm font-semibold hover:bg-muted/40 transition-colors"
@@ -181,7 +181,7 @@ export function UserTable({ initialUsers }: { initialUsers: AdminUser[] }) {
         </button>
 
         {showAuditLog && (
-          <div className="border-t border-border divide-y divide-border max-h-64 overflow-y-auto">
+          <div className="border-t border-border/50 divide-y divide-border/50 max-h-64 overflow-y-auto">
             {auditLog.length === 0 ? (
               <p className="px-5 py-6 text-sm text-muted-foreground text-center">
                 No actions recorded in this session yet.
@@ -207,10 +207,10 @@ export function UserTable({ initialUsers }: { initialUsers: AdminUser[] }) {
       </div>
 
       {/* ── User Table ────────────────────────────────────────────────────── */}
-      <div className="rounded-2xl border border-border bg-card overflow-hidden">
+      <div className="rounded-2xl border border-border/50 bg-card/40 backdrop-blur-xl overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm text-left">
-            <thead className="text-xs text-muted-foreground uppercase bg-muted/50 border-b border-border">
+            <thead className="text-xs text-muted-foreground uppercase bg-muted/30 border-b border-border/50">
               <tr>
                 <th className="px-6 py-4 font-medium">User</th>
                 <th className="px-6 py-4 font-medium">Role</th>
@@ -220,11 +220,11 @@ export function UserTable({ initialUsers }: { initialUsers: AdminUser[] }) {
                 <th className="px-6 py-4 font-medium text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-border">
+            <tbody className="divide-y divide-border/50">
               {users.map((user) => {
                 const isLoading = (t: string) => loadingAction === `${t}-${user.id}`;
                 return (
-                  <tr key={user.id} className="hover:bg-muted/30 transition-colors group">
+                  <tr key={user.id} className="hover:bg-secondary/20 transition-colors group">
                     {/* User */}
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
@@ -353,7 +353,7 @@ export function UserTable({ initialUsers }: { initialUsers: AdminUser[] }) {
         return (
           <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm animate-in fade-in duration-150">
             <div className="absolute inset-0" onClick={() => setConfirmAction(null)} />
-            <div className="relative w-full max-w-md bg-card border border-border rounded-2xl shadow-2xl p-6 animate-in zoom-in-95 duration-150 space-y-5">
+            <div className="relative w-full max-w-md bg-card/85 backdrop-blur-xl border border-border/50 rounded-2xl shadow-2xl p-6 animate-in zoom-in-95 duration-150 space-y-5">
               {/* Header */}
               <div className="flex items-start gap-4">
                 <div className={`flex size-12 items-center justify-center rounded-2xl shrink-0 ${colorMap[meta.color]}`}>
@@ -369,7 +369,7 @@ export function UserTable({ initialUsers }: { initialUsers: AdminUser[] }) {
               </div>
 
               {/* Target user */}
-              <div className="flex items-center gap-3 p-3 rounded-xl bg-muted/40 border border-border">
+              <div className="flex items-center gap-3 p-3 rounded-xl bg-background/40 border border-border/50">
                 <div className="size-9 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-sm shrink-0">
                   {confirmAction.userName.charAt(0).toUpperCase()}
                 </div>
@@ -410,10 +410,10 @@ export function UserTable({ initialUsers }: { initialUsers: AdminUser[] }) {
       {selectedUser && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm animate-in fade-in duration-200">
           <div className="absolute inset-0" onClick={() => setSelectedUser(null)} />
-          <div className="relative w-full max-w-3xl max-h-[90vh] bg-card border border-border rounded-2xl shadow-2xl overflow-hidden flex flex-col animate-in zoom-in-95 duration-200">
+          <div className="relative w-full max-w-3xl max-h-[90vh] bg-card/85 backdrop-blur-xl border border-border/50 rounded-2xl shadow-2xl overflow-hidden flex flex-col animate-in zoom-in-95 duration-200">
 
             {/* Header */}
-            <div className="px-6 py-4 border-b border-border flex items-center justify-between sticky top-0 bg-card z-10">
+            <div className="px-6 py-4 border-b border-border/50 flex items-center justify-between sticky top-0 bg-card/40 backdrop-blur-md z-10">
               <h2 className="text-xl font-bold">User Profile</h2>
               <button onClick={() => setSelectedUser(null)} className="p-2 rounded-full hover:bg-muted text-muted-foreground transition-colors">
                 <X className="size-5" />
@@ -437,7 +437,7 @@ export function UserTable({ initialUsers }: { initialUsers: AdminUser[] }) {
                     <span className={`px-2.5 py-1 rounded-full text-xs font-semibold border flex items-center gap-1 ${
                       selectedUser.role === "Admin"
                         ? "bg-violet-500/10 text-violet-500 border-violet-500/20"
-                        : "bg-muted text-muted-foreground border-border"
+                        : "bg-muted text-muted-foreground border-border/50"
                     }`}>
                       {selectedUser.role === "Admin" && <ShieldCheck className="size-3" />}
                       {selectedUser.role}
@@ -453,7 +453,7 @@ export function UserTable({ initialUsers }: { initialUsers: AdminUser[] }) {
                       {selectedUser.preferredCurrency}
                     </span>
                   </div>
-                  <div className="grid grid-cols-2 gap-4 text-sm bg-muted/30 p-3 rounded-xl border border-border/50">
+                  <div className="grid grid-cols-2 gap-4 text-sm bg-background/40 p-3 rounded-xl border border-border/50">
                     <div>
                       <p className="text-muted-foreground text-xs uppercase tracking-wider mb-0.5">Joined</p>
                       <p className="font-medium">{selectedUser.joined}</p>
@@ -512,7 +512,7 @@ export function UserTable({ initialUsers }: { initialUsers: AdminUser[] }) {
                     { label: "Savings", value: formatCurrency(convertFromIDR(selectedUser.financials.savings), baseCurrency), color: selectedUser.financials.savings >= 0 ? "text-emerald-500" : "text-rose-500" },
                     { label: "Health Score", value: `${selectedUser.financials.healthScore}/100`, color: selectedUser.financials.healthScore > 60 ? "text-emerald-500" : selectedUser.financials.healthScore > 30 ? "text-amber-500" : "text-rose-500" },
                   ].map(f => (
-                    <div key={f.label} className="p-3 rounded-xl border border-border bg-card">
+                    <div key={f.label} className="p-3 rounded-xl border border-border/50 bg-background/40 backdrop-blur-sm">
                       <p className="text-xs text-muted-foreground font-medium mb-1">{f.label}</p>
                       <p className={`text-base font-bold truncate ${f.color}`} title={f.value}>{f.value}</p>
                     </div>
@@ -526,7 +526,7 @@ export function UserTable({ initialUsers }: { initialUsers: AdminUser[] }) {
                 {selectedUser.recentTransactions.length > 0 ? (
                   <div className="space-y-2">
                     {selectedUser.recentTransactions.map(tx => (
-                      <div key={tx.id} className="flex items-center justify-between p-3 rounded-xl border border-border bg-card hover:bg-muted/30 transition-colors">
+                      <div key={tx.id} className="flex items-center justify-between p-3 rounded-xl border border-border/50 bg-background/40 backdrop-blur-sm hover:bg-secondary/20 transition-colors">
                         <div className="flex items-center gap-3">
                           <div className={`size-7 rounded-full flex items-center justify-center shrink-0 ${tx.type === "income" ? "bg-emerald-500/10 text-emerald-500" : "bg-rose-500/10 text-rose-500"}`}>
                             {tx.type === "income" ? <ArrowDownRight className="size-3.5" /> : <ArrowUpRight className="size-3.5" />}
@@ -543,7 +543,7 @@ export function UserTable({ initialUsers }: { initialUsers: AdminUser[] }) {
                     ))}
                   </div>
                 ) : (
-                  <div className="p-8 text-center border border-dashed border-border rounded-xl">
+                  <div className="p-8 text-center border border-dashed border-border/50 rounded-xl">
                     <p className="text-muted-foreground text-sm">No recent transactions.</p>
                   </div>
                 )}
@@ -551,7 +551,7 @@ export function UserTable({ initialUsers }: { initialUsers: AdminUser[] }) {
             </div>
 
             {/* Footer */}
-            <div className="p-4 border-t border-border bg-muted/30 flex justify-between items-center gap-3 sticky bottom-0">
+            <div className="p-4 border-t border-border/50 bg-muted/20 backdrop-blur-md flex justify-between items-center gap-3 sticky bottom-0">
               <a
                 href={`mailto:${selectedUser.email}?subject=Important: Finsight Account`}
                 className="px-4 py-2 bg-blue-500 text-white font-medium text-sm rounded-xl hover:bg-blue-600 transition-colors flex items-center gap-2"
