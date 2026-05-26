@@ -283,16 +283,7 @@ export function UserTable({ initialUsers }: { initialUsers: AdminUser[] }) {
                         </button>
 
                         {/* Role toggle */}
-                        {user.role === "Admin" ? (
-                          <button
-                            onClick={() => requestAction("demote", user)}
-                            disabled={isLoading("demote")}
-                            title="Demote to User"
-                            className="p-2 rounded-lg text-muted-foreground hover:text-amber-500 hover:bg-amber-500/10 transition-colors disabled:opacity-40"
-                          >
-                            <ShieldOff className="size-4" />
-                          </button>
-                        ) : (
+                        {user.role !== "Admin" && (
                           <button
                             onClick={() => requestAction("promote", user)}
                             disabled={isLoading("promote")}
@@ -478,7 +469,7 @@ export function UserTable({ initialUsers }: { initialUsers: AdminUser[] }) {
               {/* Role & Permission Actions */}
               <div>
                 <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-3">Role & Permissions</h4>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                   {/* Promote */}
                   <button
                     onClick={() => requestAction("promote", selectedUser)}
@@ -487,16 +478,6 @@ export function UserTable({ initialUsers }: { initialUsers: AdminUser[] }) {
                   >
                     <ShieldCheck className="size-5 text-violet-500" />
                     <span className="text-xs font-medium text-center leading-tight">Promote to Admin</span>
-                  </button>
-
-                  {/* Demote */}
-                  <button
-                    onClick={() => requestAction("demote", selectedUser)}
-                    disabled={selectedUser.role !== "Admin" || loadingAction === `demote-${selectedUser.id}`}
-                    className="flex flex-col items-center gap-2 p-3 rounded-xl border border-border hover:border-amber-500/40 hover:bg-amber-500/5 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
-                  >
-                    <ShieldOff className="size-5 text-amber-500" />
-                    <span className="text-xs font-medium text-center leading-tight">Demote to User</span>
                   </button>
 
                   {/* Suspend */}
