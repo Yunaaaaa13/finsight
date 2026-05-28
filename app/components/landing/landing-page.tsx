@@ -20,6 +20,7 @@ import { useRouter } from "next/navigation";
 
 export function LandingPage({
   isLoggedIn = false,
+  isAdmin = false,
   avatarUrl = null,
   userEmail = null,
   fullName = null,
@@ -27,6 +28,7 @@ export function LandingPage({
   quote = null
 }: {
   isLoggedIn?: boolean;
+  isAdmin?: boolean;
   avatarUrl?: string | null;
   userEmail?: string | null;
   fullName?: string | null;
@@ -90,6 +92,15 @@ export function LandingPage({
           <div className="flex items-center gap-3">
             {isLoggedIn ? (
               <div className="flex items-center gap-2 sm:gap-4">
+                {isAdmin && (
+                  <Link
+                    href="/admin"
+                    className="hidden sm:flex items-center gap-2 rounded-xl bg-violet-500/10 px-4 py-2 text-sm font-semibold text-violet-500 hover:bg-violet-500/20 transition-all border border-violet-500/20"
+                  >
+                    <ShieldCheck className="size-4" />
+                    Admin Panel
+                  </Link>
+                )}
                 <Link
                   href="/dashboard"
                   className="hidden sm:flex items-center gap-2 rounded-xl bg-primary/10 px-4 py-2 text-sm font-semibold text-primary hover:bg-primary/20 transition-all"
@@ -130,7 +141,7 @@ export function LandingPage({
                         {bio && <p className="text-sm text-muted-foreground mt-1 line-clamp-2">{bio}</p>}
                         {quote && <p className="text-xs italic text-primary mt-3 bg-primary/10 px-3 py-1.5 rounded-lg">&quot;{quote}&quot;</p>}
                       </div>
-                      <div className="flex flex-col gap-2 pt-4">
+                       <div className="flex flex-col gap-2 pt-4">
                         <Link
                           href="/dashboard"
                           className="flex sm:hidden w-full items-center justify-center gap-2 rounded-xl bg-primary/10 px-4 py-2 text-sm font-semibold text-primary shadow-sm hover:bg-primary/20 transition-all"
@@ -138,6 +149,15 @@ export function LandingPage({
                           <LayoutDashboard className="size-4" />
                           Ke Dashboard
                         </Link>
+                        {isAdmin && (
+                          <Link
+                            href="/admin"
+                            className="flex w-full items-center justify-center gap-2 rounded-xl bg-violet-500/10 px-4 py-2.5 text-sm font-bold text-violet-500 shadow-sm hover:bg-violet-500/20 transition-all border border-violet-500/20"
+                          >
+                            <ShieldCheck className="size-4" />
+                            Admin Panel
+                          </Link>
+                        )}
                         <button
                           onClick={handleLogout}
                           className="flex w-full items-center justify-center gap-2 rounded-xl bg-destructive/10 px-4 py-2.5 text-sm font-semibold text-destructive shadow-sm hover:bg-destructive hover:text-destructive-foreground transition-all duration-300"
@@ -742,7 +762,17 @@ export function LandingPage({
 
       {/* Footer */}
       <footer className="py-8 border-t border-border bg-card/30 text-center text-sm text-muted-foreground">
-        <p>&copy; {new Date().getFullYear()} FinSight. Dibangun untuk kebebasan finansial Anda.</p>
+        <p>
+          &copy; {new Date().getFullYear()} FinSight. Dibangun untuk kebebasan finansial Anda.
+          {isLoggedIn && isAdmin && (
+            <>
+              {" | "}
+              <Link href="/admin" className="hover:text-primary transition-colors font-medium">
+                Admin Panel
+              </Link>
+            </>
+          )}
+        </p>
       </footer>
     </div>
   );

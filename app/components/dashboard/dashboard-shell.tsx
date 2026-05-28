@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
-import { Activity, Sparkles, CalendarDays, Plus, Upload, Loader2, LayoutDashboard, Wallet, BarChart3, User, Home, Download, Target, Settings, Globe } from "lucide-react";
+import { Activity, Sparkles, CalendarDays, Plus, Upload, Loader2, LayoutDashboard, Wallet, BarChart3, User, Home, Download, Target, Settings, Globe, ShieldCheck } from "lucide-react";
 import { CashflowChart } from "@/app/components/dashboard/cashflow-chart";
 import { Sidebar } from "@/app/components/dashboard/sidebar";
 import { SummaryCard } from "@/app/components/dashboard/summary-card";
@@ -160,11 +160,15 @@ export function DashboardShell() {
   const supabase = createClient();
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [fullName, setFullName] = useState<string | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
       setUserEmail(data?.user?.email ?? null);
       setFullName(data?.user?.user_metadata?.full_name ?? null);
+      if (data?.user?.app_metadata?.role === "Admin") {
+        setIsAdmin(true);
+      }
     });
   }, [supabase.auth]);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -532,16 +536,45 @@ export function DashboardShell() {
 
       {/* Mobile Bottom Navigation */}
       <nav className="fixed bottom-0 left-0 right-0 z-40 flex items-center justify-between border-t border-border bg-background/80 px-4 py-3 backdrop-blur-xl lg:hidden pb-safe overflow-x-auto gap-2">
-        {[
-          { id: "dashboard", icon: LayoutDashboard, label: "Home" },
-          { id: "transactions", icon: Wallet, label: "Catatan" },
-          { id: "budget", icon: Target, label: "Anggaran" },
-          { id: "analytics", icon: BarChart3, label: "Analitik" },
-          { id: "profile", icon: User, label: "Profil" },
-          { id: "settings", icon: Settings, label: "Pengaturan" },
-        ].map((item) => {
+        {(isAdmin 
+          ? [
+              { id: "dashboard", icon: LayoutDashboard, label: "Home" },
+              { id: "transactions", icon: Wallet, label: "Catatan" },
+              { id: "budget", icon: Target, label: "Anggaran" },
+              { id: "analytics", icon: BarChart3, label: "Analitik" },
+              { id: "profile", icon: User, label: "Profil" },
+              { id: "settings", icon: Settings, label: "Pengaturan" },
+              { id: "admin", icon: ShieldCheck, label: "Admin" },
+            ]
+          : [
+              { id: "dashboard", icon: LayoutDashboard, label: "Home" },
+              { id: "transactions", icon: Wallet, label: "Catatan" },
+              { id: "budget", icon: Target, label: "Anggaran" },
+              { id: "analytics", icon: BarChart3, label: "Analitik" },
+              { id: "profile", icon: User, label: "Profil" },
+              { id: "settings", icon: Settings, label: "Pengaturan" },
+            ]
+        ).map((item) => {
           const Icon = item.icon;
           const isActive = activeView === item.id;
+          
+          if (item.id === "admin") {
+            return (
+              <Link
+                key={item.id}
+                href="/admin"
+                className="flex flex-col items-center justify-center gap-1.5 transition-all duration-300 text-violet-500 hover:text-violet-600"
+              >
+                <div className="flex size-9 items-center justify-center rounded-2xl bg-violet-500/10 shadow-sm">
+                  <Icon className="size-[18px] scale-110" />
+                </div>
+                <span className="text-[9px] font-medium opacity-80 whitespace-nowrap">
+                  {item.label}
+                </span>
+              </Link>
+            );
+          }
+
           return (
             <button
               key={item.id}

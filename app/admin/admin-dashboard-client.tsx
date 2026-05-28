@@ -30,7 +30,7 @@ export function AdminDashboardClient({ data, alerts }: { data: any, alerts: any[
           <h1 className="text-3xl font-bold">Platform Analytics Dashboard</h1>
           <p className="text-muted-foreground mt-2">Metrik global, tren pertumbuhan, dan analitik perilaku pengguna.</p>
         </div>
-        <div className="hidden sm:inline-flex items-center gap-2 rounded-xl bg-background/50 backdrop-blur-sm px-3.5 py-1.5 text-xs font-medium text-muted-foreground border border-border/50">
+        <div className="inline-flex items-center gap-2 rounded-xl bg-background/50 backdrop-blur-sm px-3.5 py-1.5 text-xs font-medium text-muted-foreground border border-border/50">
           <Globe className="size-3.5 text-primary" />
           <select
             value={baseCurrency}

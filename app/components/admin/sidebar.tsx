@@ -11,24 +11,28 @@ export function AdminSidebar({ isMobile = false }: { isMobile?: boolean }) {
     {
       href: "/admin",
       label: "Dashboard / Overview",
+      mobileLabel: "Overview",
       icon: Activity,
       exact: true
     },
     {
       href: "/admin/analytics",
       label: "Analytics",
+      mobileLabel: "Analytics",
       icon: BarChart2,
       exact: false
     },
     {
       href: "/admin/transactions",
       label: "Transactions",
+      mobileLabel: "Transactions",
       icon: FileText,
       exact: false
     },
     {
       href: "/admin/users",
       label: "Users",
+      mobileLabel: "Users",
       icon: Users,
       exact: false
     }
@@ -55,8 +59,8 @@ export function AdminSidebar({ isMobile = false }: { isMobile?: boolean }) {
               >
                 <Icon className={`size-5 ${isActive ? "scale-110" : ""}`} />
               </div>
-              <span className={`text-[10px] font-medium ${isActive ? "opacity-100" : "opacity-80"}`}>
-                {link.label}
+              <span className={`text-[10px] font-medium ${isActive ? "opacity-100" : "opacity-80"} whitespace-nowrap`}>
+                {link.mobileLabel}
               </span>
             </Link>
           );

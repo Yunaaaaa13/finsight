@@ -214,8 +214,8 @@ export function UserTable({ initialUsers }: { initialUsers: AdminUser[] }) {
               <tr>
                 <th className="px-6 py-4 font-medium">User</th>
                 <th className="px-6 py-4 font-medium">Role</th>
-                <th className="px-6 py-4 font-medium">Last Login</th>
-                <th className="px-6 py-4 font-medium">Txs</th>
+                <th className="hidden sm:table-cell px-6 py-4 font-medium">Last Login</th>
+                <th className="hidden sm:table-cell px-6 py-4 font-medium">Txs</th>
                 <th className="px-6 py-4 font-medium">Status</th>
                 <th className="px-6 py-4 font-medium text-right">Actions</th>
               </tr>
@@ -251,12 +251,12 @@ export function UserTable({ initialUsers }: { initialUsers: AdminUser[] }) {
                     </td>
 
                     {/* Last Login */}
-                    <td className="px-6 py-4 text-muted-foreground capitalize text-xs">
+                    <td className="hidden sm:table-cell px-6 py-4 text-muted-foreground capitalize text-xs">
                       {user.lastSignIn}
                     </td>
 
                     {/* Tx count */}
-                    <td className="px-6 py-4 font-medium text-center">{user.txCount}</td>
+                    <td className="hidden sm:table-cell px-6 py-4 font-medium text-center">{user.txCount}</td>
 
                     {/* Status */}
                     <td className="px-6 py-4">

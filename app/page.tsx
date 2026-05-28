@@ -12,6 +12,17 @@ export default async function Home() {
   const userEmail = user?.email || null;
   const bio = user?.user_metadata?.bio || null;
   const quote = user?.user_metadata?.quote || null;
+  const isAdmin = user?.app_metadata?.role === "Admin";
 
-  return <LandingPage isLoggedIn={!!user} avatarUrl={avatarUrl} userEmail={userEmail} fullName={fullName} bio={bio} quote={quote} />;
+  return (
+    <LandingPage
+      isLoggedIn={!!user}
+      isAdmin={isAdmin}
+      avatarUrl={avatarUrl}
+      userEmail={userEmail}
+      fullName={fullName}
+      bio={bio}
+      quote={quote}
+    />
+  );
 }

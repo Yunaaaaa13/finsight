@@ -83,7 +83,7 @@ export function TransactionTableClient({ initialTransactions }: { initialTransac
           <div className="flex items-center gap-3">
             <h3 className="font-semibold text-lg whitespace-nowrap">All Transactions</h3>
             
-            <div className="hidden sm:inline-flex items-center gap-2 rounded-xl bg-background/30 backdrop-blur-sm px-3.5 py-1.5 text-xs font-medium text-muted-foreground border border-border/50">
+            <div className="inline-flex items-center gap-2 rounded-xl bg-background/30 backdrop-blur-sm px-3.5 py-1.5 text-xs font-medium text-muted-foreground border border-border/50">
               <Globe className="size-3.5 text-primary" />
               <select
                 value={baseCurrency}
