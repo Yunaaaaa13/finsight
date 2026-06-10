@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import { TrendingUp, ShieldCheck, Activity, BarChart3, PieChart, Target, ChevronRight, BookOpen, Lightbulb, Wallet, LogOut, User, LayoutDashboard, Sparkles, Download, Mail } from "lucide-react";
+import { TrendingUp, ShieldCheck, Activity, BarChart3, PieChart, Target, ChevronRight, BookOpen, Lightbulb, Wallet, LogOut, User, LayoutDashboard, Sparkles, Download, Mail, X } from "lucide-react";
 import { ARTICLES } from "@/lib/articles";
 
 // Mapping icons back for the landing page
@@ -38,6 +38,7 @@ export function LandingPage({
   const router = useRouter();
   const supabase = createClient();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [activeModal, setActiveModal] = useState<"privacy" | "terms" | null>(null);
   const profileRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -869,8 +870,18 @@ export function LandingPage({
           {/* Separator and Bottom Meta */}
           <div className="pt-8 border-t border-border/50 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs">
             <div className="flex gap-4 font-semibold">
-              <a href="#" className="hover:text-primary transition-colors">Privacy Policy</a>
-              <a href="#" className="hover:text-primary transition-colors">Terms & Conditions</a>
+              <button 
+                onClick={() => setActiveModal("privacy")} 
+                className="hover:text-primary transition-colors cursor-pointer outline-none font-semibold"
+              >
+                Privacy Policy
+              </button>
+              <button 
+                onClick={() => setActiveModal("terms")} 
+                className="hover:text-primary transition-colors cursor-pointer outline-none font-semibold"
+              >
+                Terms & Conditions
+              </button>
             </div>
             <p className="text-muted-foreground/80">
               &copy; {new Date().getFullYear()} FinSight. Dibangun untuk kebebasan finansial Anda.
@@ -886,6 +897,102 @@ export function LandingPage({
           </div>
         </div>
       </footer>
+
+      {/* Modals for Privacy Policy and Terms & Conditions */}
+      {activeModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          {/* Backdrop with backdrop-blur */}
+          <div 
+            className="absolute inset-0 bg-background/80 backdrop-blur-md transition-opacity duration-300 animate-in fade-in"
+            onClick={() => setActiveModal(null)}
+          />
+          
+          {/* Modal Container */}
+          <div className="relative w-full max-w-2xl max-h-[85vh] flex flex-col rounded-3xl border border-border/50 bg-card/90 backdrop-blur-2xl p-6 md:p-8 shadow-2xl card-glow overflow-hidden animate-in fade-in zoom-in-95 duration-300">
+            {/* Header */}
+            <div className="flex items-center justify-between pb-4 border-b border-border/50">
+              <h3 className="text-xl font-extrabold tracking-tight text-foreground">
+                {activeModal === "privacy" ? "Kebijakan Privasi (Privacy Policy)" : "Syarat & Ketentuan (Terms & Conditions)"}
+              </h3>
+              <button 
+                onClick={() => setActiveModal(null)}
+                className="flex size-9 items-center justify-center rounded-full hover:bg-muted text-muted-foreground hover:text-foreground transition-colors cursor-pointer border border-border/40"
+              >
+                <X className="size-4" />
+              </button>
+            </div>
+
+            {/* Scrollable Content */}
+            <div className="flex-1 overflow-y-auto py-6 space-y-6 text-sm text-muted-foreground leading-relaxed pr-2 scrollbar-thin text-left">
+              {activeModal === "privacy" ? (
+                <>
+                  <section className="space-y-2">
+                    <h4 className="font-bold text-foreground text-base">1. Pengumpulan Informasi</h4>
+                    <p>
+                      Kami mengumpulkan informasi pribadi seperti nama, alamat email, dan kata sandi yang dienkripsi secara aman saat Anda membuat akun. Kami juga menyimpan data transaksi keuangan yang Anda masukkan secara manual untuk keperluan pelacakan dan analisis grafik pada dashboard Anda.
+                    </p>
+                  </section>
+                  <section className="space-y-2">
+                    <h4 className="font-bold text-foreground text-base">2. Penggunaan Informasi</h4>
+                    <p>
+                      Seluruh data transaksi dan informasi keuangan yang Anda masukkan digunakan semata-mata untuk menghasilkan visualisasi analitik pribadi, menghitung skor kesehatan keuangan (Financial Health Score), serta menyajikan wawasan keuangan (Smart Insights) guna membantu mengoptimalkan kebiasaan finansial Anda.
+                    </p>
+                  </section>
+                  <section className="space-y-2">
+                    <h4 className="font-bold text-foreground text-base">3. Keamanan & Kerahasiaan Data</h4>
+                    <p>
+                      Data Anda disimpan dengan teknologi enkripsi modern dan dilindungi oleh sistem Row Level Security (RLS) di database Supabase kami. Kami berkomitmen penuh untuk **tidak menjual, membagikan, atau menyebarkan** data keuangan maupun informasi pribadi Anda kepada pihak ketiga mana pun tanpa persetujuan Anda.
+                    </p>
+                  </section>
+                  <section className="space-y-2">
+                    <h4 className="font-bold text-foreground text-base">4. Hak Pengguna</h4>
+                    <p>
+                      Anda memiliki kendali penuh atas data Anda. Anda dapat menambah, mengedit, mengekspor ke file CSV/PDF, atau menghapus riwayat transaksi keuangan Anda kapan saja secara langsung melalui dashboard aplikasi FinSight.
+                    </p>
+                  </section>
+                </>
+              ) : (
+                <>
+                  <section className="space-y-2">
+                    <h4 className="font-bold text-foreground text-base">1. Penggunaan Layanan</h4>
+                    <p>
+                      FinSight adalah platform analitik keuangan pribadi. Layanan ini disediakan untuk melacak catatan keuangan secara mandiri. Pengguna bertanggung jawab penuh atas keakuratan, kebenaran, dan validitas dari setiap data transaksi yang diinput ke dalam sistem.
+                    </p>
+                  </section>
+                  <section className="space-y-2">
+                    <h4 className="font-bold text-foreground text-base">2. Batasan Tanggung Jawab (Keterangan Finansial)</h4>
+                    <p>
+                      Seluruh analisis grafik, bagan cashflow, skor kesehatan keuangan, serta wawasan (insights) yang disajikan oleh FinSight bersifat edukatif dan informasional. **Layanan ini bukan merupakan saran atau rekomendasi investasi, hukum, perpajakan, atau nasihat keuangan profesional.** FinSight tidak bertanggung jawab atas kerugian atau keputusan finansial apa pun yang diambil oleh pengguna berdasarkan informasi dari aplikasi ini.
+                    </p>
+                  </section>
+                  <section className="space-y-2">
+                    <h4 className="font-bold text-foreground text-base">3. Keamanan Akun</h4>
+                    <p>
+                      Anda bertanggung jawab penuh untuk menjaga kerahasiaan kata sandi serta kredensial akun login Anda. Segera beri tahu tim dukungan kami jika Anda mendeteksi adanya penggunaan akun tanpa izin atau celah keamanan lainnya.
+                    </p>
+                  </section>
+                  <section className="space-y-2">
+                    <h4 className="font-bold text-foreground text-base">4. Perubahan Syarat & Ketentuan</h4>
+                    <p>
+                      Kami berhak untuk mengubah atau memperbarui syarat & ketentuan ini sewaktu-waktu demi peningkatan layanan dan kepatuhan hukum. Perubahan akan langsung berlaku setelah dipublikasikan pada halaman ini.
+                    </p>
+                  </section>
+                </>
+              )}
+            </div>
+
+            {/* Footer */}
+            <div className="pt-4 border-t border-border/50 flex justify-end">
+              <button 
+                onClick={() => setActiveModal(null)}
+                className="rounded-xl bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground shadow-md transition-all hover:bg-primary/90 cursor-pointer"
+              >
+                Saya Mengerti
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
