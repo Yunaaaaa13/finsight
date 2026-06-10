@@ -1,6 +1,8 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+
+export const dynamic = "force-dynamic";
 import { LayoutDashboard, Users, LogOut, ShieldCheck } from "lucide-react";
 import { AdminSidebar } from "@/app/components/admin/sidebar";
 
